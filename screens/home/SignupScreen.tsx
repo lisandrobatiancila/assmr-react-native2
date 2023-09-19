@@ -4,10 +4,10 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import { LoadingContext } from '../../context/Loading/LoadingContext';
 import axios from 'axios';
 import Loading from '../../components/Loading/Loading';
-import UserSignupModel from '../../models/user/UserModel';
 import SignupService from '../../services/credentials/SignupService';
 import instance from '../../utils/appUtils';
 import ResponseData from '../../models/response/Response';
+import { UserSignupModel } from '../../models/user/UserModel';
 
 const SignupScreen = () => {
     var signupService = new SignupService() ; // initialized SignupService;
