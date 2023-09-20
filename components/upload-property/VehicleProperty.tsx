@@ -1,24 +1,14 @@
-<<<<<<< HEAD
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Button, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Button, Image, Alert } from 'react-native';
 import { useState } from 'react';
 import { ImageModel } from '../../models/image/Image';
 import DocumentPicker from 'react-native-document-picker';
+import { ValidateFields } from '../../utils/validateFields';
+import { MyPropertyService } from '../../services/my-property/MyProperty';
 
 type VehiclePropertyProps = {
     closeModal: () => void
 };
-
 const VehicleProperty = ({ closeModal }: VehiclePropertyProps) => {
-=======
-import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { useState } from 'react';
-
-type VehiclePropertyProps = {
-    onUploadProperty: (propertyType: string) => void
-};
-
-const VehicleProperty = ({ onUploadProperty }: VehiclePropertyProps) => {
->>>>>>> main
     const [brand, setBrand] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [owner, setOwner] = useState<string>('');
@@ -27,27 +17,50 @@ const VehicleProperty = ({ onUploadProperty }: VehiclePropertyProps) => {
     const [installmentpaid, setInstallmentpaid] = useState<string>('');
     const [installmentduration, setInstallmentduration] = useState<string>('');
     const [delinquent, setDelinquent] = useState<string>('');
-
-<<<<<<< HEAD
-    const [fileInfo, setFileInfo] = useState<ImageModel | null>(null)
+    
+    const [fileInfo, setFileInfo] = useState<ImageModel[] | null>(null)
 
     const onOpenGallery = async () => {
         try{
-            const files = await DocumentPicker.pick({ type: DocumentPicker.types.images });
-            const file: any = files[0];
-            console.log(file);
-            
-            const form = new FormData();
-            form.append("images", file);
-
-            setFileInfo(file)
+            const files = await DocumentPicker.pick({ type: DocumentPicker.types.images, allowMultiSelection: true }) as ImageModel[];
+            setFileInfo(files);
         }
         catch(err) {
             console.log(err);
         }
     }
-=======
->>>>>>> main
+
+    const onUploadFile = () => {
+        var form = new FormData();
+        const validate = new ValidateFields({brand, model, owner, downpayment, location, installmentpaid, installmentduration, delinquent});
+
+        if(validate.checkEmptyFields() && fileInfo) {
+            Object.values(fileInfo).map(value => {
+                form.append("images", value)                
+            })
+            
+            // form.append("brand", brand);
+            // form.append("model", model);
+            // form.append("owner", owner);
+            // form.append("downpayment", downpayment);
+            // form.append("location", location);
+            // form.append("installmentpaid", installmentpaid);
+            // form.append("installmentduration", installmentduration);
+            // form.append("delinquent", delinquent);
+
+            const vehicleService = new MyPropertyService();
+            vehicleService.uploadVehicle(form)
+                .then(response => {
+                    // console.log(response);
+                })
+                .catch(err => {
+                    console.log(err.message);
+                })
+        }
+        else
+            Alert.alert("Message", "Somefields are missing.");
+    }
+
     return (
         <View>
             <Text style = { style.textLabel }>brand</Text>
@@ -66,16 +79,16 @@ const VehicleProperty = ({ onUploadProperty }: VehiclePropertyProps) => {
             <TextInput value={ installmentduration } onChangeText={ setInstallmentduration } style={ style.textInput } />
             <Text style = { style.textLabel }>delinquent</Text>
             <TextInput value={ delinquent } onChangeText={ setDelinquent } style={ style.textInput } />
-<<<<<<< HEAD
+
             <View style={{padding: 10, flexDirection: "row", justifyContent: "center", alignItems: "center", borderColor: fileInfo?"green":"#000", borderWidth: 2, marginTop: 10}}>
                 <TouchableOpacity onPress={ onOpenGallery }>
                     <Image source={require("../../public/images/def.png")} style={{width: 50, height: 50}} />
                 </TouchableOpacity>
-                <Text style={{paddingLeft: 10, fontWeight: "500", textTransform: "capitalize", fontSize: 18}}>uploaded image(0)</Text>
+                <Text style={{paddingLeft: 10, fontWeight: "500", textTransform: "capitalize", fontSize: 18}}>uploaded image({ fileInfo?.length })</Text>
             </View>
             <View style={{flexDirection: "row", marginTop: 10}}>
                 <View style={{flex: 1}}>
-                    <Button title='upload' />
+                    <Button title='upload' onPress={ onUploadFile } />
                 </View>
                 <Text style={{padding: 5}}></Text>
                 <View style={{flex: 1}}>
@@ -85,8 +98,6 @@ const VehicleProperty = ({ onUploadProperty }: VehiclePropertyProps) => {
                     }} />
                 </View>
             </View>
-=======
->>>>>>> main
         </View>
     )
 }
