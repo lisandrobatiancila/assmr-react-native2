@@ -7,7 +7,6 @@ const MyPropertiesScreen = () => {
     const userContext = useUserContext();
     const [openModal, setOpenModal] = useState<boolean>(false);
 
-<<<<<<< Updated upstream
     const onOpenGallery = async () => {
         try{
             // const files = await DocumentPicker.pick({ type: DocumentPicker.types.images });
@@ -20,7 +19,6 @@ const MyPropertiesScreen = () => {
         catch(err) {
             console.log(err);
         }
-=======
     const [onOpenPropToUpload, setOnOpenPropToUpload] = useState<boolean>(false);
     const [propToUploadValue, setPropToUploadValue] = useState(null);
     const [propToUploadItems, setPropToUploadItems] = useState<{label: string, value: string}[]>([
@@ -44,13 +42,11 @@ const MyPropertiesScreen = () => {
 
     const closeModal = () => {
         setOpenModal(false);
->>>>>>> Stashed changes
     }
 
     return (
         <View style={style.mypropContainer}>
             <Text>welcome to properties </Text>
-<<<<<<< Updated upstream
             <TouchableOpacity style={style.touchOppa} onPress={ onOpenGallery }></TouchableOpacity>
             {
                 openModal?
@@ -91,7 +87,6 @@ const MyPropertiesScreen = () => {
                                 <View style={{flex: 1}}>
                                     <Button title='cancel' onPress={() => setOpenModal(false)} />
                                 </View>
-=======
             <TouchableOpacity style={style.touchOppa} onPress={ () => setOpenModal(true) }>
                 <Image source={require("../../../public/images/add.png")} />
             </TouchableOpacity>
@@ -124,7 +119,6 @@ const MyPropertiesScreen = () => {
                                     :
                                     <VehicleProperty closeModal = { closeModal } />
                                 }
->>>>>>> Stashed changes
                             </View>
                         </View>
                     </View>
