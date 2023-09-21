@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Alert, useColorScheme } from 'react-native';
 import { Card } from 'react-native-paper'
 import { TextInput, Button, TouchableOpacity } from 'react-native';
-import { useState } from 'react';
+import { useContext, useId, useState } from 'react';
 import { UserSinginModel } from '../../models/user/UserModel';
 import SigninService from '../../services/credentials/SigninService';
 import { useUserContext } from '../../context/User/UserContext';
@@ -27,19 +27,21 @@ const SigninScreen = ({ navigation }: SinginProps) => {
                 const { code, status, message } = response.data;
                 
                 if(status === 200) {
-                    const { email, firstname, middlename, lastname, address } = response.data.data;
+                    const { userId, email, firstname, middlename, lastname, address } = response.data.data;
+                    
+                    userContext?.setUserId(userId);
                     userContext?.setEmail(email);
                     userContext?.setFirstname(firstname);
                     userContext?.setMiddlename(middlename);
                     userContext?.setLastname(lastname);
                     userContext?.setAddress(address);
-                    navigation.navigate("Dashboard")
+                    navigation.navigate("Dashboard");
                 }
                 else
                     Alert.alert("Message", message);
             })
             .catch((err) => {
-                Alert.alert("Message", err.message)
+                Alert.alert("Message", err.message);
             })
     } // submit to API
 

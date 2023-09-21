@@ -9,4 +9,7 @@ export class MyPropertyService {
             }
         })
     }
+    getActiveUserProperties(email: string | undefined): Promise<ResponseData<[]>> {
+        return instance.get("/my-property/vehicles/"+email)
+    }
 }
