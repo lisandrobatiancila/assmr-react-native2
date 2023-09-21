@@ -13,7 +13,7 @@ type SinginProps = {
 const SigninScreen = ({ navigation }: SinginProps) => {
     const signinService = new SigninService();
     const userContext = useUserContext();
-
+    
     const [signinEmail, setSigninEmail] = useState<string>('');
     const [signinPassword, setSigninPassword] = useState<string>('');
 

@@ -8,10 +8,10 @@ const MyVehicleProperty = () => {
     const userContext = useUserContext();
 
     useEffect(() => {
-        console.log("tests");
+        console.log("tests => "+userContext?.email);
         
         myProperties.getActiveUserProperties(userContext?.email)
-            .then(response => console.log(response))
+            .then(response => console.log(response.data))
             .catch(err => console.log(err))
     }, []);
 
