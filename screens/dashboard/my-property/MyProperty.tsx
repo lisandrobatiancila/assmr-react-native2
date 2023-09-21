@@ -110,7 +110,7 @@ const style = StyleSheet.create({
         right: 5,
     },
     modalContainer: {
-        height: Dimensions.get("window").height+300, // just a working fix right now
+        height: Dimensions.get("window").height+400, // just a working fix right now
         backgroundColor: "#ddd",
         padding: 10,
     }

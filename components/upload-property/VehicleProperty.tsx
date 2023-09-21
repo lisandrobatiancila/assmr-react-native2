@@ -19,6 +19,7 @@ const VehicleProperty = ({ email, closeModal }: VehiclePropertyProps) => {
     const [installmentduration, setInstallmentduration] = useState<string>('');
     const [delinquent, setDelinquent] = useState<string>('');
     const [description, setDescription] = useState<string>('');
+    const [noUploadedFile, setNoUploadedFile] = useState<boolean>(false);
     
     const [fileInfo, setFileInfo] = useState<ImageModel[]>([])
 
@@ -70,8 +71,10 @@ const VehicleProperty = ({ email, closeModal }: VehiclePropertyProps) => {
                     console.log(err.message);
                 })
         }
-        else
+        else {
             Alert.alert("Message", "Somefields are missing.");
+            setNoUploadedFile(true);
+        }
     }
 
     const resetForm = () => {
@@ -90,11 +93,11 @@ const VehicleProperty = ({ email, closeModal }: VehiclePropertyProps) => {
             <Text style = { style.textLabel }>owner</Text>
             <TextInput value={ owner } onChangeText={ setOwner } style={ style.textInput } />
             <Text style = { style.textLabel }>downpayment</Text>
-            <TextInput value= { downpayment } onChangeText={ setDownpayment } style={ style.textInput } />
+            <TextInput value= { downpayment } keyboardType={"decimal-pad"} onChangeText={ setDownpayment } style={ style.textInput } />
             <Text style = { style.textLabel }>location</Text>
             <TextInput value={ location } onChangeText={ setLocation } style={ style.textInput } />
             <Text style = { style.textLabel }>installmentpaid</Text>
-            <TextInput value={ installmentpaid } onChangeText={ setInstallmentpaid } style={ style.textInput } />
+            <TextInput value={ installmentpaid } keyboardType={"decimal-pad"} onChangeText={ setInstallmentpaid } style={ style.textInput } />
             <Text style = { style.textLabel }>installmentduration</Text>
             <TextInput value={ installmentduration } onChangeText={ setInstallmentduration } style={ style.textInput } />
             <Text style = { style.textLabel }>delinquent</Text>
@@ -102,7 +105,7 @@ const VehicleProperty = ({ email, closeModal }: VehiclePropertyProps) => {
             <Text style = { style.textLabel }>description</Text>
             <TextInput value={ description } onChangeText={ setDescription } style={ [style.textInput] } multiline />
 
-            <View style={{padding: 10, flexDirection: "row", justifyContent: "center", alignItems: "center", borderColor: fileInfo.length?"green":"#000", borderWidth: 2, marginTop: 10}}>
+            <View style={{padding: 10, flexDirection: "row", justifyContent: "center", alignItems: "center", borderColor: fileInfo.length?"green": noUploadedFile?"red":"#000", borderWidth: 2, marginTop: 10}}>
                 <TouchableOpacity onPress={ onOpenGallery }>
                     <Image source={require("../../public/images/def.png")} style={{width: 50, height: 50}} />
                 </TouchableOpacity>
