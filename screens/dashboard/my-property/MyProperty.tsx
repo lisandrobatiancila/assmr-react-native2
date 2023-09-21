@@ -2,8 +2,9 @@ import { View, Text, Image, Button, TouchableOpacity, ScrollView, FlatList, Dime
 import { useUserContext } from '../../../context/User/UserContext';
 import { useState } from 'react';
 import { Card, TextInput } from 'react-native-paper';
-import VehicleProperty from '../../../components/upload-property/VehicleProperty';
 import DropDownPicker from 'react-native-dropdown-picker';
+import MyVehicleProperty from './vehicle/MyVehicleProperty';
+import VehicleProperty from '../../../components/upload-property/VehicleProperty';
 
 const MyPropertiesScreen = () => {
     const userContext = useUserContext();
@@ -39,10 +40,6 @@ const MyPropertiesScreen = () => {
             console.log(err);
         }
     }
-    
-    const onUploadProperty = (propertyType: string) => {
-
-    }
 
     const closeModal = () => {
         setOpenModal(false);
@@ -51,6 +48,7 @@ const MyPropertiesScreen = () => {
     return (
         <View style={style.mypropContainer}>
             <Text>welcome to properties </Text>
+            <MyVehicleProperty />
             <TouchableOpacity style={style.touchOppa} onPress={ onOpenGallery }>
                 <Image source={require("../../../public/images/add.png")} />
             </TouchableOpacity>
@@ -78,10 +76,10 @@ const MyPropertiesScreen = () => {
                                     {
                                         propToUploadValue?
                                         propToUploadValue == "Vehicle"?
-                                        <VehicleProperty closeModal = { closeModal } />
+                                        <VehicleProperty email ={userContext?.email} closeModal = { closeModal } />
                                         :""
                                         :
-                                        <VehicleProperty closeModal = { closeModal } />
+                                        <VehicleProperty email ={userContext?.email} closeModal = { closeModal } />
                                     }
                                 </View>
                             </View>

@@ -9,6 +9,7 @@ type ProviderProps = {
 };
 
 const UserProvider = ({ children }: ProviderProps) => {
+    const [userId, setUserId] = useState<number>(0);
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [firstname, setFirstname] = useState<string>('');
@@ -18,6 +19,8 @@ const UserProvider = ({ children }: ProviderProps) => {
 
     const getValues = (): ActiveUserInformation => {
         return {
+            userId,
+            setUserId,
             email, 
             setEmail,
             firstname, 

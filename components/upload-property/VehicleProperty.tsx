@@ -6,9 +6,10 @@ import { ValidateFields } from '../../utils/validateFields';
 import { MyPropertyService } from '../../services/my-property/MyProperty';
 
 type VehiclePropertyProps = {
+    email: string | undefined,
     closeModal: () => void
 };
-const VehicleProperty = ({ closeModal }: VehiclePropertyProps) => {
+const VehicleProperty = ({ email, closeModal }: VehiclePropertyProps) => {
     const [brand, setBrand] = useState<string>('');
     const [model, setModel] = useState<string>('');
     const [owner, setOwner] = useState<string>('');
@@ -17,8 +18,9 @@ const VehicleProperty = ({ closeModal }: VehiclePropertyProps) => {
     const [installmentpaid, setInstallmentpaid] = useState<string>('');
     const [installmentduration, setInstallmentduration] = useState<string>('');
     const [delinquent, setDelinquent] = useState<string>('');
+    const [description, setDescription] = useState<string>('');
     
-    const [fileInfo, setFileInfo] = useState<ImageModel[] | null>(null)
+    const [fileInfo, setFileInfo] = useState<ImageModel[]>([])
 
     const onOpenGallery = async () => {
         try{
@@ -34,31 +36,49 @@ const VehicleProperty = ({ closeModal }: VehiclePropertyProps) => {
         var form = new FormData();
         const validate = new ValidateFields({brand, model, owner, downpayment, location, installmentpaid, installmentduration, delinquent});
 
-        if(validate.checkEmptyFields() && fileInfo) {
+        if(validate.checkEmptyFields() && fileInfo.length) {
             Object.values(fileInfo).map(value => {
                 form.append("images", value)                
-            })
+            }); // loop the image
             
-            // form.append("brand", brand);
-            // form.append("model", model);
-            // form.append("owner", owner);
-            // form.append("downpayment", downpayment);
-            // form.append("location", location);
-            // form.append("installmentpaid", installmentpaid);
-            // form.append("installmentduration", installmentduration);
-            // form.append("delinquent", delinquent);
+            form.append("email", email);
+            form.append("brand", brand);
+            form.append("model", model);
+            form.append("owner", owner);
+            form.append("downpayment", downpayment);
+            form.append("location", location);
+            form.append("installmentpaid", installmentpaid);
+            form.append("installmentduration", installmentduration);
+            form.append("delinquent", delinquent);
+            form.append("description", description);
 
             const vehicleService = new MyPropertyService();
             vehicleService.uploadVehicle(form)
                 .then(response => {
-                    // console.log(response);
+                    const { data } = response;
+                    const { message, status } = data;
+
+                    if(status === 200){
+                        Alert.alert("Message", message);
+                        resetForm(); // clear entry form
+                    }
+                    else
+                        Alert.alert("Message", message)
                 })
                 .catch(err => {
+                    Alert.alert("Message", err.message)
                     console.log(err.message);
                 })
         }
         else
             Alert.alert("Message", "Somefields are missing.");
+    }
+
+    const resetForm = () => {
+        setBrand(""); setModel(""); setOwner(""); setDownpayment("");
+        setLocation(""); setInstallmentpaid(""); setInstallmentduration("");
+        setDelinquent(""); setDescription("");
+        setFileInfo([]);
     }
 
     return (
@@ -79,8 +99,10 @@ const VehicleProperty = ({ closeModal }: VehiclePropertyProps) => {
             <TextInput value={ installmentduration } onChangeText={ setInstallmentduration } style={ style.textInput } />
             <Text style = { style.textLabel }>delinquent</Text>
             <TextInput value={ delinquent } onChangeText={ setDelinquent } style={ style.textInput } />
+            <Text style = { style.textLabel }>description</Text>
+            <TextInput value={ description } onChangeText={ setDescription } style={ [style.textInput] } multiline />
 
-            <View style={{padding: 10, flexDirection: "row", justifyContent: "center", alignItems: "center", borderColor: fileInfo?"green":"#000", borderWidth: 2, marginTop: 10}}>
+            <View style={{padding: 10, flexDirection: "row", justifyContent: "center", alignItems: "center", borderColor: fileInfo.length?"green":"#000", borderWidth: 2, marginTop: 10}}>
                 <TouchableOpacity onPress={ onOpenGallery }>
                     <Image source={require("../../public/images/def.png")} style={{width: 50, height: 50}} />
                 </TouchableOpacity>
@@ -93,7 +115,7 @@ const VehicleProperty = ({ closeModal }: VehiclePropertyProps) => {
                 <Text style={{padding: 5}}></Text>
                 <View style={{flex: 1}}>
                     <Button title='cancel' onPress={() =>{
-                        setFileInfo(null)
+                        setFileInfo([])
                         closeModal();
                     }} />
                 </View>

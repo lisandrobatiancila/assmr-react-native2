@@ -26,6 +26,8 @@ export interface ActiveUserCredentialsModel {
 }
 
 export interface ActiveUserInformation {
+    userId: number,
+    setUserId: (userId: number) => void,
     email: string,
     setEmail: (email: string) => void,
     firstname: string,
