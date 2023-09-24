@@ -1,6 +1,6 @@
 import ResponseData from "../../models/response/Response";
 import { ActiveUserCredentialsModel, UserSinginModel } from "../../models/user/UserModel";
-import instance from "../../utils/appUtils";
+import {instance} from "../../utils/appUtils";
 
 class SigninService {
     constructor() {

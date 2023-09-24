@@ -37,6 +37,7 @@ import { LoadingProvider } from './context/Loading/LoadingContext';
 import UserProvider from './context/User/UserContext';
 import DashBoardScreen from './screens/dashboard/DashboardScreen';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import PropertiesScreen from './screens/properties/PropertiesScreen';
 
 
 type SectionProps = PropsWithChildren<{
@@ -67,6 +68,7 @@ function App(): JSX.Element {
               <Stack.Screen name='Signup' component={ SignupScreen } options={{ title: "Assmr Sigup" }}/>
               <Stack.Screen name='Signin' component={ SigninScreen } options={{ title: "Assmr Signin" }}/>
               <Stack.Screen name='Dashboard' component={ DashBoardScreen } options={{ title: "Dashboard", headerShown: false }} />
+              <Stack.Screen name='Properties' component={ PropertiesScreen } options={{ headerBackVisible: false }}/>
             </Stack.Navigator>
           </NavigationContainer>
         </LoadingProvider>

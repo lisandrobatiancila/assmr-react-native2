@@ -1,5 +1,5 @@
 import ResponseData from "../../models/response/Response";
-import instance from "../../utils/appUtils";
+import {instance} from "../../utils/appUtils";
 
 export class MyPropertyService {
     uploadVehicle(form: FormData): Promise<ResponseData<any>> {
