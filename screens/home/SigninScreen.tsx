@@ -35,7 +35,7 @@ const SigninScreen = ({ navigation }: SinginProps) => {
                     userContext?.setMiddlename(middlename);
                     userContext?.setLastname(lastname);
                     userContext?.setAddress(address);
-                    navigation.navigate("Dashboard");
+                    navigation.navigate("Properties");
                 }
                 else
                     Alert.alert("Message", message);

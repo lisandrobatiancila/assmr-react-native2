@@ -1,6 +1,6 @@
 import axios from "axios";
 import ResponseData from "../../models/response/Response";
-import instance from "../../utils/appUtils";
+import {instance} from "../../utils/appUtils";
 import { UserSignupModel } from "../../models/user/UserModel";
 
 class SignupService {

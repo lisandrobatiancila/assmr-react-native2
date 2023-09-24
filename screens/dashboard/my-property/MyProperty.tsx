@@ -1,14 +1,20 @@
-import { View, Text, Image, Button, TouchableOpacity, ScrollView, FlatList, Dimensions, Modal, StyleSheet } from 'react-native';
+import { View, Text, Image, Button, TouchableOpacity, RefreshControl, FlatList, Dimensions, Modal, StyleSheet } from 'react-native';
 import { useUserContext } from '../../../context/User/UserContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, TextInput } from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MyVehicleProperty from './vehicle/MyVehicleProperty';
 import VehicleProperty from '../../../components/upload-property/VehicleProperty';
+import { MyVehiclePropertyModel } from '../../../models/my-property/MyProperty';
+import { MyPropertyService } from '../../../services/my-property/MyProperty';
 
 const MyPropertiesScreen = () => {
+    const myProperties = new MyPropertyService();
+
     const userContext = useUserContext();
     const [openModal, setOpenModal] = useState<boolean>(false);
+    const [refreshing, setRefreshing] = useState<boolean>(false);
+    const [activeView, setActiveView] = useState<string>('vehicle');
 
     const [onOpenPropToUpload, setOnOpenPropToUpload] = useState<boolean>(false);
     const [propToUploadValue, setPropToUploadValue] = useState(null);
@@ -27,6 +33,25 @@ const MyPropertiesScreen = () => {
         }
     ]);
 
+    const [vehicleList, setVehicleList] = useState<MyVehiclePropertyModel[] | []>([]);
+    useEffect(() => {        
+        switch(activeView) {
+            case "vehicle":
+                getAllVehicleData();
+            break;
+            default:
+                console.log('No active view.');
+        }
+    }, [refreshing, activeView]);
+
+    const getAllVehicleData = () => {
+        myProperties.getActiveUserProperties(userContext?.email)
+            .then((response: any) => {
+                const { data }: any = response.data;
+                setVehicleList(data);
+            })
+            .catch((err: any) => console.log(err))
+    }
     const onOpenGallery = async () => {
         try{
             // const files = await DocumentPicker.pick({ type: DocumentPicker.types.images });
@@ -44,13 +69,24 @@ const MyPropertiesScreen = () => {
     const closeModal = () => {
         setOpenModal(false);
     }
+    const onRefresh = () => {
+        setRefreshing(true)
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    }
 
     return (
-        <View style={style.mypropContainer}>
-            <Text>welcome to properties </Text>
-            <MyVehicleProperty />
+        <RefreshControl refreshing = { refreshing } onRefresh={ onRefresh }>
+            <View style={style.mypropContainer}>
+            <View style={ style.welcomeMessContainer }>
+                <Text style={ [style.textCapitalize, style.textCenter, style.textSize, style.shadowContainer ] }>welcome to properties</Text>
+            </View>
+            {
+                activeView === "vehicle"?<MyVehicleProperty vehicleData={ vehicleList } />:""
+            }
             <TouchableOpacity style={style.touchOppa} onPress={ onOpenGallery }>
-                <Image source={require("../../../public/images/add.png")} />
+                <Image source={require("../../../public/images/add.png")} width={50} height={50} alt='Img' />
             </TouchableOpacity>
                 {
                     openModal?
@@ -90,6 +126,7 @@ const MyPropertiesScreen = () => {
                     :""
                 }
         </View>
+        </RefreshControl>
     )
 }
 
@@ -113,6 +150,32 @@ const style = StyleSheet.create({
         height: Dimensions.get("window").height+400, // just a working fix right now
         backgroundColor: "#ddd",
         padding: 10,
+    },
+    welcomeMessContainer: {
+        padding: 10,
+        backgroundColor: "#fff",
+        borderColor: "#ddd",
+        borderRadius: 5,
+        marginTop: 5,
+        marginBottom: 10
+    },
+    textCapitalize: {
+        textTransform: "capitalize"
+    },
+    textCenter: {
+        textAlign: "center"
+    },
+    textSize: {
+        fontSize: 18,
+        fontWeight: "500"
+    },
+    shadowContainer: {
+        shadowColor: "#ddd",
+        shadowOffset: {
+            width: 200,
+            height: 200
+        },
+        shadowRadius: 3
     }
 });
 

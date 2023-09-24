@@ -11,4 +11,4 @@ instance.interceptors.request.use((config) => {
     return config;
 })
 
-export default instance;
+export {instance, BASEURL};
