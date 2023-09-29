@@ -53,6 +53,7 @@ const SignupScreen = () => {
             instance.get("/address")
                 .then(response => {
                     const { data } = response;
+                    
                     setAddress(data.data);
                     setMunicipalityItems(data.data.province);
                     setIsLoading(false);
