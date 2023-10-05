@@ -7,4 +7,5 @@ export type ViewContainerStyleProps = {
 };
 export const ViewContainerStyle = styled(View)<ViewContainerStyleProps>`
   padding: ${(props: ViewContainerStyleProps) => props.padding};
+  height: ${(props: ViewContainerStyleProps) => props.height};
 `;
