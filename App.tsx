@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /**
@@ -39,6 +40,8 @@ import DashBoardScreen from './screens/dashboard/DashboardScreen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import PropertiesScreen from './screens/properties/PropertiesScreen';
 import { MenuProvider } from 'react-native-popup-menu';
+import AssumptionForm from './screens/properties/assumptions/assume-index';
+import { ViewVehicleInfo } from './screens/properties/assumptions/viewindex';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -90,6 +93,14 @@ function App(): JSX.Element {
               name="Properties"
               component={PropertiesScreen}
               options={{headerBackVisible: false}}
+            />
+            <Stack.Screen
+              name="AssumptionForm"
+              component={ AssumptionForm }
+            />
+            <Stack.Screen
+              name="ViewVehicleInfo"
+              component={ ViewVehicleInfo }
             />
           </Stack.Navigator>
         </NavigationContainer>
