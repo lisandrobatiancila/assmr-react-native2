@@ -15,7 +15,6 @@ import {FlatList, TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
 import {BASEURL} from '../../../../utils/appUtils';
 import {
-  MenuProvider,
   Menu,
   MenuOptions,
   MenuOption,
@@ -24,14 +23,20 @@ import {
 
 type MyVehiclePropertyProps = {
   vehicleData: MyVehiclePropertyModel[] | [];
+  navigation: any
 };
 
-const MyVehicleProperty = ({vehicleData}: MyVehiclePropertyProps) => {
+const MyVehicleProperty = ({vehicleData, navigation}: MyVehiclePropertyProps) => {
   const [isOpenedPopup, setIsOpenedPopup] = useState<boolean>(false);
   const toggleIsOpenedPopup = useCallback(() => {}, []);
+
+  function onSelectAction(actionType: string) {
+    console.log(navigation);
+    
+  }
   return (
     <View>
-      {vehicleData.length == 0 ? (
+      {vehicleData.length === 0 ? (
         <Text>You have no vehicle posted.</Text>
       ) : (
         <TouchableWithoutFeedback
@@ -80,9 +85,9 @@ const MyVehicleProperty = ({vehicleData}: MyVehiclePropertyProps) => {
                         />
 
                         <MenuOptions>
-                          <MenuOption text="View" style={style.menuOptPadd} />
-                          <MenuOption text="Update" style={style.menuOptPadd} />
-                          <MenuOption text="Remove" style={style.menuOptPadd} />
+                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction('view-vehicle')}/>
+                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction('update-vehicle')} />
+                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction('remove-vehicle')} />
                         </MenuOptions>
                       </Menu>
                   </TouchableOpacity>

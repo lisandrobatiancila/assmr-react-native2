@@ -2,13 +2,11 @@ import React from 'react';
 import {ViewContainerStyle, ViewContainerStyleProps} from './styles';
 
 type ViewContainerProps = ViewContainerStyleProps & {
+  padding?: string;
+  width?: string;
+  height?: string;
   children: React.ReactNode;
 };
 export const ViewContainer = (props: ViewContainerProps) => {
-  const {children, height, padding} = props;
-  return (
-    <ViewContainerStyle height={height} padding={padding}>
-      {children}
-    </ViewContainerStyle>
-  );
+  return <ViewContainerStyle {...props}>{props.children}</ViewContainerStyle>;
 };

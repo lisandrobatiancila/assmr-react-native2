@@ -21,7 +21,7 @@ import VehicleProperty from '../../../components/upload-property/VehicleProperty
 import {MyVehiclePropertyModel} from '../../../models/my-property/MyProperty';
 import {MyPropertyService} from '../../../services/my-property/MyProperty';
 
-const MyPropertiesScreen = () => {
+const MyPropertiesScreen = ({routes, navigation}: any) => {
   const myProperties = new MyPropertyService();
 
   const userContext = useUserContext();
@@ -109,7 +109,7 @@ const MyPropertiesScreen = () => {
           </Text>
         </View>
         {activeView === 'vehicle' ? (
-          <MyVehicleProperty vehicleData={vehicleList} />
+          <MyVehicleProperty vehicleData={vehicleList} navigation={undefined} />
         ) : (
           ''
         )}

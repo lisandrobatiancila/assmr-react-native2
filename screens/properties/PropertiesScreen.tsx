@@ -13,8 +13,8 @@ const PropertiesScreen = ({navigation}: PropertiesScreenProps) => {
   };
   return (
     <View style={style.screenContainer}>
-      <VehicleProperties />
-      <View style={{padding: 10}}>
+      <VehicleProperties navigation={navigation} />
+      <View style={{padding: 10, zIndex: 100}}>
         <TouchableOpacity
           style={[style.homeContainer, {padding: 10}]}
           onPress={onDashboard}>
@@ -27,6 +27,10 @@ const PropertiesScreen = ({navigation}: PropertiesScreenProps) => {
 
 const style = StyleSheet.create({
   screenContainer: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    padding: 5,
     backgroundColor: '#EE4D2D',
     height: '100%',
     justifyContent: 'space-between',
@@ -37,6 +41,8 @@ const style = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 100,
     alignSelf: 'center',
+    position: 'absolute',
+    marginTop: -50,
   },
   shadowProp: {
     shadowColor: '#000',
