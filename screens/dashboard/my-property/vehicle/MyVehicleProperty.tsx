@@ -9,8 +9,6 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import {useCallback, useState} from 'react';
-import {MyVehiclePropertyModel} from '../../../../models/my-property/MyProperty';
 import {FlatList, TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
 import {BASEURL} from '../../../../utils/appUtils';
@@ -21,18 +19,22 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 
-type MyVehiclePropertyProps = {
-  vehicleData: MyVehiclePropertyModel[] | [];
-  navigation: any
-};
 
-const MyVehicleProperty = ({vehicleData, navigation}: MyVehiclePropertyProps) => {
-  const [isOpenedPopup, setIsOpenedPopup] = useState<boolean>(false);
-  const toggleIsOpenedPopup = useCallback(() => {}, []);
-
-  function onSelectAction(actionType: string) {
-    console.log(navigation);
-    
+const MyVehicleProperty = ({vehicleData, navigation}: any) => {
+  function onSelectAction(vehicleID: number, actionType: string) {
+    switch (actionType) {
+      case 'view-vehicle':
+        navigation.navigate('ViewMyVehicle', { vehicleID });
+      break;
+      case 'update-vehicle':
+        navigation.navigate('UpdateMyVehicle', { vehicleID });
+      break;
+      case 'remove-vehicle':
+      break;
+    default:
+      console.log('no actionType');
+    }
+    // navigation.navigate("ViewMyVehicle")
   }
   return (
     <View>
@@ -85,9 +87,9 @@ const MyVehicleProperty = ({vehicleData, navigation}: MyVehiclePropertyProps) =>
                         />
 
                         <MenuOptions>
-                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction('view-vehicle')}/>
-                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction('update-vehicle')} />
-                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction('remove-vehicle')} />
+                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction(item.id, 'view-vehicle')}/>
+                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item.id, 'update-vehicle')} />
+                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item.id, 'remove-vehicle')} />
                         </MenuOptions>
                       </Menu>
                   </TouchableOpacity>

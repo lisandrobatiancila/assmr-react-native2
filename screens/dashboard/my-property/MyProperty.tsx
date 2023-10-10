@@ -109,7 +109,10 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
           </Text>
         </View>
         {activeView === 'vehicle' ? (
-          <MyVehicleProperty vehicleData={vehicleList} navigation={undefined} />
+          <MyVehicleProperty
+            vehicleData={vehicleList}
+            navigation={navigation}
+          />
         ) : (
           ''
         )}
