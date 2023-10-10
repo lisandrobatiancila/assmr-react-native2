@@ -46,3 +46,16 @@ export interface VehicleAssumption {
     vehicleRightIMG: string;
   }[];
 }
+
+export interface UpdateVehicleInformationModel {
+  id: number; // vehicleID
+  brand: string;
+  model: string;
+  owner: string;
+  downpayment: string;
+  location: string;
+  installmentpaid: string;
+  installmentduration: string;
+  delinquent: string;
+  description: string;
+}

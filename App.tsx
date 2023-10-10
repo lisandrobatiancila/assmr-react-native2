@@ -42,6 +42,8 @@ import PropertiesScreen from './screens/properties/PropertiesScreen';
 import { MenuProvider } from 'react-native-popup-menu';
 import AssumptionForm from './screens/properties/assumptions/assume-index';
 import { ViewVehicleInfo } from './screens/properties/assumptions/viewindex';
+import { ViewMyVehicle } from './screens/dashboard/my-property/vehicle/ViewMyVehicle';
+import { UpdateMyVehicle } from './screens/dashboard/my-property/vehicle/UpdateMyVehicle';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -101,6 +103,15 @@ function App(): JSX.Element {
             <Stack.Screen
               name="ViewVehicleInfo"
               component={ ViewVehicleInfo }
+            />
+            <Stack.Screen
+              name="ViewMyVehicle"
+              component={ViewMyVehicle}
+            />
+            <Stack.Screen
+              name="UpdateMyVehicle"
+              component={UpdateMyVehicle}
+              options={{headerTitle: 'Update Vehicle'}}
             />
           </Stack.Navigator>
         </NavigationContainer>

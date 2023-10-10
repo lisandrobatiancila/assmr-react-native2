@@ -10,7 +10,7 @@ type TouchableContainerProps = {
   backgroundColor?: string;
   color?: string;
   margin?: string;
-  onAssume?: (params: any) => void;
+  onPress?: (params: any) => void;
   children: React.ReactNode;
 };
 
