@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react/react-in-jsx-scope */
 import {useEffect, useState} from 'react';
-import {View, StyleSheet, ScrollView, Image} from 'react-native';
+import {View, StyleSheet, ScrollView, Image, Alert} from 'react-native';
 import {TextContainer} from '../../../../components/Text/Text';
 import {MyPropertyService} from '../../../../services/my-property/MyProperty';
 import {CardContainer} from '../../../../components/card/Card';
 import {TextInputContainer} from '../../../../components/TextInput/TextInput';
 import {TouchableContainer} from '../../../../components/Touchable';
 import {useUserContext} from '../../../../context/User/UserContext';
-import {upperCaseUserFullName} from '../../../../utils/utilsStandAlone';
 import Carousel from 'react-native-reanimated-carousel';
 import {BASEURL} from '../../../../utils/appUtils';
+import {UpdateVehicleInformationModel} from '../../../../models/my-property/MyProperty';
 
 export function UpdateMyVehicle({route}: any) {
   const userContext = useUserContext();
@@ -20,6 +20,14 @@ export function UpdateMyVehicle({route}: any) {
   const [fullName, setFullName] = useState<string>(
     userContext?.firstname ?? '',
   );
+  const [brand, setBrand] = useState<string>('');
+  const [model, setModel] = useState<string>('');
+  const [downpayment, setDownpayment] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
+  const [installmentpaid, setInstallmentpaid] = useState<string>('');
+  const [installmentduration, setInstallmentduration] = useState<string>('');
+  const [delinquent, setDelinquent] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
 
   function updateCertainVehicle(vehicleID: number) {
     return mypropServ.getCertainVehicle(vehicleID);
@@ -30,7 +38,14 @@ export function UpdateMyVehicle({route}: any) {
       .then(response => {
         const {data} = response;
         setCertainVehicle(data.data);
-        console.log(certainVehicle);
+        setBrand(data.data.brand);
+        setModel(data.data.model);
+        setDownpayment(data.data.downpayment);
+        setLocation(data.data.location);
+        setInstallmentpaid(data.data.installmentpaid);
+        setInstallmentduration(data.data.installmentduration);
+        setDelinquent(data.data.delinquent);
+        setDescription(data.data.description);
       })
       .catch(err => {
         console.log(err);
@@ -68,8 +83,34 @@ export function UpdateMyVehicle({route}: any) {
     );
   };
   const onUpdateVehicleInformation = () => {
-    
-  }
+    const updateVehicleInfo: UpdateVehicleInformationModel = {
+      id: certainVehicle.id, // vehicleID
+      owner: fullName,
+      brand,
+      model,
+      downpayment,
+      location,
+      installmentpaid,
+      installmentduration,
+      delinquent,
+      description,
+    };
+
+    mypropServ
+      .updateCertainVehicleProperty(updateVehicleInfo)
+      .then(response => {
+        const {data} = response;
+        const {code, message} = data;
+        if (code !== 200) {
+          Alert.alert('Message', 'Something went wrong.');
+          return;
+        }
+        Alert.alert('Message', message);
+      })
+      .catch(err => {
+        Alert.alert('Error', err.message);
+      });
+  };
   return (
     <ScrollView>
       <View style={style.rootContainer}>
@@ -83,35 +124,43 @@ export function UpdateMyVehicle({route}: any) {
                 placeholder={'Owner'}
               />
               <TextInputContainer
-                value={certainVehicle.brand}
+                value={brand}
+                onChangeText={setBrand}
                 placeholder={'Brand'}
               />
               <TextInputContainer
-                value={certainVehicle.model}
+                value={model}
+                onChangeText={setModel}
                 placeholder={'Model'}
               />
               <TextInputContainer
-                value={certainVehicle.downpayment}
+                value={downpayment}
+                onChangeText={setDownpayment}
                 placeholder={'Downpayment'}
               />
               <TextInputContainer
-                value={certainVehicle.location}
+                value={location}
+                onChangeText={setLocation}
                 placeholder={'Location'}
               />
               <TextInputContainer
-                value={certainVehicle.installmentpaid}
+                value={installmentpaid}
+                onChangeText={setInstallmentpaid}
                 placeholder={'Installmentpaid'}
               />
               <TextInputContainer
-                value={certainVehicle.installmentduration}
+                value={installmentduration}
+                onChangeText={setInstallmentduration}
                 placeholder={'Installmentduration'}
               />
               <TextInputContainer
-                value={certainVehicle.delinquent}
+                value={delinquent}
+                onChangeText={setDelinquent}
                 placeholder={'Delinquent'}
               />
               <TextInputContainer
-                value={certainVehicle.description}
+                value={description}
+                onChangeText={setDescription}
                 placeholder={'Description'}
                 multiline
               />
@@ -119,8 +168,7 @@ export function UpdateMyVehicle({route}: any) {
                 borderRadius={'3px'}
                 padding={'10px'}
                 margin={'10px 0 0 0'}
-                onPress={onUpdateVehicleInformation}
-                >
+                onPress={onUpdateVehicleInformation}>
                 <TextContainer
                   color={'#fff'}
                   text={'update'}

@@ -1,7 +1,11 @@
 import {View} from 'react-native';
-import styled from 'styled-components';
+import styled, {CSSProperties} from 'styled-components';
 
-export const FlexRow = styled(View)`
+type FlexRowProps = CSSProperties & {
+  justifyContent?: string;
+};
+export const FlexRow = styled(View)<FlexRowProps>`
   display: flex;
   flex-direction: row;
+  justify-content: ${(props: FlexRowProps) => props.justifyContent ?? 'auto'};
 `;

@@ -38,4 +38,6 @@ export interface ActiveUserInformation {
   setLastname: (lastname: string) => void;
   address: string;
   setAddress: (address: string) => void;
+  underMaintenance: boolean;
+  setUnderMaintenance: (underMaintenance: boolean) => void;
 }

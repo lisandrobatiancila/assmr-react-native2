@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /**
@@ -44,6 +43,7 @@ import AssumptionForm from './screens/properties/assumptions/assume-index';
 import { ViewVehicleInfo } from './screens/properties/assumptions/viewindex';
 import { ViewMyVehicle } from './screens/dashboard/my-property/vehicle/ViewMyVehicle';
 import { UpdateMyVehicle } from './screens/dashboard/my-property/vehicle/UpdateMyVehicle';
+import { AssumedProperty } from './screens/dashboard/assumed-property/AssumedProperty';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -103,6 +103,9 @@ function App(): JSX.Element {
             <Stack.Screen
               name="ViewVehicleInfo"
               component={ ViewVehicleInfo }
+              options={{
+                headerTitle: 'Property Info',
+              }}
             />
             <Stack.Screen
               name="ViewMyVehicle"
