@@ -1,4 +1,7 @@
-import {UpdateVehicleInformationModel, VehicleAssumption} from '../../models/my-property/MyProperty';
+import {
+  UpdateVehicleInformationModel,
+  VehicleAssumption,
+} from '../../models/my-property/MyProperty';
 import ResponseData from '../../models/response/Response';
 import {instance} from '../../utils/appUtils';
 
@@ -20,7 +23,10 @@ export class MyPropertyService {
   ): Promise<ResponseData<VehicleAssumption>> {
     return instance.get(`my-property/certain-vehicle/${vehicleID}`);
   }
-  updateCertainProperty(vehicleInfo: UpdateVehicleInformationModel) {
+  updateCertainVehicleProperty(vehicleInfo: UpdateVehicleInformationModel) {
     return instance.post('my-property/update-certain-vehicle', vehicleInfo);
+  } // vehicle
+  removeCertainVehicleProperty(vehicleID: number) {
+    return instance.delete('my-property/remove-certain-vehicle/' + vehicleID);
   }
 }

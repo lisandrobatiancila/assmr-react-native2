@@ -8,6 +8,7 @@ import {
   Image,
   Dimensions,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {FlatList, TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
@@ -18,23 +19,48 @@ import {
   MenuOption,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import { MyPropertyService } from '../../../../services/my-property/MyProperty';
 
 
 const MyVehicleProperty = ({vehicleData, navigation}: any) => {
-  function onSelectAction(vehicleID: number, actionType: string) {
+  const myPropService = new MyPropertyService();
+
+  function onSelectAction(vehicle: any, actionType: string) {
+    const {id} = vehicle;
     switch (actionType) {
       case 'view-vehicle':
-        navigation.navigate('ViewMyVehicle', { vehicleID });
+        navigation.navigate('ViewMyVehicle', { vehicleID: id });
       break;
       case 'update-vehicle':
-        navigation.navigate('UpdateMyVehicle', { vehicleID });
+        navigation.navigate('UpdateMyVehicle', { vehicleID: id });
       break;
       case 'remove-vehicle':
+        const {brand} = vehicle;
+        const mess: string = 'Are you sure you want to remove this property? ' + brand;
+        Alert.alert('Message', mess, [
+          {
+            text: 'Cancel',
+          },
+          {
+            text: 'Confirm',
+            onPress: () => onRemoveVehicle(id),
+          },
+        ]);
       break;
     default:
       console.log('no actionType');
     }
     // navigation.navigate("ViewMyVehicle")
+  }
+  async function onRemoveVehicle(vehicleID: number) {    
+    const response = await myPropService.removeCertainVehicleProperty(vehicleID);
+    const {data} = response;
+    const {code, message} = data;
+    if (code !== 200) {
+      Alert.alert('Message', 'Something went wrong');
+      return;
+    }
+    Alert.alert('Message', message);
   }
   return (
     <View>
@@ -87,9 +113,9 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                         />
 
                         <MenuOptions>
-                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction(item.id, 'view-vehicle')}/>
-                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item.id, 'update-vehicle')} />
-                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item.id, 'remove-vehicle')} />
+                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'view-vehicle')}/>
+                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'update-vehicle')} />
+                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'remove-vehicle')} />
                         </MenuOptions>
                       </Menu>
                   </TouchableOpacity>
@@ -103,10 +129,18 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                     style={{width: 'auto', height: 150, zIndex: -1}}
                     alt={'Image'}
                   />
-                  <Text style={style.textCap}>Owner: {item.owner}</Text>
-                  <Text style={style.textCap}>Location: {item.location}</Text>
-                  <Text style={style.textCap}>Brand: {item.brand}</Text>
-                  <Text style={style.textCap}>Model: {item.model}</Text>
+                  <View style={{padding: 5}}>
+                    <Text style={style.textCap}>Owner: {item.owner}</Text>
+                  </View>
+                  <View style={{padding: 5}}>
+                    <Text style={style.textCap}>Location: {item.location}</Text>
+                  </View>
+                  <View style={{padding: 5}}>
+                    <Text style={style.textCap}>Brand: {item.brand}</Text>
+                  </View>
+                  <View style={{padding: 5}}>
+                    <Text style={style.textCap}>Model: {item.model}</Text>
+                  </View>
                 </Card>
               </>
             )}

@@ -16,6 +16,7 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useUserContext} from '../../context/User/UserContext';
 import {TextContainer} from '../../components/Text/Text';
 import {ViewContainer} from '../../components/View/View';
+import { AssumedProperty } from './assumed-property/AssumedProperty';
 
 const Drawer = createDrawerNavigator();
 const TheDrawerHeader = (props: any) => {
@@ -65,6 +66,7 @@ const DashBoardScreen = () => {
           options={{title: 'Dashboard'}}
         />
         <Drawer.Screen name="My Property" component={MyPropertiesScreen} />
+        <Drawer.Screen name="Assumed Property" component={AssumedProperty} />
         <Drawer.Screen name="Feedback" component={FeedBackScreen} />
         <Drawer.Screen name="Messages" component={MessageScreen} />
         <Drawer.Screen name="Inquiries" component={InquiriesScreen} />

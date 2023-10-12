@@ -15,6 +15,7 @@ const UserProvider = ({children}: ProviderProps) => {
   const [middlename, setMiddlename] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');
   const [address, setAddress] = useState<string>('');
+  const [underMaintenance, setUnderMaintenance] = useState<boolean>(true);
 
   const getValues = (): ActiveUserInformation => {
     return {
@@ -30,6 +31,8 @@ const UserProvider = ({children}: ProviderProps) => {
       setLastname,
       address,
       setAddress,
+      underMaintenance,
+      setUnderMaintenance,
     };
   };
 

@@ -1,11 +1,14 @@
-import { View, Text } from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
+import {useUserContext} from '../../../context/User/UserContext';
+import {UnderMaintenance} from '../../../components/maintenance/UnderMaintanance';
 
 const DashViewScreen = () => {
-    return (
-        <View>
-            <Text>dashboard</Text>
-        </View>
-    )
-}
+  const userContext = useUserContext();
+
+  return (
+    <View>{userContext?.underMaintenance ? <UnderMaintenance /> : 'okay'}</View>
+  );
+};
 
 export default DashViewScreen;
