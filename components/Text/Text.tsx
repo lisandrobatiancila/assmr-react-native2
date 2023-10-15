@@ -3,6 +3,7 @@ import React from 'react';
 
 type Props = TextStyleProps & {
   fontSize?: string;
+  fontWeight?: string;
   text?: string;
 };
 

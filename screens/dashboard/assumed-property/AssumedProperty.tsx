@@ -12,7 +12,6 @@ import {MyAssumedPropertyService} from '../../../services/asssumed-property/MyAs
 import {useUserContext} from '../../../context/User/UserContext';
 import {AssumptionInformationModel} from '../../../models/assumed-property/AssumedProperty';
 import {CardContainer} from '../../../components/card/Card';
-import {BASEURL} from '../../../utils/appUtils';
 import {TouchableContainer} from '../../../components/Touchable';
 import {FlexRow} from '../../../components/Flex-Row/styles';
 import {
@@ -35,7 +34,6 @@ export const AssumedProperty = ({navigation}: any) => {
       .then(response => {
         const {data} = response;
         setAssumedPropertyList(data.data);
-        console.log(data);
       })
       .catch(err => {
         console.log(err);
@@ -145,6 +143,12 @@ export const AssumedProperty = ({navigation}: any) => {
 
         break;
       case 'send-message':
+        const {user_id} = item;
+
+        navigation.navigate('IChatWith', {
+          userEmail: item.user_email,
+          receiverId: user_id,
+        });
         break;
       default:
         console.log('No action specified.');

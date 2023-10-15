@@ -8,6 +8,9 @@ type TextInputContProps = {
   placeholder?: string;
   margin?: string;
   value?: string;
+  multiline?: boolean;
+  secureTextEntry?: boolean;
+  disabled?: boolean;
   onChangeText: (param: string) => void;
 };
 export const TextInputContainer = (props: TextInputContProps) => {

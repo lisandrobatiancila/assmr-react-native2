@@ -14,6 +14,7 @@ const UserProvider = ({children}: ProviderProps) => {
   const [firstname, setFirstname] = useState<string>('');
   const [middlename, setMiddlename] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');
+  const [contactno, setContactno] = useState<string>('');
   const [address, setAddress] = useState<string>('');
   const [underMaintenance, setUnderMaintenance] = useState<boolean>(true);
 
@@ -29,6 +30,8 @@ const UserProvider = ({children}: ProviderProps) => {
       setMiddlename,
       lastname,
       setLastname,
+      contactno,
+      setContactno,
       address,
       setAddress,
       underMaintenance,

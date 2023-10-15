@@ -44,6 +44,7 @@ import { ViewVehicleInfo } from './screens/properties/assumptions/viewindex';
 import { ViewMyVehicle } from './screens/dashboard/my-property/vehicle/ViewMyVehicle';
 import { UpdateMyVehicle } from './screens/dashboard/my-property/vehicle/UpdateMyVehicle';
 import { AssumedProperty } from './screens/dashboard/assumed-property/AssumedProperty';
+import { ChatWithOtherUser } from './screens/dashboard/messages/chat-with';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -115,6 +116,11 @@ function App(): JSX.Element {
               name="UpdateMyVehicle"
               component={UpdateMyVehicle}
               options={{headerTitle: 'Update Vehicle'}}
+            />
+            <Stack.Screen
+              name="IChatWith"
+              component={ChatWithOtherUser}
+              options={{headerTitle: 'Chat With'}}
             />
           </Stack.Navigator>
         </NavigationContainer>

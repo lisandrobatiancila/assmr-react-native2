@@ -29,14 +29,22 @@ const SigninScreen = ({navigation}: SinginProps) => {
         const {code, status, message} = response.data;
 
         if (status === 200) {
-          const {userId, email, firstname, middlename, lastname, address} =
-            response.data.data;
+          const {
+            userId,
+            email,
+            firstname,
+            middlename,
+            lastname,
+            contactno,
+            address,
+          } = response.data.data;
 
           userContext?.setUserId(userId);
           userContext?.setEmail(email);
           userContext?.setFirstname(firstname);
           userContext?.setMiddlename(middlename);
           userContext?.setLastname(lastname);
+          userContext?.setContactno(contactno);
           userContext?.setAddress(address);
           navigation.navigate('Properties');
         } else {

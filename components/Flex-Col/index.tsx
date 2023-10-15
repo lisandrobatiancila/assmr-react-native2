@@ -1,6 +1,11 @@
-import styled from 'styled-components';
+/* eslint-disable react/react-in-jsx-scope */
+import {FlexColStyle} from './styles';
 
-export const FlexCol = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+type FlexColProps = {
+  padding?: string;
+  children: React.ReactNode;
+};
+
+export const FlexCol = (props: FlexColProps) => {
+  return <FlexColStyle {...props}>{props.children}</FlexColStyle>;
+};

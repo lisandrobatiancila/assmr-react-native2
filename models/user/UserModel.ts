@@ -36,6 +36,8 @@ export interface ActiveUserInformation {
   setMiddlename: (middlename: string) => void;
   lastname: string;
   setLastname: (lastname: string) => void;
+  contactno: string;
+  setContactno: (contactno: string) => void;
   address: string;
   setAddress: (address: string) => void;
   underMaintenance: boolean;
