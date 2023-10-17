@@ -87,7 +87,7 @@ export function ChatWithOtherUser({route}: any) {
   return (
     <View style={style.rootTopContainer}>
       <View style={{height: '85%'}}>
-        <FlatList data={messageList} renderItem={displayMessages} />
+        {/* <FlatList data={messageList} renderItem={displayMessages} /> */}
       </View>
       <View style={style.textInptContainer}>
         <TextInputContainer
