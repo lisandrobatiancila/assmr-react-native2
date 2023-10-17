@@ -43,3 +43,12 @@ export interface ActiveUserInformation {
   underMaintenance: boolean;
   setUnderMaintenance: (underMaintenance: boolean) => void;
 }
+
+export interface UpdatePersonalInformation {
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  contactno: string;
+  email: string;
+  password: string;
+}
