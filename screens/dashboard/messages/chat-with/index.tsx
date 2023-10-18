@@ -68,17 +68,17 @@ export function ChatWithOtherUser({route}: any) {
   function displayMessages({item}: any) {
     return (
       <View style={style.displayCardContainer}>
-        {item.senderMessage.email === userContext?.email ? (
+        {item.userSender_email === userContext?.email ? (
           <ActiveUser
             name={userContext?.firstname ?? 'unknown'}
-            message={item.message}
-            date={item.date}
+            message={item.messages_message}
+            date={item.messages_date}
           />
         ) : (
           <OtherUser
             name={item.message_sender}
-            message={item.message}
-            date={item.date}
+            message={item.messages_message}
+            date={item.messages_date}
           />
         )}
       </View>
@@ -87,7 +87,7 @@ export function ChatWithOtherUser({route}: any) {
   return (
     <View style={style.rootTopContainer}>
       <View style={{height: '85%'}}>
-        {/* <FlatList data={messageList} renderItem={displayMessages} /> */}
+        <FlatList data={messageList} renderItem={displayMessages} />
       </View>
       <View style={style.textInptContainer}>
         <TextInputContainer
