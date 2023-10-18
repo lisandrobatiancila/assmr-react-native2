@@ -41,63 +41,63 @@ const MessageScreen = ({navigation}: any) => {
     return messageService.getAllMyChatList(activeUserID, activeUserEmail);
   }
   function displayChatList({item}: any) {
-    // const {receiverMessage} = item;
-    // let fullName = '';
-    // let who = ''; // it will put a prefix 'You' or ''
-    // let otherUser = ''; //hold the email of other user
-    // if (receiverMessage.email === activeUserEmail) {
-    //   const {senderMessage} = item;
-    //   who = 'You: ';
-    //   fullName = upperCaseUserFullName(
-    //     `${senderMessage.user.lastname}, ${senderMessage.user.firstname}`,
-    //   );
-    //   otherUser = senderMessage.email;
-    // } else {
-    //   fullName = upperCaseUserFullName(
-    //     `${receiverMessage.user.lastname}, ${receiverMessage.user.firstname}`,
-    //   );
-    //   otherUser = receiverMessage.email;
-    // }
-    // return (
-    //   <View style={style.displayCLContainer}>
-    //     <CardContainer>
-    //       <TouchableNativeFeedback onPress={() => onOpenChatRoom(otherUser)}>
-    //         <View style={{padding: 10}}>
-    //           <FlexRow>
-    //             <Image
-    //               source={require('../../../public/images/user.png')}
-    //               style={style.imageStyle}
-    //             />
-    //             <FlexCol padding={'10px'}>
-    //               <FlexRow>
-    //                 <TextContainer
-    //                   fontSize={'20px'}
-    //                   textAlign={'left'}
-    //                   text={fullName}
-    //                 />
-    //                 <TextContainer
-    //                   fontSize={'12px'}
-    //                   textAlign={'left'}
-    //                   text={formatDate(item.date)}
-    //                 />
-    //               </FlexRow>
+    let fullName: string = '';
+    let who: string = ''; // it will put a prefix 'You' or ''
+    let otherUser: string = ''; //hold the email of other user
+    let otherUserId: number = 0;
+    if (item.senderMess_email === activeUserEmail) {
+      who = 'You: ';
+      fullName = upperCaseUserFullName(
+        `${item.userRes_lastname}, ${item.userRes_firstname}`,
+      );
+      otherUser = item.receiverMess_email;
+      otherUserId = item.receiverMess_userId;
+    } else {
+      fullName = upperCaseUserFullName(
+        `${item.userSend_lastname}, ${item.userSend_firstname}`,
+      );
+      otherUser = item.senderMess_email;
+      otherUserId = item.senderMess_userId;
+    }
+    return (
+      <View style={style.displayCLContainer}>
+        <CardContainer>
+          <TouchableNativeFeedback onPress={() => onOpenChatRoom(otherUser, otherUserId)}>
+            <View style={{padding: 10}}>
+              <FlexRow>
+                <Image
+                  source={require('../../../public/images/user.png')}
+                  style={style.imageStyle}
+                />
+                <FlexCol padding={'10px'}>
+                  <FlexRow>
+                    <TextContainer
+                      fontSize={'20px'}
+                      textAlign={'left'}
+                      text={fullName}
+                    />
+                    <TextContainer
+                      fontSize={'12px'}
+                      textAlign={'left'}
+                      // text={formatDate(item.date)}
+                    />
+                  </FlexRow>
 
-    //               <FlexRow>
-    //                 <TextContainer fontWeight={'700'} text={who} />
-    //                 <TextContainer textAlign={'left'} text={item.message} />
-    //               </FlexRow>
-    //               {/* <TextContainer text={JSON.stringify(item)} /> */}
-    //             </FlexCol>
-    //           </FlexRow>
-    //         </View>
-    //       </TouchableNativeFeedback>
-    //     </CardContainer>
-    //   </View>
-    // );
+                  <FlexRow>
+                    <TextContainer fontWeight={'700'} text={who} />
+                    <TextContainer textAlign={'left'} text={item.messages_message} />
+                  </FlexRow>
+                </FlexCol>
+              </FlexRow>
+            </View>
+          </TouchableNativeFeedback>
+        </CardContainer>
+      </View>
+    );
     return <TextContainer text={'wewe'} />;
   }
-  function onOpenChatRoom(otherUser: string) {
-    navigation.navigate('IChatWith', {userEmail: otherUser}); // otherUser
+  function onOpenChatRoom(otherUserEmail: string, otherUserId: number) {    
+    navigation.navigate('IChatWith', {userEmail: otherUserEmail, receiverId: otherUserId}); // otherUser
   }
   return (
     <View>
