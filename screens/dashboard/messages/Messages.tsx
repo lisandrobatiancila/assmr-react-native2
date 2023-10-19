@@ -54,7 +54,7 @@ const MessageScreen = ({navigation}: any) => {
       otherUserId = item.receiverMess_userId;
     } else {
       fullName = upperCaseUserFullName(
-        `${item.userSend_lastname}, ${item.userSend_firstname}`,
+        `${item.userSender_lastname}, ${item.userSender_firstname}`,
       );
       otherUser = item.senderMess_email;
       otherUserId = item.senderMess_userId;

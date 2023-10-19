@@ -68,18 +68,18 @@ export function ChatWithOtherUser({route}: any) {
   function displayMessages({item}: any) {
     return (
       <View style={style.displayCardContainer}>
-        {item.userSender_email === userContext?.email ? (
+        {item.senderMess_email === userContext?.email ? (
           <ActiveUser
             name={userContext?.firstname ?? 'unknown'}
             message={item.messages_message}
             date={item.messages_date}
-          />
+          /> // go right
         ) : (
           <OtherUser
             name={item.message_sender}
             message={item.messages_message}
             date={item.messages_date}
-          />
+          /> // go left
         )}
       </View>
     );
