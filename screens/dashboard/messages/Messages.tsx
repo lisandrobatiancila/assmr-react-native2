@@ -48,7 +48,7 @@ const MessageScreen = ({navigation}: any) => {
     if (item.senderMess_email === activeUserEmail) {
       who = 'You: ';
       fullName = upperCaseUserFullName(
-        `${item.userRes_lastname}, ${item.userRes_firstname}`,
+        `${item.userReceiver_lastname}, ${item.userReceiver_firstname}`,
       );
       otherUser = item.receiverMess_email;
       otherUserId = item.receiverMess_userId;
