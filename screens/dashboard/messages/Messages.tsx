@@ -30,7 +30,6 @@ const MessageScreen = ({navigation}: any) => {
       .then(response => {
         const {data} = response;
         const {code} = data;
-        console.log(data);
         setChatList(data.data);
       })
       .catch(err => {
