@@ -1,5 +1,6 @@
 import React, {createContext, useContext, useState} from 'react';
 import {ActiveUserInformation} from '../../models/user/UserModel';
+import {BackHandler} from 'react-native';
 
 const UserContext = createContext<ActiveUserInformation | null>(null);
 
@@ -36,6 +37,8 @@ const UserProvider = ({children}: ProviderProps) => {
       setAddress,
       underMaintenance,
       setUnderMaintenance,
+      password,
+      setPassword,
     };
   };
 

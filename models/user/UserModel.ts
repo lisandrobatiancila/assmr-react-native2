@@ -42,6 +42,8 @@ export interface ActiveUserInformation {
   setAddress: (address: string) => void;
   underMaintenance: boolean;
   setUnderMaintenance: (underMaintenance: boolean) => void;
+  password: string;
+  setPassword: (password: string) => void;
 }
 
 export interface UpdatePersonalInformation {

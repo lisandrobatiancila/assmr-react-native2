@@ -117,12 +117,14 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
           ''
         )}
         <TouchableOpacity style={style.touchOppa} onPress={onOpenGallery}>
-          <Image
-            source={require('../../../public/images/add.png')}
-            width={50}
-            height={50}
-            alt="Img"
-          />
+          <View
+            style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+            <Image
+              source={require('../../../public/images/add.png')}
+              style={{width: 30, height: 30}}
+              alt="Img"
+            />
+          </View>
         </TouchableOpacity>
         {openModal ? (
           <Modal animationType={'slide'} visible transparent>

@@ -1,6 +1,12 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  BackHandler,
+} from 'react-native';
 import {VehicleProperties} from './vehicles';
 
 type PropertiesScreenProps = {
@@ -8,6 +14,11 @@ type PropertiesScreenProps = {
 };
 
 const PropertiesScreen = ({navigation}: PropertiesScreenProps) => {
+  BackHandler.addEventListener('hardwareBackPress', function () {
+    console.log(navigation.getParent());
+    console.log(navigation.getId());
+    console.log(navigation.getState());
+  });
   const onDashboard = () => {
     navigation.navigate('Dashboard');
   };
@@ -18,7 +29,11 @@ const PropertiesScreen = ({navigation}: PropertiesScreenProps) => {
         <TouchableOpacity
           style={[style.homeContainer, {padding: 10}]}
           onPress={onDashboard}>
-          <View style={[style.shadowProp, {padding: 10}]} />
+          {/* <View style={[style.shadowProp, {padding: 10}]} /> */}
+          <Image
+            source={require('../../public/images/home.png')}
+            style={{width: 30, height: 30}}
+          />
         </TouchableOpacity>
       </View>
     </View>

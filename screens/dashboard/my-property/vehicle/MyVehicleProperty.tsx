@@ -20,6 +20,8 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import { MyPropertyService } from '../../../../services/my-property/MyProperty';
+import { TextContainer } from '../../../../components/Text/Text';
+import { CardContainer } from '../../../../components/card/Card';
 
 
 const MyVehicleProperty = ({vehicleData, navigation}: any) => {
@@ -65,7 +67,14 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
   return (
     <View>
       {vehicleData.length === 0 ? (
-        <Text>You have no vehicle posted.</Text>
+        <View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
+          <Image source={
+          require('../../../../public/images/empty-box.png')
+          } style={{width: 100, height: 100}} />
+          <CardContainer padding={'10px'}>
+            <TextContainer text={'No posted Property'} />
+          </CardContainer>
+        </View>
       ) : (
         <TouchableWithoutFeedback
           style={{height: Dimensions.get('window').height - 180}}>

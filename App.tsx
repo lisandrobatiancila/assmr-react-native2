@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /**
@@ -12,6 +13,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  BackHandler,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -45,6 +47,8 @@ import { ViewMyVehicle } from './screens/dashboard/my-property/vehicle/ViewMyVeh
 import { UpdateMyVehicle } from './screens/dashboard/my-property/vehicle/UpdateMyVehicle';
 import { AssumedProperty } from './screens/dashboard/assumed-property/AssumedProperty';
 import { ChatWithOtherUser } from './screens/dashboard/messages/chat-with';
+import AssmrModal from './components/modal/Modal';
+import { ModalProvider } from './context/Modal/ModalContext';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -55,7 +59,6 @@ const MyDrawer = createDrawerNavigator();
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -69,63 +72,65 @@ function App(): JSX.Element {
     <MenuProvider>
       <GestureHandlerRootView style={{flex: 1}}>
       <UserProvider>
-      <LoadingProvider>
-        <NavigationContainer>
-          <Stack.Navigator initialRouteName="Home">
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={SignupScreen}
-              options={{title: 'Assmr Sigup'}}
-            />
-            <Stack.Screen
-              name="Signin"
-              component={SigninScreen}
-              options={{title: 'Assmr Signin'}}
-            />
-            <Stack.Screen
-              name="Dashboard"
-              component={DashBoardScreen}
-              options={{title: 'Dashboard', headerShown: false}}
-            />
-            <Stack.Screen
-              name="Properties"
-              component={PropertiesScreen}
-              options={{headerBackVisible: false}}
-            />
-            <Stack.Screen
-              name="AssumptionForm"
-              component={ AssumptionForm }
-            />
-            <Stack.Screen
-              name="ViewVehicleInfo"
-              component={ ViewVehicleInfo }
-              options={{
-                headerTitle: 'Property Info',
-              }}
-            />
-            <Stack.Screen
-              name="ViewMyVehicle"
-              component={ViewMyVehicle}
-            />
-            <Stack.Screen
-              name="UpdateMyVehicle"
-              component={UpdateMyVehicle}
-              options={{headerTitle: 'Update Vehicle'}}
-            />
-            <Stack.Screen
-              name="IChatWith"
-              component={ChatWithOtherUser}
-              options={{headerTitle: 'Chat With'}}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </LoadingProvider>
-    </UserProvider>
+        <ModalProvider>
+          <LoadingProvider>
+            <NavigationContainer>
+              <Stack.Navigator initialRouteName="Home">
+                <Stack.Screen
+                  name="Home"
+                  component={HomeScreen}
+                  options={{headerShown: false}}
+                />
+                <Stack.Screen
+                  name="Signup"
+                  component={SignupScreen}
+                  options={{title: 'Assmr Sigup'}}
+                />
+                <Stack.Screen
+                  name="Signin"
+                  component={SigninScreen}
+                  options={{title: 'Assmr Signin'}}
+                />
+                <Stack.Screen
+                  name="Dashboard"
+                  component={DashBoardScreen}
+                  options={{title: 'Dashboard', headerShown: false}}
+                />
+                <Stack.Screen
+                  name="Properties"
+                  component={PropertiesScreen}
+                  options={{headerBackVisible: false}}
+                />
+                <Stack.Screen
+                  name="AssumptionForm"
+                  component={ AssumptionForm }
+                />
+                <Stack.Screen
+                  name="ViewVehicleInfo"
+                  component={ ViewVehicleInfo }
+                  options={{
+                    headerTitle: 'Property Info',
+                  }}
+                />
+                <Stack.Screen
+                  name="ViewMyVehicle"
+                  component={ViewMyVehicle}
+                />
+                <Stack.Screen
+                  name="UpdateMyVehicle"
+                  component={UpdateMyVehicle}
+                  options={{headerTitle: 'Update Vehicle'}}
+                />
+                <Stack.Screen
+                  name="IChatWith"
+                  component={ChatWithOtherUser}
+                  options={{headerTitle: 'Chat With'}}
+                />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </LoadingProvider>
+        </ModalProvider>
+      </UserProvider>
       </GestureHandlerRootView>
     </MenuProvider>
     //</SafeAreaView>

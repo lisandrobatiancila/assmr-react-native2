@@ -5,6 +5,7 @@ type TextInputContProps = {
   backgroundColor?: string;
   padding?: string;
   width?: string;
+  height?: number;
   placeholder?: string;
   margin?: string;
   value?: string;
@@ -12,6 +13,7 @@ type TextInputContProps = {
   secureTextEntry?: boolean;
   disabled?: boolean;
   onChangeText: (param: string) => void;
+  style?: any;
 };
 export const TextInputContainer = (props: TextInputContProps) => {
   return <TextInputStyle {...props} />;

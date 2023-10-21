@@ -8,5 +8,5 @@ type FlexColStyleProps = {
 export const FlexColStyle = styled(View)<FlexColStyleProps>`
   display: flex;
   flex-direction: column;
-  padding: ${(props: FlexColStyleProps) => props.padding};
+  padding: ${(props: FlexColStyleProps) => props.padding ?? 0};
 `;

@@ -16,7 +16,7 @@ type TouchableContainerProps = {
 
 export const TouchableContainer = (props: TouchableContainerProps) => {
   return (
-    <TouchableStyle onPress={props.onAssume} {...props}>
+    <TouchableStyle onPress={props.onPress} {...props}>
       {props.children}
     </TouchableStyle>
   );
