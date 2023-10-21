@@ -66,28 +66,26 @@ const SignupScreen = () => {
   const [barangayOpen, setBarangayOpen] = useState<boolean>(false);
   // setIsLoading(true)
 
-    useEffect(() => {
-        try{
-            instance.get("/address")
-                .then(response => {
-                    const { data } = response;
-                    
-                    setAddress(data.data);
-                    setMunicipalityItems(data.data.province);
-                    setIsLoading(false);
-                })
-                .catch(err => {
-                    setIsLoading(false);
-                })
-        }
-        catch(err) {
-            setIsLoading(false);
-        }
-        finally {
-            setIsLoading(false);
-        }
-    }, []); // municipality / city
+  useEffect(() => {
+    try {
+      instance
+        .get('/address')
+        .then(response => {
+          const {data} = response;
 
+          setAddress(data.data);
+          setMunicipalityItems(data.data.province);
+          setIsLoading(false);
+        })
+        .catch(err => {
+          setIsLoading(false);
+        });
+    } catch (err) {
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []); // municipality / city
 
   const [firstname, setFirstname] = useState<string>('');
   const [middlename, setMiddlename] = useState<string>('');
@@ -155,7 +153,7 @@ const SignupScreen = () => {
       .saveRecord(signupForm)
       .then((response: ResponseData<[]>) => {
         const {data} = response;
-        const {message} = data;
+        const {message}: any = data;
 
         Alert.alert('Message', message, [
           {
