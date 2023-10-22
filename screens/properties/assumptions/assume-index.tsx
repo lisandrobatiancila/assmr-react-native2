@@ -146,7 +146,7 @@ export default function AssumptionForm({route}: AssumptionFormProps) {
             padding={'10px'}
             borderRadius={'5px'}
             margin={'5px 0 0 0'}
-            onAssume={submitAssumption}>
+            onPress={submitAssumption}>
             <TextContainer color={'#fff'} fontSize={'18px'} text={'Assume'} />
           </TouchableContainer>
         </View>

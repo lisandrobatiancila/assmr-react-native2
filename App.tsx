@@ -49,6 +49,7 @@ import { AssumedProperty } from './screens/dashboard/assumed-property/AssumedPro
 import { ChatWithOtherUser } from './screens/dashboard/messages/chat-with';
 import AssmrModal from './components/modal/Modal';
 import { ModalProvider } from './context/Modal/ModalContext';
+import { DisplayAssumerList } from './screens/dashboard/my-property/assumer-list';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -125,6 +126,11 @@ function App(): JSX.Element {
                   name="IChatWith"
                   component={ChatWithOtherUser}
                   options={{headerTitle: 'Chat With'}}
+                />
+                <Stack.Screen
+                  name="ListAllAssumer"
+                  component={DisplayAssumerList}
+                  options={{headerTitle: 'Assumers'}}
                 />
               </Stack.Navigator>
             </NavigationContainer>

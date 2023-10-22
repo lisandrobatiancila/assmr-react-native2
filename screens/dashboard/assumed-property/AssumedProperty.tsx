@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {
   RefreshControl,
@@ -165,10 +167,24 @@ export const AssumedProperty = ({navigation}: any) => {
         ) : (
           <View style={style.noAssumptionContainer}>
             <CardContainer height={'200px'} padding={'10px'}>
-              <TextContainer
-                fontSize={'20px'}
-                text={'You don`t have any assumed properties'}
-              />
+              <View
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  alignContent: 'center',
+                  alignSelf: 'center',
+                  height: '100%',
+                }}>
+                <Image
+                  source={require('../../../public/images/empty-box.png')}
+                  style={{height: 100, width: 100}}
+                />
+                <TextContainer
+                  fontSize={'20px'}
+                  text={'You don`t have any assumed properties'}
+                />
+              </View>
             </CardContainer>
           </View>
         )}

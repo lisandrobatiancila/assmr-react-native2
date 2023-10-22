@@ -104,9 +104,17 @@ const FeedBackScreen = () => {
               />
             </View>
             <View style={{marginTop: 10}}>
+              <TextContainer
+                text={formatDate(item.feedBackDate)}
+                fontSize={'18px'}
+                fontWeight={'600'}
+              />
+              <TextContainer text={userContext?.email} />
               <TextContainer text={item.fullName} />
-              <TextContainer text={formatDate(item.feedBackDate)} />
-              <TextContainer text={item.userComments} />
+              <TextContainer
+                text={`"${item.userComments}"`}
+                fontWeight={'500'}
+              />
             </View>
           </FlexCol>
         </CardContainer>

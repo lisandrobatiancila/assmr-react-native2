@@ -1,20 +1,49 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect} from 'react';
-import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import {useUserContext} from '../../context/User/UserContext';
+import {AssmrNotifications} from '../../services/notifications/Notifications';
+import {APP_NOTIF_TIMER} from '../../constants/appConstants';
+import {displayNotifications} from '../../utils/utilsStandAlone';
 
 type HomeProps = {
   navigation: any;
 };
 
 const HomeScreen = ({navigation}: HomeProps) => {
+  let TO: any = null;
   const userContext = useUserContext();
+  const notifService = new AssmrNotifications();
   useEffect(() => {
+    callNotifications();
     if (userContext?.email) {
       navigation.navigate('Dashboard');
     }
-  }, []);
+  }, [userContext?.userId]);
+
+  function callNotifications() {
+    try {
+      TO = setTimeout(async () => {
+        const resp = await notifService.getNotifications(
+          userContext?.userId ?? 0,
+        );
+
+        const {data} = resp;
+        displayNotifications(data); // this trigger to display the notifications
+        callNotifications();
+      }, APP_NOTIF_TIMER);
+    } catch (err) {
+      ToastAndroid.show('Something went wrong :: notif', ToastAndroid.LONG);
+    }
+  }
+
   const onSignup = () => {
     navigation.navigate('Signup');
   };

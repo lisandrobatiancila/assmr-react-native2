@@ -22,19 +22,21 @@ import {
 import { MyPropertyService } from '../../../../services/my-property/MyProperty';
 import { TextContainer } from '../../../../components/Text/Text';
 import { CardContainer } from '../../../../components/card/Card';
+import { SUCCESS_COLOR } from '../../../../constants/colorConstant';
+import { MyVehiclePropertyModel } from '../../../../models/my-property/MyProperty';
 
 
 const MyVehicleProperty = ({vehicleData, navigation}: any) => {
   const myPropService = new MyPropertyService();
 
   function onSelectAction(vehicle: any, actionType: string) {
-    const {id} = vehicle;
+    const {vehicle_id} = vehicle;
     switch (actionType) {
       case 'view-vehicle':
-        navigation.navigate('ViewMyVehicle', { vehicleID: id });
+        navigation.navigate('ViewMyVehicle', { vehicleID: vehicle_id });
       break;
       case 'update-vehicle':
-        navigation.navigate('UpdateMyVehicle', { vehicleID: id });
+        navigation.navigate('UpdateMyVehicle', { vehicleID: vehicle_id });
       break;
       case 'remove-vehicle':
         const {brand} = vehicle;
@@ -45,7 +47,7 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
           },
           {
             text: 'Confirm',
-            onPress: () => onRemoveVehicle(id),
+            onPress: () => onRemoveVehicle(vehicle_id),
           },
         ]);
       break;
@@ -54,7 +56,7 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
     }
     // navigation.navigate("ViewMyVehicle")
   }
-  async function onRemoveVehicle(vehicleID: number) {    
+  async function onRemoveVehicle(vehicleID: number) {
     const response = await myPropService.removeCertainVehicleProperty(vehicleID);
     const {data} = response;
     const {code, message} = data;
@@ -63,6 +65,10 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
       return;
     }
     Alert.alert('Message', message);
+  }
+  function onOpenAssumerList(item: MyVehiclePropertyModel) {
+    const {vehicle_id} = item;
+    navigation.navigate('ListAllAssumer', {propertyId: vehicle_id});
   }
   return (
     <View>
@@ -133,22 +139,28 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                       uri:
                         BASEURL +
                         '/' +
-                        JSON.parse(item.vehicleIMG[0].vehicleFrontIMG)[0],
+                        JSON.parse(item.vehicle_image_vehicleFrontIMG)[0],
                     }}
                     style={{width: 'auto', height: 150, zIndex: -1}}
                     alt={'Image'}
                   />
+                  <TouchableOpacity style={{position: 'absolute', top: 100, right: 0}}
+                  onPress={() => onOpenAssumerList(item)}>
+                    <View style={style.assumptionStyle}>
+                      <TextContainer text={`+${item.totalAssumption}`} textAlign={'right'} fontSize={'18px'} fontWeight={'600'} />
+                    </View>
+                  </TouchableOpacity>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Owner: {item.owner}</Text>
+                    <Text style={style.textCap}>Owner: {item.vehicle_owner}</Text>
                   </View>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Location: {item.location}</Text>
+                    <Text style={style.textCap}>Location: {item.vehicle_location}</Text>
                   </View>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Brand: {item.brand}</Text>
+                    <Text style={style.textCap}>Brand: {item.vehicle_brand}</Text>
                   </View>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Model: {item.model}</Text>
+                    <Text style={style.textCap}>Model: {item.vehicle_model}</Text>
                   </View>
                 </Card>
               </>
@@ -183,6 +195,17 @@ const style = StyleSheet.create({
   },
   menuOptPadd: {
     padding: 10,
+  },
+  assumptionStyle: {
+    width: 40,
+    height: 40,
+    backgroundColor: SUCCESS_COLOR,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    position: 'absolute',
+    top: 20,
   },
 });
 
