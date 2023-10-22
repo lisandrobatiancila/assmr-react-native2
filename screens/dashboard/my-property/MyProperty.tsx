@@ -20,6 +20,8 @@ import MyVehicleProperty from './vehicle/MyVehicleProperty';
 import VehicleProperty from '../../../components/upload-property/VehicleProperty';
 import {MyVehiclePropertyModel} from '../../../models/my-property/MyProperty';
 import {MyPropertyService} from '../../../services/my-property/MyProperty';
+import { TextContainer } from '../../../components/Text/Text';
+import { INFO_COLOR, SUCCESS_EMERALD } from '../../../constants/colorConstant';
 
 const MyPropertiesScreen = ({routes, navigation}: any) => {
   const myProperties = new MyPropertyService();
@@ -66,7 +68,7 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
     myProperties
       .getActiveUserProperties(userContext?.email)
       .then((response: any) => {
-        const {data}: any = response.data;
+        const {data}: MyVehiclePropertyModel[] = response.data;
         setVehicleList(data);
       })
       .catch((err: any) => console.log(err));
@@ -191,9 +193,9 @@ const style = StyleSheet.create({
     padding: 10,
   },
   touchOppa: {
-    backgroundColor: '#fff',
-    width: 60,
-    height: 60,
+    backgroundColor: SUCCESS_EMERALD,
+    width: 50,
+    height: 50,
     borderRadius: 100,
     position: 'absolute',
     bottom: 5,

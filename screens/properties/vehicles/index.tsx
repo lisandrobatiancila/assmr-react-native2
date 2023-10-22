@@ -48,6 +48,7 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
 
     navigation.navigate('ViewVehicleInfo', {propertyID: id});
   };
+
   const displayVehicleItem = (vehicleItem: any) => {
     const {item} = vehicleItem;
     const ownerFullName = item.owner;
@@ -88,7 +89,7 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
             backgroundColor="#50C878"
             padding={'10px'}
             borderRadius={'5px'}
-            onAssume={() => onAssume(item)}>
+            onPress={() => onAssume(item)}>
             <TextContainer text="Assume" color={'#fff'} />
           </TouchableContainer>
           <TextContainer text={' '} />
@@ -96,7 +97,7 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
             width={'50%'}
             borderRadius={'5px'}
             padding={'10px'}
-            onAssume={() => onViewPropertyInfo(item)}>
+            onPress={() => onViewPropertyInfo(item)}>
             <TextContainer text="View" color={'#fff'} />
           </TouchableContainer>
         </FlexRowContainer>
@@ -104,6 +105,7 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
     );
   };
   function onRefresh() {
+    setRefresh(true);
     setTimeout(() => {
       setRefresh(false);
     }, 1000);

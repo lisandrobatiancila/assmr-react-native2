@@ -16,13 +16,19 @@ import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import {useUserContext} from '../../context/User/UserContext';
 import {TextContainer} from '../../components/Text/Text';
 import {ViewContainer} from '../../components/View/View';
-import { AssumedProperty } from './assumed-property/AssumedProperty';
+import {AssumedProperty} from './assumed-property/AssumedProperty';
+import {TouchableContainer} from '../../components/Touchable';
+import {APP_COLOR, WHITE_COLOR} from '../../constants/colorConstant';
 
 const Drawer = createDrawerNavigator();
 const TheDrawerHeader = (props: any) => {
   const userContext = useUserContext();
   const onBrowseProperties = () => {
     props.navigation.navigate('Properties');
+  };
+  const onLogOut = () => {
+    props.navigation.navigate('Home');
+    userContext?.setEmail('');
   };
 
   return (
@@ -43,6 +49,7 @@ const TheDrawerHeader = (props: any) => {
         </View>
       </View>
       <DrawerItemList {...props} />
+
       <TouchableOpacity onPress={onBrowseProperties}>
         <ViewContainer padding="10px">
           <TextContainer
@@ -52,6 +59,17 @@ const TheDrawerHeader = (props: any) => {
           />
         </ViewContainer>
       </TouchableOpacity>
+      <TouchableContainer
+        padding={'10px'}
+        backgroundColor={APP_COLOR}
+        onPress={onLogOut}>
+        <TextContainer
+          text={'logout'}
+          textAlign={'left'}
+          textTransform={'capitalize'}
+          color={WHITE_COLOR}
+        />
+      </TouchableContainer>
     </DrawerContentScrollView>
   );
 };

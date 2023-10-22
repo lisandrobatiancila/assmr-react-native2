@@ -8,16 +8,19 @@ import {
   BackHandler,
 } from 'react-native';
 import {VehicleProperties} from './vehicles';
+import {useUserContext} from '../../context/User/UserContext';
 
 type PropertiesScreenProps = {
   navigation: any;
 };
 
 const PropertiesScreen = ({navigation}: PropertiesScreenProps) => {
+  const userContext = useUserContext();
   BackHandler.addEventListener('hardwareBackPress', function () {
-    console.log(navigation.getParent());
-    console.log(navigation.getId());
-    console.log(navigation.getState());
+    const index = navigation.getState().index;
+    if (index === 2 && userContext?.email) {
+      navigation.navigate('Dashboard');
+    }
   });
   const onDashboard = () => {
     navigation.navigate('Dashboard');

@@ -29,4 +29,7 @@ export class MyPropertyService {
   removeCertainVehicleProperty(vehicleID: number) {
     return instance.delete('my-property/remove-certain-vehicle/' + vehicleID);
   }
+  listAssumerOfMyProperty(propertyId: number) {
+    return instance.get('my-property/list-assumer/' + propertyId);
+  }
 }

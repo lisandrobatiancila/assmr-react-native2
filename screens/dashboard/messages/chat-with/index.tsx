@@ -16,6 +16,7 @@ import {ActiveUser, OtherUser} from './fragemnt';
 
 export function ChatWithOtherUser({route}: any) {
   const {userEmail, receiverId} = route.params; // other user
+  console.log(userEmail, receiverId);
   const userContext = useUserContext(); // active user
   const messageService = new MessagesService();
   const [messageList, setMessageList] = useState<IChatWithMessagesModel[]>([]);

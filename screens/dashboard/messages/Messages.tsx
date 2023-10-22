@@ -3,7 +3,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Image, TouchableNativeFeedback} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableNativeFeedback,
+  RefreshControl,
+} from 'react-native';
 import {FlatList} from 'react-native-gesture-handler';
 import {CardContainer} from '../../../components/card/Card';
 import {TextContainer} from '../../../components/Text/Text';
@@ -25,6 +31,8 @@ const MessageScreen = ({navigation}: any) => {
   const activeUserID = userContext?.userId ?? 0; // 0 means no active user
   const activeUserEmail = userContext?.email ?? 'unknown'; // means no active user
   const [chatList, setChatList] = useState<ChatList[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
+
   useEffect(() => {
     getAllMyChatList()
       .then(response => {
@@ -35,7 +43,7 @@ const MessageScreen = ({navigation}: any) => {
       .catch(err => {
         console.log(err);
       });
-  }, []);
+  }, [refresh]);
 
   function getAllMyChatList() {
     return messageService.getAllMyChatList(activeUserID, activeUserEmail);
@@ -62,7 +70,8 @@ const MessageScreen = ({navigation}: any) => {
     return (
       <View style={style.displayCLContainer}>
         <CardContainer>
-          <TouchableNativeFeedback onPress={() => onOpenChatRoom(otherUser, otherUserId)}>
+          <TouchableNativeFeedback
+            onPress={() => onOpenChatRoom(otherUser, otherUserId)}>
             <View style={{padding: 10}}>
               <FlexRow>
                 <Image
@@ -85,7 +94,10 @@ const MessageScreen = ({navigation}: any) => {
 
                   <FlexRow>
                     <TextContainer fontWeight={'700'} text={who} />
-                    <TextContainer textAlign={'left'} text={item.messages_message} />
+                    <TextContainer
+                      textAlign={'left'}
+                      text={item.messages_message}
+                    />
                   </FlexRow>
                 </FlexCol>
               </FlexRow>
@@ -94,26 +106,48 @@ const MessageScreen = ({navigation}: any) => {
         </CardContainer>
       </View>
     );
-    return <TextContainer text={'wewe'} />;
   }
-  function onOpenChatRoom(otherUserEmail: string, otherUserId: number) {    
-    navigation.navigate('IChatWith', {userEmail: otherUserEmail, receiverId: otherUserId}); // otherUser
+  function onOpenChatRoom(otherUserEmail: string, otherUserId: number) {
+    navigation.navigate('IChatWith', {
+      userEmail: otherUserEmail,
+      receiverId: otherUserId,
+    }); // otherUser
+  }
+  function setOnRefresh() {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 1000);
   }
   return (
-    <View>
-      {chatList.length ? (
-        <FlatList data={chatList} renderItem={displayChatList} />
-      ) : (
-        <View style={style.noMessageContainer}>
-          <CardContainer height={'200px'}>
-            <TextContainer
-              fontSize={'18px'}
-              text={'You dont have any messages yet.'}
-            />
-          </CardContainer>
-        </View>
-      )}
-    </View>
+    <RefreshControl refreshing={refresh} onRefresh={setOnRefresh}>
+      <View>
+        {chatList.length ? (
+          <FlatList data={chatList} renderItem={displayChatList} />
+        ) : (
+          <View style={style.noMessageContainer}>
+            <CardContainer height={'200px'}>
+              <View
+                style={{
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: '100%',
+                }}>
+                <Image
+                  source={require('../../../public/images/message.png')}
+                  style={{width: 50, height: 50}}
+                />
+                <TextContainer
+                  fontSize={'18px'}
+                  text={'You dont have any messages yet.'}
+                />
+              </View>
+            </CardContainer>
+          </View>
+        )}
+      </View>
+    </RefreshControl>
   );
 };
 
@@ -122,8 +156,8 @@ export default MessageScreen;
 const style = StyleSheet.create({
   noMessageContainer: {
     justifyContent: 'center',
+    alignContent: 'center',
     padding: 10,
-    width: '100%',
   },
   displayCLContainer: {
     padding: 10,
