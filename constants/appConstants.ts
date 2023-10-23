@@ -1,1 +1,1 @@
-export const APP_NOTIF_TIMER: number = 2000;
+export const APP_NOTIF_TIMER: number = 3000;

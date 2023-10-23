@@ -9,6 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Alert,
+  ToastAndroid,
 } from 'react-native';
 import {FlatList, TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Card} from 'react-native-paper';
@@ -144,12 +145,12 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                     style={{width: 'auto', height: 150, zIndex: -1}}
                     alt={'Image'}
                   />
-                  <TouchableOpacity style={{position: 'absolute', top: 100, right: 0}}
-                  onPress={() => onOpenAssumerList(item)}>
-                    <View style={style.assumptionStyle}>
-                      <TextContainer text={`+${item.totalAssumption}`} textAlign={'right'} fontSize={'18px'} fontWeight={'600'} />
-                    </View>
-                  </TouchableOpacity>
+                  <View style={{position: 'absolute', top: 100, right: 0}}>
+                    <TouchableOpacity style={style.assumptionStyle}
+                      onPress={() => onOpenAssumerList(item)}>
+                      <TextContainer text={`+${item.totalAssumption}`} />
+                    </TouchableOpacity>
+                  </View>
                   <View style={{padding: 5}}>
                     <Text style={style.textCap}>Owner: {item.vehicle_owner}</Text>
                   </View>
@@ -197,8 +198,8 @@ const style = StyleSheet.create({
     padding: 10,
   },
   assumptionStyle: {
-    width: 40,
-    height: 40,
+    width: 50,
+    height: 50,
     backgroundColor: SUCCESS_COLOR,
     borderRadius: 100,
     justifyContent: 'center',
