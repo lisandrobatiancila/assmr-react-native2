@@ -32,4 +32,7 @@ export class MyPropertyService {
   listAssumerOfMyProperty(propertyId: number) {
     return instance.get('my-property/list-assumer/' + propertyId);
   }
+  removeAssumer(assumerId: number) {
+    return instance.patch(`/my-property/remove-assumer/${assumerId}`);
+  }
 }

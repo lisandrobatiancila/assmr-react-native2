@@ -7,6 +7,7 @@ import {
   FlatList,
   View,
   Image,
+  Alert,
 } from 'react-native';
 import {MyPropertyService} from '../../../../services/my-property/MyProperty';
 import {CardContainer} from '../../../../components/card/Card';
@@ -20,6 +21,7 @@ import {
 import {TouchableContainer} from '../../../../components/Touchable';
 import {
   APP_COLOR,
+  INFO_COLOR,
   MESSAGE_COLOR,
   WHITE_COLOR,
 } from '../../../../constants/colorConstant';
@@ -51,14 +53,45 @@ export const DisplayAssumerList = (props: any) => {
     const {data} = resp.data;
     setAssumerList(data);
   }
-  const onGoToMessage = (item: AssumerListModel) => {
-    const {user_id, user_email} = item;
+  const onPropertyOwnerActions = (key: string, item: AssumerListModel) => {
+    switch (key) {
+      case 'message':
+        const {user_id, user_email} = item;
 
-    props.navigation.navigate('IChatWith', {
-      userEmail: user_email,
-      receiverId: user_id,
-    });
+        props.navigation.navigate('IChatWith', {
+          userEmail: user_email,
+          receiverId: user_id,
+        });
+        break;
+      case 'remove-assumer':
+        const {assumer_id} = item;
+        const {user_lastname, user_firstname} = item;
+        const assumerFullName = upperCaseUserFullName(
+          user_lastname + ', ' + user_firstname,
+        );
+        Alert.alert(
+          'Remove Assumer',
+          `Are you sure you want to remove ${assumerFullName}`,
+          [
+            {
+              text: 'Cancel',
+            },
+            {
+              text: 'Yes',
+              onPress: () => onRemoveAssumer(assumer_id),
+            },
+          ],
+        );
+        break;
+      case 'accept-assumer':
+        break;
+      default:
+        console.log('No key.');
+    }
   };
+  function onRemoveAssumer(assumerId: number) {
+    propertyService.removeAssumer(assumerId);
+  }
   function displayAssumerLists({item}: any) {
     return (
       <View style={{padding: 10}}>
@@ -101,6 +134,7 @@ export const DisplayAssumerList = (props: any) => {
             <DividerContainer margin={5} />
             <FlexRow justifyContent={'center'}>
               <TouchableContainer
+                onPress={() => onPropertyOwnerActions('remove-assumer', item)}
                 backgroundColor={APP_COLOR}
                 padding={'10px'}
                 borderRadius={'5px'}>
@@ -108,7 +142,15 @@ export const DisplayAssumerList = (props: any) => {
               </TouchableContainer>
               <DividerContainer margin={5} />
               <TouchableContainer
-                onPress={() => onGoToMessage(item)}
+                onPress={() => onPropertyOwnerActions('accept-assumer', item)}
+                backgroundColor={INFO_COLOR}
+                padding={'10px'}
+                borderRadius={'5px'}>
+                <TextContainer text={'Accept'} color={WHITE_COLOR} />
+              </TouchableContainer>
+              <DividerContainer margin={5} />
+              <TouchableContainer
+                onPress={() => onPropertyOwnerActions('message', item)}
                 backgroundColor={MESSAGE_COLOR}
                 fontSize={'18px'}
                 padding={'10px'}
