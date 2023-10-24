@@ -5,6 +5,7 @@ type Props = TextStyleProps & {
   fontSize?: string;
   fontWeight?: string;
   text?: string;
+  margin?: string;
 };
 
 export const TextContainer = (props: Props) => {

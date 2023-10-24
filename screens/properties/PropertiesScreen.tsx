@@ -16,7 +16,7 @@ type PropertiesScreenProps = {
 
 const PropertiesScreen = ({navigation}: PropertiesScreenProps) => {
   const userContext = useUserContext();
-  BackHandler.addEventListener('hardwareBackPress', function () {
+  BackHandler.addEventListener('hardwareBackPress', () => {
     const index = navigation.getState().index;
     if (index === 2 && userContext?.email) {
       navigation.navigate('Dashboard');

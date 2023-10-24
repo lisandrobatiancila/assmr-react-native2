@@ -27,11 +27,13 @@ import {
 } from '../../../../constants/colorConstant';
 import {DividerContainer} from '../../../../components/Divider/Divider';
 import {AssumerListModel} from '../../../../models/my-property/MyProperty';
+import { EmptyRecord } from '../../../../components/EmptRec/EmptyRecord';
 
 export const DisplayAssumerList = (props: any) => {
   const {propertyId} = props.route.params;
   const [refresh, setRefresh] = useState<boolean>(false);
   const [assumerList, setAssumerList] = useState<AssumerListModel[]>([]);
+  const [shouldRefetch, setShouldRefetch] = useState<boolean>(false);
 
   const propertyService = new MyPropertyService();
   useEffect(() => {
@@ -40,7 +42,7 @@ export const DisplayAssumerList = (props: any) => {
     } catch (err) {
       ToastAndroid.show('Something went wrong', ToastAndroid.LONG);
     }
-  }, [refresh]);
+  }, [refresh, shouldRefetch]);
 
   const onRefreshing = () => {
     setRefresh(true);
@@ -89,8 +91,13 @@ export const DisplayAssumerList = (props: any) => {
         console.log('No key.');
     }
   };
-  function onRemoveAssumer(assumerId: number) {
-    propertyService.removeAssumer(assumerId);
+  async function onRemoveAssumer(assumerId: number) {
+    const response = await propertyService.removeAssumer(assumerId);
+    const {code, data } = response.data;
+    if(code === 200) {
+      ToastAndroid.show(data, ToastAndroid.SHORT);
+      setShouldRefetch(true);
+    }
   }
   function displayAssumerLists({item}: any) {
     return (
@@ -169,7 +176,10 @@ export const DisplayAssumerList = (props: any) => {
   }
   return (
     <RefreshControl refreshing={refresh} onRefresh={onRefreshing}>
-      <FlatList data={assumerList} renderItem={displayAssumerLists} />
+      <View style={{backgroundColor: APP_COLOR, height: '100%'}}>
+        {assumerList.length > 0 && <FlatList data={assumerList} renderItem={displayAssumerLists} />}
+        {assumerList.length === 0 && <EmptyRecord />}
+      </View>
     </RefreshControl>
   );
 };

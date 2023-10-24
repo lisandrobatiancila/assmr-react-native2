@@ -50,6 +50,7 @@ import { ChatWithOtherUser } from './screens/dashboard/messages/chat-with';
 import AssmrModal from './components/modal/Modal';
 import { ModalProvider } from './context/Modal/ModalContext';
 import { DisplayAssumerList } from './screens/dashboard/my-property/assumer-list';
+import { InquireProperties } from './screens/inquire-property';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -131,6 +132,11 @@ function App(): JSX.Element {
                   name="ListAllAssumer"
                   component={DisplayAssumerList}
                   options={{headerTitle: 'Assumers'}}
+                />
+                <Stack.Screen
+                  name="InquireProperty"
+                  component={InquireProperties}
+                  options={{headerBackTitle: 'Property Inquiries'}}
                 />
               </Stack.Navigator>
             </NavigationContainer>
