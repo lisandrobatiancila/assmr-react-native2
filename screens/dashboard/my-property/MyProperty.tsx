@@ -123,7 +123,7 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
             <Image
               source={require('../../../public/images/add.png')}
-              style={{width: 30, height: 30}}
+              style={{width: 20, height: 20}}
               alt="Img"
             />
           </View>

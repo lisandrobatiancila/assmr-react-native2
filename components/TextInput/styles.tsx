@@ -5,6 +5,7 @@ type TextInputStyleProps = {
   backgroundColor?: string;
   padding?: string;
   margin?: string;
+  width?: string;
 };
 export const TextInputStyle = styled(TextInput)<TextInputStyleProps>`
   background-color: ${(props: TextInputStyleProps) =>
@@ -12,4 +13,5 @@ export const TextInputStyle = styled(TextInput)<TextInputStyleProps>`
   padding: ${(props: TextInputStyleProps) => props.padding ?? '10px'};
   border: 1px solid #ddd;
   margin: ${(props: TextInputStyleProps) => props.margin ?? 0};
+  width: ${(props: TextInputStyleProps) => props.width ?? 0};
 `;

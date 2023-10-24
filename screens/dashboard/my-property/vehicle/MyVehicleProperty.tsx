@@ -133,7 +133,7 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                           <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'update-vehicle')} />
                           <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'remove-vehicle')} />
                         </MenuOptions>
-                      </Menu>
+                    </Menu>
                   </TouchableOpacity>
                   <Image
                     source={{
@@ -148,7 +148,7 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                   <View style={{position: 'absolute', top: 100, right: 0}}>
                     <TouchableOpacity style={style.assumptionStyle}
                       onPress={() => onOpenAssumerList(item)}>
-                      <TextContainer text={`+${item.totalAssumption}`} />
+                      <TextContainer text={`+${item.totalAssumption}`} fontWeight={'500'} fontSize={'20px'} />
                     </TouchableOpacity>
                   </View>
                   <View style={{padding: 5}}>
