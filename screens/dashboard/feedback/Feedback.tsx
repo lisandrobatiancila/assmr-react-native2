@@ -84,7 +84,8 @@ const FeedBackScreen = () => {
   const [feedbackOpen, setFeedBackOpen] = useState<boolean>(false);
 
   const onGiveFeedBacks = () => {
-    modalContext?.setIsOpenedModal(true);
+    console.log(modalContext?.isOpenedModal);
+    // modalContext?.setIsOpenedModal(true);
   };
   const onCloseModal = () => {
     modalContext?.setIsOpenedModal(false);
@@ -232,21 +233,23 @@ const FeedBackScreen = () => {
   };
   return (
     <RefreshControl refreshing={refresh} onRefresh={onRefresh}>
-      <FlatList data={[1]} renderItem={displayFeedBackModal} />
-      <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
-        {!modalContext?.isOpenedModal && (
-          <TouchableContainer
-            padding={'15px 10px'}
-            backgroundColor={APP_COLOR}
-            onPress={onGiveFeedBacks}>
-            <TextContainer
-              text={'give feedback'}
-              color={WHITE_COLOR}
-              textTransform={'capitalize'}
-              fontSize={'18px'}
-            />
-          </TouchableContainer>
-        )}
+      <View style={{height: '100%'}}>
+        <FlatList data={[1]} renderItem={displayFeedBackModal} />
+        <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
+          {!modalContext?.isOpenedModal && (
+            <TouchableContainer
+              padding={'15px 10px'}
+              backgroundColor={APP_COLOR}
+              onPress={onGiveFeedBacks}>
+              <TextContainer
+                text={'give feedback'}
+                color={WHITE_COLOR}
+                textTransform={'capitalize'}
+                fontSize={'18px'}
+              />
+            </TouchableContainer>
+          )}
+        </View>
       </View>
     </RefreshControl>
   );
