@@ -27,7 +27,6 @@ export const upperCaseWord = (fullName: string) => {
   return newFullName;
 };
 
-
 export const formatDate = (param: string): string => {
   let date = new Date(param);
   let year = new Intl.DateTimeFormat('en', {year: 'numeric'}).format(date);
@@ -60,4 +59,8 @@ export const displayNotifications = (param: NotificationModel[]) => {
   } catch (error) {
     ToastAndroid.show('Im handled through notif.', ToastAndroid.LONG);
   }
+};
+
+export const capitalizeString = (param: string): string => {
+  return param.substring(0, 1).toUpperCase() + param.substring(1, param.length);
 };
