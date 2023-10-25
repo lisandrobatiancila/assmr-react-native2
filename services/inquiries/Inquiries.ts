@@ -6,6 +6,6 @@ export class InquiriesService {
     return instance.post('inquiries/send-inquiry', param);
   }
   getAllInquiries(userId: number) {
-    return instance.get('inquiries/get-inquiries' + userId);
+    return instance.get('inquiries/get-inquiries/' + userId);
   }
 }
