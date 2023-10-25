@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {RefreshControl, Image, StyleSheet, Alert, Text, View, TouchableOpacity} from 'react-native';
+import {
+  RefreshControl,
+  Image,
+  StyleSheet,
+  Alert,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {ViewContainer} from '../../../components/View/View';
 import {TextContainer} from '../../../components/Text/Text';
 import {BASEURL, instance} from '../../../utils/appUtils';
@@ -9,7 +17,12 @@ import {VehicleAssumption} from '../../../models/my-property/MyProperty';
 import {FlexRowContainer} from '../../../components/Flex-Row';
 import {TouchableContainer} from '../../../components/Touchable';
 import {useUserContext} from '../../../context/User/UserContext';
-import { Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu';
+import {
+  Menu,
+  MenuTrigger,
+  MenuOptions,
+  MenuOption,
+} from 'react-native-popup-menu';
 
 type VehiclePropertiesProps = {
   navigation: any;
@@ -33,13 +46,22 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
       });
   }, [refresh]);
   function onSelectAction(vehicle: any, actionType: string) {
-    const {vehicle_id} = vehicle;
+    const {id} = vehicle.vehicleImages[0];
+    if (userContext?.userId) {
+      if (userContext.userId === vehicle.userId) {
+        Alert.alert('Invalid Action', 'You can not send inquiries to yourself');
+        return;
+      }
+    }
     switch (actionType) {
       case 'inquire-property':
-        navigation.navigate('InquireProperty');
-      break;
-    default:
-      console.log('no actionType');
+        navigation.navigate('InquireProperty', {
+          userReceiverId: vehicle.userId,
+          propertyId: id,
+        });
+        break;
+      default:
+        console.log('no actionType');
     }
     // navigation.navigate("ViewMyVehicle")
   }
@@ -80,7 +102,7 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
             alt="Vehicle image"
           />
           <View style={{position: 'absolute', top: 0, right: 0}}>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[
                 {
                   flexDirection: 'column',
@@ -91,57 +113,63 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
                 },
               ]}>
               <Menu>
-                <MenuTrigger children = {
-                <View>
-                  <View style={style.dotCircleContainer}>
-                    <View
-                      style={{
-                        position: 'absolute',
-                        right: 20,
-                        width: 40,
-                        height: 40,
-                        backgroundColor: '#fff',
-                        borderRadius: 100,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                      }}>
-                      <View style={[style.dotCircle]}>
-                        <Text>1</Text>
-                      </View>
-                      <View style={[style.dotCircle]}>
-                        <Text>2</Text>
-                      </View>
-                      <View style={[style.dotCircle]}>
-                        <Text>3</Text>
+                <MenuTrigger
+                  children={
+                    <View>
+                      <View style={style.dotCircleContainer}>
+                        <View
+                          style={{
+                            position: 'absolute',
+                            right: 20,
+                            width: 40,
+                            height: 40,
+                            backgroundColor: '#fff',
+                            borderRadius: 100,
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                          }}>
+                          <View style={[style.dotCircle]}>
+                            <Text>1</Text>
+                          </View>
+                          <View style={[style.dotCircle]}>
+                            <Text>2</Text>
+                          </View>
+                          <View style={[style.dotCircle]}>
+                            <Text>3</Text>
+                          </View>
+                        </View>
                       </View>
                     </View>
-                  </View>
-                </View>}
+                  }
                 />
 
                 <MenuOptions>
-                  <MenuOption text="Inquire" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'inquire-property')}/>
+                  <MenuOption
+                    text="Inquire"
+                    style={style.menuOptPadd}
+                    onSelect={() => onSelectAction(item, 'inquire-property')}
+                  />
                 </MenuOptions>
               </Menu>
             </TouchableOpacity>
           </View>
           <View style={{padding: 10}}>
-              <FlexRowContainer>
-                <TextContainer text="Owner: " />
-                <TextContainer
-                  text={ownerFullName}
-                  fontSize={'15px'}
-                  textTransform="capitalize"
-                />
-              </FlexRowContainer>
-              <FlexRowContainer>
-                <TextContainer text="Brand: " />
-                <TextContainer fontSize={'15px'} text={item.brand} />
-              </FlexRowContainer>
-              <FlexRowContainer>
-                <TextContainer text="Model: " />
-                <TextContainer text={item.model} />
-              </FlexRowContainer>
+            <FlexRowContainer>
+              <TextContainer text="Owner: " />
+              <TextContainer
+                text={ownerFullName}
+                fontSize={'15px'}
+                textTransform="capitalize"
+              />
+            </FlexRowContainer>
+            <FlexRowContainer>
+              <TextContainer text="Brand: " />
+              <TextContainer fontSize={'15px'} text={item.brand} />
+            </FlexRowContainer>
+            <FlexRowContainer>
+              <TextContainer text="Model: " />
+              <TextContainer text={item.model} />
+            </FlexRowContainer>
           </View>
           <FlexRowContainer>
             <TouchableContainer
@@ -165,14 +193,14 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
       </CardContainer>
     );
   };
-  function onRefresh() {
+  function onRefreshControl() {
     setRefresh(true);
     setTimeout(() => {
       setRefresh(false);
     }, 1000);
   }
   return (
-    <RefreshControl refreshing={refresh} onRefresh={onRefresh}>
+    <RefreshControl refreshing={refresh} onRefresh={onRefreshControl}>
       <ViewContainer padding="0">
         <FlatList data={vehicleList} renderItem={displayVehicleItem} />
       </ViewContainer>

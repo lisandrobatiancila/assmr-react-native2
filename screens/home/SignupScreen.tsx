@@ -146,7 +146,7 @@ const SignupScreen = () => {
       municipality: municipalityValue,
       province: provinceValue,
       barangay: barangayValue,
-      email: email,
+      email: email.toLocaleLowerCase(),
       password: password,
     };
     signupService
@@ -225,6 +225,7 @@ const SignupScreen = () => {
                     style={style.textInputBG}
                     keyboardType={'phone-pad'}
                     placeholder="Contactno."
+                    maxLength={11}
                   />
                   <DropDownPicker
                     zIndex={5}
