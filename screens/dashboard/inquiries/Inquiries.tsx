@@ -24,6 +24,7 @@ import {TextContainer} from '../../../components/Text/Text';
 import {upperCaseUserFullName} from '../../../utils/utilsStandAlone';
 import {DividerContainer} from '../../../components/Divider/Divider';
 import {AssmrBadge} from '../../../components/badge/Badge';
+import { TouchableContainer } from '../../../components/Touchable';
 
 const InquiriesScreen = () => {
   const inquiryService = new InquiriesService();
@@ -113,6 +114,16 @@ const InquiriesScreen = () => {
             <TextContainer text={item.zipCode} />
           </FlexRow>
         </AssmrBadge>
+        <TouchableContainer>
+          <View>
+            <FlexRow>
+              <TextContainer text={'Toggle description'} textAlign={'left'} />
+              <View style={style.imgStyle}>
+                <Image source={require('../../../public/images/arrow.png')} style={{width: 20, height: 20}} />
+              </View>
+            </FlexRow>
+          </View>
+        </TouchableContainer>
       </CardContainer>
     );
   }
@@ -144,4 +155,10 @@ const style = StyleSheet.create({
   cardRight: {
     padding: 10,
   },
+  imgStyle: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    alignSelf: 'flex-end',
+  }
 });
