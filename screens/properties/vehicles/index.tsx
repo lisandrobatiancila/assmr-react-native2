@@ -66,26 +66,33 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
     // navigation.navigate("ViewMyVehicle")
   }
   const onAssume = (props: any) => {
-    const {id, userId} = props;
-    if (userId === userContext?.userId) {
+    const {vehicle_id, user_id, user_email} = props;
+    if (user_id === userContext?.userId) {
       Alert.alert(
         'Message',
         'Sorry, But you can not assume your own property.',
       );
       return;
     }
-    navigation.navigate('AssumptionForm', {propertyID: id, ownerID: userId});
+    navigation.navigate('AssumptionForm', {
+      propertyID: vehicle_id,
+      ownerID: user_id,
+      userEmail: user_email,
+    });
   };
   const onViewPropertyInfo = (props: any) => {
-    const {id} = props;
+    const {vehicle_id} = props;
 
-    navigation.navigate('ViewVehicleInfo', {propertyID: id});
+    navigation.navigate('ViewVehicleInfo', {
+      propertyID: vehicle_id,
+      triggeredFrom: 'properties-view',
+    });
   };
 
   const displayVehicleItem = (vehicleItem: any) => {
     const {item} = vehicleItem;
-    const ownerFullName = item.owner;
-    const frontIMG = JSON.parse(item.vehicleImages[0].vehicleFrontIMG)[0];
+    const ownerFullName = item.vehicle_owner;
+    const frontIMG = JSON.parse(item.vehicleImages_vehicleFrontIMG)[0];
 
     return (
       <CardContainer
@@ -164,11 +171,11 @@ export const VehicleProperties = ({navigation}: VehiclePropertiesProps) => {
             </FlexRowContainer>
             <FlexRowContainer>
               <TextContainer text="Brand: " />
-              <TextContainer fontSize={'15px'} text={item.brand} />
+              <TextContainer fontSize={'15px'} text={item.vehicle_brand} />
             </FlexRowContainer>
             <FlexRowContainer>
               <TextContainer text="Model: " />
-              <TextContainer text={item.model} />
+              <TextContainer text={item.vehicle_model} />
             </FlexRowContainer>
           </View>
           <FlexRowContainer>

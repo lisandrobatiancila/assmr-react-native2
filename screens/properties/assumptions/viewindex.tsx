@@ -20,7 +20,7 @@ import {useUserContext} from '../../../context/User/UserContext';
 export const ViewVehicleInfo = ({route, navigation}: any) => {
   const userContext = useUserContext();
   const propAssumption = new PropertyAssumptions();
-  const {propertyID} = route.params;
+  const {propertyID, triggeredFrom} = route.params;
   const [certainVehicle, setCertainVehicle] = useState<CertainVehicleModel>();
 
   useEffect(() => {
@@ -104,19 +104,21 @@ export const ViewVehicleInfo = ({route, navigation}: any) => {
                 <TextContainer text={'Deliquent: '} />
                 <TextContainer text={certainVehicle?.delinquent} />
               </FlexRowContainer>
-              <TouchableContainer
-                padding={'10px'}
-                width={'100%'}
-                borderRadius={'5px'}
-                color={'#fff'}
-                margin={'10px 0 0 0'}
-                onAssume={onAssume}>
-                <TextContainer
-                  text={'Assume'}
+              {triggeredFrom === 'properties-view' && (
+                <TouchableContainer
+                  padding={'10px'}
+                  width={'100%'}
+                  borderRadius={'5px'}
                   color={'#fff'}
-                  fontSize={'18px'}
-                />
-              </TouchableContainer>
+                  margin={'10px 0 0 0'}
+                  onPress={onAssume}>
+                  <TextContainer
+                    text={'Assume'}
+                    color={'#fff'}
+                    fontSize={'18px'}
+                  />
+                </TouchableContainer>
+              )}
             </ScrollView>
           </CardContainer>
         </TouchableNativeFeedback>

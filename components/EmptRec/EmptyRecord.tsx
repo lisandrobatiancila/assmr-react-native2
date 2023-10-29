@@ -12,7 +12,7 @@ export const EmptyRecord = (props: EmptyRecordProps) => {
     <View style={style.emptContainer}>
       <CardContainer padding={'10px'}>
         <View style={style.secCont}>
-          <TextContainer text={`No ${props.text ?? 'generic'} to show.`} />
+          <TextContainer text={`No ${props.text ?? 'record'} to show.`} />
           <Image
             source={require('../../public/images/empty-box.png')}
             style={{width: 100, height: 100}}

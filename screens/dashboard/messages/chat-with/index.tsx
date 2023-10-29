@@ -16,7 +16,7 @@ import {ActiveUser, OtherUser} from './fragemnt';
 
 export function ChatWithOtherUser({route}: any) {
   const {userEmail, receiverId} = route.params; // other user
-  console.log(userEmail, receiverId);
+
   const userContext = useUserContext(); // active user
   const messageService = new MessagesService();
   const [messageList, setMessageList] = useState<IChatWithMessagesModel[]>([]);
@@ -27,7 +27,7 @@ export function ChatWithOtherUser({route}: any) {
     getIChatWithUser(userContext?.email ?? 'unknown', userEmail)
       .then(response => {
         const {data} = response;
-        const {code} = data;
+        const {code}: any = data;
         if (code === 205) {
           setMessageList([]);
         } else {

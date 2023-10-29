@@ -105,6 +105,7 @@ const SignupScreen = () => {
           setIsLoading(false);
         })
         .catch(err => {
+          console.log(err);
           setIsLoading(false);
         });
     } catch (err) {
@@ -200,7 +201,7 @@ const SignupScreen = () => {
                   }}>
                   basic information
                 </Text>
-                <View style={{marginLeft: 10}}>
+                <View style={{marginLeft: 10, marginRight: 10}}>
                   <TextInput
                     value={firstname}
                     onChangeText={setFirstname}

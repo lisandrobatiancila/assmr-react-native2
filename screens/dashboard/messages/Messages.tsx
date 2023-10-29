@@ -135,7 +135,7 @@ const MessageScreen = ({navigation}: any) => {
                   height: '100%',
                 }}>
                 <Image
-                  source={require('../../../public/images/message.png')}
+                  source={require('../../../public/images/message1.png')}
                   style={{width: 50, height: 50}}
                 />
                 <TextContainer
