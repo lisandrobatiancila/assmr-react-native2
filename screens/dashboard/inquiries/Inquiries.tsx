@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   RefreshControl,
   FlatList,
   Image,
-  Platform,
   Dimensions,
 } from 'react-native';
 import {InquiriesModel} from '../../../models/inquiries/InquiriesModel';
@@ -24,7 +22,7 @@ import {TextContainer} from '../../../components/Text/Text';
 import {upperCaseUserFullName} from '../../../utils/utilsStandAlone';
 import {DividerContainer} from '../../../components/Divider/Divider';
 import {AssmrBadge} from '../../../components/badge/Badge';
-import { TouchableContainer } from '../../../components/Touchable';
+import {TouchableContainer} from '../../../components/Touchable';
 
 const InquiriesScreen = () => {
   const inquiryService = new InquiriesService();
@@ -50,11 +48,16 @@ const InquiriesScreen = () => {
     }, 1000);
   }
   function displayInquiries({item}: any) {
+    let toggled: boolean = false;
     const fullName = upperCaseUserFullName(
       `${item.lastname}, ${item.firstname}`,
     );
     const email = item.email;
     const phoneNumber = item.phoneNumber;
+    const toggledDescription = () => {
+      toggled = true;
+    };
+
     return (
       <CardContainer padding={'10px'}>
         <FlexRow>
@@ -114,16 +117,30 @@ const InquiriesScreen = () => {
             <TextContainer text={item.zipCode} />
           </FlexRow>
         </AssmrBadge>
-        <TouchableContainer>
+        {/* <TouchableContainer
+          borderRadius={'10px'}
+          padding={'5px'}
+          onPress={toggledDescription}>
           <View>
             <FlexRow>
               <TextContainer text={'Toggle description'} textAlign={'left'} />
               <View style={style.imgStyle}>
-                <Image source={require('../../../public/images/arrow.png')} style={{width: 20, height: 20}} />
+                <Image
+                  source={require('../../../public/images/arrow.png')}
+                  style={{
+                    width: 20,
+                    height: 20,
+                    marginRight: 5,
+                    transform: [{rotate: toggled ? '-92deg' : '0deg'}],
+                  }}
+                />
               </View>
             </FlexRow>
+            {toggled && (
+              <TextContainer text={item.description} textAlign={'left'} />
+            )}
           </View>
-        </TouchableContainer>
+        </TouchableContainer> */}
       </CardContainer>
     );
   }
@@ -156,9 +173,8 @@ const style = StyleSheet.create({
     padding: 10,
   },
   imgStyle: {
-    width: '100%',
+    width: '65%',
     display: 'flex',
-    justifyContent: 'flex-end',
-    alignSelf: 'flex-end',
-  }
+    alignItems: 'flex-end',
+  },
 });

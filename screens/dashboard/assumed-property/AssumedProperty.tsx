@@ -115,7 +115,10 @@ export const AssumedProperty = ({navigation}: any) => {
     const propertyID = item.assumption_property_id;
     switch (action) {
       case 'property-info':
-        navigation.navigate('ViewVehicleInfo', {propertyID});
+        navigation.navigate('ViewVehicleInfo', {
+          propertyID,
+          triggeredFrom: 'assumed-prop-view',
+        });
         break;
       case 'remove-assumption':
         Alert.alert(

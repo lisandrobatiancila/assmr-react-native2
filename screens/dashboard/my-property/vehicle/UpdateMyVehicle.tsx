@@ -117,51 +117,60 @@ export function UpdateMyVehicle({route}: any) {
         {certainVehicle && (
           <CardContainer>
             <CardContainer>{displayCarouselImage()}</CardContainer>
-            <CardContainer padding={'5px'} margin={'10px 0 0 0'}>
+            <CardContainer padding={'5px'} margin={'10px 0 0 0'} width={'100%'}>
               <TextInputContainer
                 value={fullName}
                 onChangeText={setFullName}
                 placeholder={'Owner'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={brand}
                 onChangeText={setBrand}
                 placeholder={'Brand'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={model}
                 onChangeText={setModel}
                 placeholder={'Model'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={downpayment}
                 onChangeText={setDownpayment}
                 placeholder={'Downpayment'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={location}
                 onChangeText={setLocation}
                 placeholder={'Location'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={installmentpaid}
                 onChangeText={setInstallmentpaid}
                 placeholder={'Installmentpaid'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={installmentduration}
                 onChangeText={setInstallmentduration}
                 placeholder={'Installmentduration'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={delinquent}
                 onChangeText={setDelinquent}
                 placeholder={'Delinquent'}
+                width={'100%'}
               />
               <TextInputContainer
                 value={description}
                 onChangeText={setDescription}
                 placeholder={'Description'}
+                width={'100%'}
                 multiline
               />
               <TouchableContainer

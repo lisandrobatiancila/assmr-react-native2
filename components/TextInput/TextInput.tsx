@@ -14,6 +14,7 @@ type TextInputContProps = {
   disabled?: boolean;
   onChangeText: (param: string) => void;
   style?: any;
+  keyboardType?: string;
 };
 export const TextInputContainer = (props: TextInputContProps) => {
   return <TextInputStyle {...props} />;
