@@ -13,8 +13,8 @@ export type CardStyleProps = {
 export const CardContainerStyle = styled(Card)<CardStyleProps>`
   padding: ${(props: CardStyleProps) => props.padding ?? 0};
   borderradius: ${(props: CardStyleProps) => props.borderRadius ?? 0};
-  backgroundcolor: ${(props: CardStyleProps) =>
-    props.backgroundColor ?? '#000'};
+  background-color: ${(props: CardStyleProps) =>
+    props.backgroundColor ?? '#fff'};
   width: ${(props: CardStyleProps) => props.width ?? 'auto'};
   height: ${(props: CardStyleProps) => props.height ?? 'auto'};
   margin: ${(props: CardStyleProps) => props.margin ?? 0};

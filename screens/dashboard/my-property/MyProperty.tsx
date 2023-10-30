@@ -18,10 +18,22 @@ import {Card} from 'react-native-paper';
 import DropDownPicker from 'react-native-dropdown-picker';
 import MyVehicleProperty from './vehicle/MyVehicleProperty';
 import VehicleProperty from '../../../components/upload-property/VehicleProperty';
-import {MyVehiclePropertyModel} from '../../../models/my-property/MyProperty';
+import {
+  MyJewelryPropertyModel,
+  MyVehiclePropertyModel,
+} from '../../../models/my-property/MyProperty';
 import {MyPropertyService} from '../../../services/my-property/MyProperty';
-import { TextContainer } from '../../../components/Text/Text';
-import { INFO_COLOR, SUCCESS_EMERALD } from '../../../constants/colorConstant';
+import {TextContainer} from '../../../components/Text/Text';
+import {
+  APP_COLOR,
+  INFO_COLOR,
+  SUCCESS_EMERALD,
+  WHITE_COLOR,
+} from '../../../constants/colorConstant';
+import JewelryProperty from '../../../components/upload-property/JewelryProperty';
+import {CardContainer} from '../../../components/card/Card';
+import {FlexRow} from '../../../components/Flex-Row/styles';
+import MyJewelryProperty from './jewelry/MyJewelry';
 
 const MyPropertiesScreen = ({routes, navigation}: any) => {
   const myProperties = new MyPropertyService();
@@ -32,7 +44,7 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
   const [activeView, setActiveView] = useState<string>('vehicle');
 
   const [onOpenPropToUpload, setOnOpenPropToUpload] = useState<boolean>(false);
-  const [propToUploadValue, setPropToUploadValue] = useState(null);
+  const [propToUploadValue, setPropToUploadValue] = useState('Vehicle');
   const [propToUploadItems, setPropToUploadItems] = useState<
     {label: string; value: string}[]
   >([
@@ -49,14 +61,19 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       value: 'Realestate',
     },
   ]);
+  const [addUp, setAddUp] = useState<number>(400);
 
   const [vehicleList, setVehicleList] = useState<MyVehiclePropertyModel[] | []>(
     [],
   );
+  const [jewelryList, setJewelryList] = useState<MyJewelryPropertyModel[]>([]);
   useEffect(() => {
     switch (activeView) {
       case 'vehicle':
         getAllVehicleData();
+        break;
+      case 'jewelry':
+        getAllJewelryData();
         break;
       default:
         console.log('No active view.');
@@ -72,6 +89,32 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
         setVehicleList(data);
       })
       .catch((err: any) => console.log(err));
+  };
+  const getAllJewelryData = () => {
+    myProperties
+      .getActiveUserJewelry(userContext?.email ?? '')
+      .then((response: any) => {
+        const data: any = response.data;
+        const jewelryList: MyJewelryPropertyModel[] = data.data;
+
+        setJewelryList(jewelryList);
+      })
+      .catch((err: any) => console.log(err));
+  };
+  const onChangePropertyActiveView = (propType: string) => {
+    switch (propType) {
+      case 'vehicle':
+        setActiveView(propType);
+        break;
+      case 'jewelry':
+        setActiveView(propType);
+        break;
+      case 'realestate':
+        setActiveView(propType);
+        break;
+      default:
+        console.log('No propertyType');
+    }
   };
   const onOpenGallery = async () => {
     try {
@@ -95,20 +138,91 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       setRefreshing(false);
     }, 1000);
   };
+  function onSelectPropertyToPost(propType: any) {
+    setPropToUploadValue(propType);
+    switch (propType) {
+      case 'Vehicle':
+        setAddUp(400);
+        break;
+      case 'Jewelry':
+        setAddUp(700);
+        break;
+      case 'Realestate':
+        break;
+      default:
+        console.log('No propertyType');
+    }
+  }
 
   return (
     <RefreshControl refreshing={refreshing} onRefresh={onRefresh}>
       <View style={style.mypropContainer}>
         <View style={style.welcomeMessContainer}>
-          <Text
-            style={[
-              style.textCapitalize,
-              style.textCenter,
-              style.textSize,
-              style.shadowContainer,
-            ]}>
-            my properties
-          </Text>
+          <FlexRow style={{justifyContent: 'space-around'}}>
+            <CardContainer
+              padding={'10px'}
+              backgroundColor={
+                activeView === 'vehicle' ? APP_COLOR : WHITE_COLOR
+              }>
+              <TouchableOpacity
+                onPress={() => onChangePropertyActiveView('vehicle')}>
+                <Text
+                  style={[
+                    style.textCapitalize,
+                    style.textCenter,
+                    style.textSize,
+                    style.shadowContainer,
+                    {
+                      color: activeView === 'vehicle' ? WHITE_COLOR : '#000',
+                    },
+                  ]}>
+                  vehicle
+                </Text>
+              </TouchableOpacity>
+            </CardContainer>
+            <CardContainer
+              padding={'10px'}
+              backgroundColor={
+                activeView === 'jewelry' ? APP_COLOR : WHITE_COLOR
+              }>
+              <TouchableOpacity
+                onPress={() => onChangePropertyActiveView('jewelry')}>
+                <Text
+                  style={[
+                    style.textCapitalize,
+                    style.textCenter,
+                    style.textSize,
+                    style.shadowContainer,
+                    {
+                      color: activeView === 'jewelry' ? WHITE_COLOR : '#000',
+                    },
+                  ]}>
+                  jewelry
+                </Text>
+              </TouchableOpacity>
+            </CardContainer>
+            <CardContainer
+              padding={'10px'}
+              backgroundColor={
+                activeView === 'realestate' ? APP_COLOR : WHITE_COLOR
+              }>
+              <TouchableOpacity
+                onPress={() => onChangePropertyActiveView('realestate')}>
+                <Text
+                  style={[
+                    style.textCapitalize,
+                    style.textCenter,
+                    style.textSize,
+                    style.shadowContainer,
+                    {
+                      color: activeView === 'realestate' ? WHITE_COLOR : '#000',
+                    },
+                  ]}>
+                  realestate
+                </Text>
+              </TouchableOpacity>
+            </CardContainer>
+          </FlexRow>
         </View>
         {activeView === 'vehicle' ? (
           <MyVehicleProperty
@@ -116,7 +230,12 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
             navigation={navigation}
           />
         ) : (
-          ''
+          activeView === 'jewelry' && (
+            <MyJewelryProperty
+              jewelryData={jewelryList}
+              navigation={navigation}
+            />
+          )
         )}
         <TouchableOpacity style={style.touchOppa} onPress={onOpenGallery}>
           <View
@@ -133,7 +252,11 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
             <FlatList
               data={[1]}
               renderItem={({item}) => (
-                <View style={style.modalContainer}>
+                <View
+                  style={[
+                    style.modalContainer,
+                    {height: Dimensions.get('window').height + addUp},
+                  ]}>
                   <Card style={{padding: 10}}>
                     <Text
                       style={{
@@ -155,6 +278,7 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
                       setItems={setPropToUploadItems}
                       placeholder="Select a property"
                       style={{marginTop: 5}}
+                      onChangeValue={onSelectPropertyToPost}
                     />
                     {propToUploadValue ? (
                       propToUploadValue === 'Vehicle' ? (
@@ -163,7 +287,10 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
                           closeModal={closeModal}
                         />
                       ) : (
-                        ''
+                        <JewelryProperty
+                          email={userContext?.email}
+                          closeModal={closeModal}
+                        />
                       )
                     ) : (
                       <VehicleProperty
@@ -202,7 +329,6 @@ const style = StyleSheet.create({
     right: 5,
   },
   modalContainer: {
-    height: Dimensions.get('window').height + 400, // just a working fix right now
     backgroundColor: '#ddd',
     padding: 10,
   },

@@ -23,23 +23,23 @@ import { MyPropertyService } from '../../../../services/my-property/MyProperty';
 import { TextContainer } from '../../../../components/Text/Text';
 import { CardContainer } from '../../../../components/card/Card';
 import { SUCCESS_COLOR } from '../../../../constants/colorConstant';
-import { MyVehiclePropertyModel } from '../../../../models/my-property/MyProperty';
+import { MyJewelryPropertyModel } from '../../../../models/my-property/MyProperty';
 
 
-const MyVehicleProperty = ({vehicleData, navigation}: any) => {
+const MyJewelryProperty = ({jewelryData, navigation}: any) => {
   const myPropService = new MyPropertyService();
 
-  function onSelectAction(vehicle: any, actionType: string) {
-    const {vehicle_id} = vehicle;
+  function onSelectAction(jewelry: any, actionType: string) {
+    const {jewelry_id} = jewelry;
     switch (actionType) {
-      case 'view-vehicle':
-        navigation.navigate('ViewMyVehicle', { vehicleID: vehicle_id });
+      case 'view-jewelry':
+        navigation.navigate('ViewMyJewelry', { jewelryID: jewelry_id });
       break;
-      case 'update-vehicle':
-        navigation.navigate('UpdateMyVehicle', { vehicleID: vehicle_id });
+      case 'update-jewelry':
+        navigation.navigate('UpdateMyJewelry', { jewelryID: jewelry_id });
       break;
-      case 'remove-vehicle':
-        const {brand} = vehicle;
+      case 'remove-jewelry':
+        const {brand} = jewelry_id;
         const mess: string = 'Are you sure you want to remove this property? ' + brand;
         Alert.alert('Message', mess, [
           {
@@ -47,7 +47,7 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
           },
           {
             text: 'Confirm',
-            onPress: () => onRemoveVehicle(vehicle_id),
+            onPress: () => onRemoveJewelry(jewelry_id),
           },
         ]);
       break;
@@ -56,8 +56,8 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
     }
     // navigation.navigate("ViewMyVehicle")
   }
-  async function onRemoveVehicle(vehicleID: number) {
-    const response = await myPropService.removeCertainVehicleProperty(vehicleID);
+  async function onRemoveJewelry(jewelryID: number) {
+    const response = await myPropService.removeCertainJewelryProperty(jewelryID);
     const {data} = response;
     const {code, message} = data;
     if (code !== 200) {
@@ -66,13 +66,13 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
     }
     Alert.alert('Message', message);
   }
-  function onOpenAssumerList(item: MyVehiclePropertyModel) {
-    const {vehicle_id} = item;
-    navigation.navigate('ListAllAssumer', {propertyId: vehicle_id, propType: 'vehicle'});
+  function onOpenAssumerList(item: MyJewelryPropertyModel) {
+    console.log(item);
+    // navigation.navigate('ListAllAssumer', {propertyId: vehicle_id, propType: 'jewelry'});
   }
   return (
     <View>
-      {vehicleData.length === 0 ? (
+      {jewelryData.length === 0 ? (
         <View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
           <Image source={
           require('../../../../public/images/empty-box.png')
@@ -85,7 +85,7 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
         <TouchableWithoutFeedback
           style={{height: Dimensions.get('window').height - 180}}>
           <FlatList
-            data={vehicleData}
+            data={jewelryData}
             renderItem={({item}) => (
               <>
                 <Card style={style.cardContainer}>
@@ -128,9 +128,9 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                         />
 
                         <MenuOptions>
-                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'view-vehicle')}/>
-                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'update-vehicle')} />
-                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'remove-vehicle')} />
+                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'view-jewelry')}/>
+                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'update-jewelry')} />
+                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'remove-jewelry')} />
                         </MenuOptions>
                     </Menu>
                   </TouchableOpacity>
@@ -139,7 +139,7 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                       uri:
                         BASEURL +
                         '/' +
-                        JSON.parse(item.vehicle_image_vehicleFrontIMG)[0],
+                        JSON.parse(item.jewelry_jewelry_image)[0],
                     }}
                     style={{width: 'auto', height: 150, zIndex: -1}}
                     alt={'Image'}
@@ -151,16 +151,25 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
                     </TouchableOpacity>
                   </View>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Owner: {item.vehicle_owner}</Text>
+                    <Text style={style.textCap}>Owner: {item.jewelry_jewelry_owner}</Text>
                   </View>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Location: {item.vehicle_location}</Text>
+                    <Text style={style.textCap}>Location: {item.jewelry_jewelry_location}</Text>
                   </View>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Brand: {item.vehicle_brand}</Text>
+                    <Text style={style.textCap}>Name: {item.jewelry_jewelry_name}</Text>
                   </View>
                   <View style={{padding: 5}}>
-                    <Text style={style.textCap}>Model: {item.vehicle_model}</Text>
+                    <Text style={style.textCap}>Model: {item.jewelry_jewelry_model}</Text>
+                  </View>
+                  <View style={{padding: 5}}>
+                    <Text style={style.textCap}>Karat: {item.jewelry_jewelry_karat}</Text>
+                  </View>
+                  <View style={{padding: 5}}>
+                    <Text style={style.textCap}>Grams: {item.jewelry_jewelry_grams}</Text>
+                  </View>
+                  <View style={{padding: 5}}>
+                    <Text style={style.textCap}>Material: {item.jewelry_jewelry_material}</Text>
                   </View>
                 </Card>
               </>
@@ -209,4 +218,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default MyVehicleProperty;
+export default MyJewelryProperty;

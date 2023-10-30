@@ -7,12 +7,10 @@ import {
   View,
   StyleSheet,
   FlatList,
-  Platform,
-  Dimensions,
-  Alert,
   ToastAndroid,
   RefreshControl,
   Image,
+  Dimensions,
 } from 'react-native';
 import {TouchableContainer} from '../../../components/Touchable';
 import {TextContainer} from '../../../components/Text/Text';
@@ -51,6 +49,21 @@ const FeedBackScreen = () => {
   const [refresh, setRefresh] = useState<boolean>(false);
   const [feedBackLists, setFeedBackLists] = useState<UserFeedBacksModel[]>([]);
 
+  const feedbackItems: {label: string; value: string}[] = [
+    {
+      label: 'Yes',
+      value: 'Satisfied.',
+    },
+    {
+      label: 'No',
+      value: 'Not Satisfied.',
+    },
+  ];
+  const [feedbackValue, setFeedBackValue] = useState<string | null>(
+    'Satisfied',
+  );
+  const [feedbackOpen, setFeedBackOpen] = useState<boolean>(false);
+
   useEffect(() => {
     modalContext?.setIsOpenedModal(false);
     getAllUserFeedBacks()
@@ -68,27 +81,12 @@ const FeedBackScreen = () => {
       });
   }, [refresh]);
 
-  const feedbackItems: {label: string; value: string}[] = [
-    {
-      label: 'Yes',
-      value: 'Satisfied.',
-    },
-    {
-      label: 'No',
-      value: 'Not Satisfied.',
-    },
-  ];
-  const [feedbackValue, setFeedBackValue] = useState<string | null>(
-    'Satisfied',
-  );
-  const [feedbackOpen, setFeedBackOpen] = useState<boolean>(false);
-
+  function getAllUserFeedBacks() {
+    return feedBackService.getAllUserFeedBacks();
+  }
   const onGiveFeedBacks = () => {
-    console.log(modalContext?.isOpenedModal);
-    // modalContext?.setIsOpenedModal(true);
-  };
-  const onCloseModal = () => {
-    modalContext?.setIsOpenedModal(false);
+    // console.log(modalContext?.isOpenedModal);
+    modalContext?.setIsOpenedModal(true);
   };
   const onChangeFeedBackInput = (param: any) => {
     setUserFeedsComment(param);
@@ -96,7 +94,7 @@ const FeedBackScreen = () => {
   const displayAccumulatedFeedBacks = ({item}: any) => {
     return (
       <View style={{padding: 10}}>
-        <CardContainer padding={'10px'} height={'200px'}>
+        <CardContainer padding={'10px'}>
           <FlexCol>
             <View style={{alignItems: 'center'}}>
               <Image
@@ -142,101 +140,107 @@ const FeedBackScreen = () => {
     modalContext?.setIsOpenedModal(false);
     setUserFeedsComment('');
   };
-  function getAllUserFeedBacks() {
-    return feedBackService.getAllUserFeedBacks();
-  }
+  const onCloseFeedBacks = () => {
+    modalContext?.setIsOpenedModal(false);
+  };
   const onRefresh = () => {
     setRefresh(true);
     setTimeout(() => {
       setRefresh(false);
     }, 1000);
   };
-  const displayFeedBackModal = ({item}: any) => {
+  function displayFeedBackForm({item}: any) {
     return (
-      <View style={style.viewRootContainer}>
-        <View style={style.viewFeedBackListContainer}>
-          {modalContext?.isOpenedModal ? (
-            <AssmrModal padding={10}>
-              <CardContainer padding={'10px'}>
-                <TextContainer
-                  text={'Are we usefull?, But we are not usefull.'}
-                  fontWeight={'600'}
-                  fontSize={'20px'}
-                />
-                <View style={style.viewFeedBackContent}>
-                  <TextContainer
-                    text={'Are you satisfied?'}
-                    textAlign={'left'}
-                    fontSize={'18px'}
-                  />
-                  <DividerContainer margin={5} />
-                  <DropDownPicker
-                    open={feedbackOpen}
-                    value={feedbackValue}
-                    items={feedbackItems}
-                    setValue={setFeedBackValue}
-                    setOpen={setFeedBackOpen}
-                  />
-                  <TextInputContainer
-                    style={{textAlignVertical: 'top', textAlign: 'auto'}}
-                    margin={'10px 0 0 0'}
-                    multiline
-                    height={200}
-                    padding={'10px'}
-                    onChangeText={(e: any) => onChangeFeedBackInput(e)}
-                    placeholder={'Feedbacks...'}
-                    value={userFeedsComment}
-                  />
-                  <FlexRow style={{justifyContent: 'center', padding: 10}}>
-                    <TouchableContainer
-                      padding={'10px'}
-                      borderRadius={'5px'}
-                      margin={'5px 0 0 0'}
-                      backgroundColor={INFO_COLOR}
-                      onPress={onSubmitFeedBacks}>
-                      <TextContainer
-                        color={WHITE_COLOR}
-                        fontSize={'18px'}
-                        text={'submit feedback'}
-                        textTransform={'capitalize'}
-                      />
-                    </TouchableContainer>
-                    <DividerContainer padding={5} />
-                    <TouchableContainer
-                      padding={'10px'}
-                      borderRadius={'5px'}
-                      margin={'5px 0 0 0'}
-                      backgroundColor={APP_COLOR}
-                      onPress={onCloseModal}>
-                      <TextContainer
-                        color={WHITE_COLOR}
-                        fontSize={'18px'}
-                        text={'close'}
-                        textTransform={'capitalize'}
-                      />
-                    </TouchableContainer>
-                  </FlexRow>
-                </View>
-              </CardContainer>
-            </AssmrModal>
-          ) : (
-            <View style={{height: '100%', marginBottom: 50}}>
-              <FlatList
-                data={feedBackLists}
-                renderItem={displayAccumulatedFeedBacks}
+      <View
+        style={{
+          height: Dimensions.get('screen').height - 100,
+          position: 'relative',
+        }}>
+        <AssmrModal padding={10}>
+          <CardContainer padding={'10px'}>
+            <TextContainer
+              text={'Are we usefull?, But we are not usefull.'}
+              fontWeight={'600'}
+              fontSize={'20px'}
+            />
+            <View style={style.viewFeedBackContent}>
+              <TextContainer
+                text={'Are you satisfied?'}
+                textAlign={'left'}
+                fontSize={'18px'}
               />
+              <DividerContainer margin={5} />
+              <DropDownPicker
+                open={feedbackOpen}
+                value={feedbackValue}
+                items={feedbackItems}
+                setValue={setFeedBackValue}
+                setOpen={setFeedBackOpen}
+              />
+              <TextInputContainer
+                style={{textAlignVertical: 'top', textAlign: 'auto'}}
+                margin={'10px 0 0 0'}
+                multiline
+                height={200}
+                padding={'10px'}
+                width={'100%'}
+                value={userFeedsComment}
+                onChangeText={setUserFeedsComment}
+                placeholder={'Feedbacks...'}
+              />
+              <FlexRow style={{justifyContent: 'center', padding: 10}}>
+                <TouchableContainer
+                  padding={'10px'}
+                  borderRadius={'5px'}
+                  margin={'5px 0 0 0'}
+                  backgroundColor={INFO_COLOR}
+                  onPress={onSubmitFeedBacks}>
+                  <TextContainer
+                    color={WHITE_COLOR}
+                    fontSize={'18px'}
+                    text={'submit feedback'}
+                    textTransform={'capitalize'}
+                  />
+                </TouchableContainer>
+                <DividerContainer padding={5} />
+                <TouchableContainer
+                  padding={'10px'}
+                  borderRadius={'5px'}
+                  margin={'5px 0 0 0'}
+                  backgroundColor={APP_COLOR}
+                  onPress={onCloseFeedBacks}>
+                  <TextContainer
+                    color={WHITE_COLOR}
+                    fontSize={'18px'}
+                    text={'close'}
+                    textTransform={'capitalize'}
+                  />
+                </TouchableContainer>
+              </FlexRow>
             </View>
-          )}
-        </View>
+          </CardContainer>
+        </AssmrModal>
       </View>
     );
-  };
+  }
   return (
     <RefreshControl refreshing={refresh} onRefresh={onRefresh}>
-      <View style={{height: '100%'}}>
-        <FlatList data={[1]} renderItem={displayFeedBackModal} />
-        <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
-          {!modalContext?.isOpenedModal && (
+      {modalContext?.isOpenedModal && (
+        <FlatList data={[1]} renderItem={displayFeedBackForm} />
+      )}
+      {!modalContext?.isOpenedModal && (
+        <View
+          style={{
+            height: Dimensions.get('screen').height - 80,
+            position: 'relative',
+          }}>
+          <View style={{height: Dimensions.get('screen').height - 150}}>
+            <FlatList
+              data={feedBackLists}
+              renderItem={displayAccumulatedFeedBacks}
+            />
+          </View>
+          <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
             <TouchableContainer
               padding={'15px 10px'}
               backgroundColor={APP_COLOR}
@@ -248,9 +252,9 @@ const FeedBackScreen = () => {
                 fontSize={'18px'}
               />
             </TouchableContainer>
-          )}
+          </View>
         </View>
-      </View>
+      )}
     </RefreshControl>
   );
 };

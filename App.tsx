@@ -51,6 +51,8 @@ import AssmrModal from './components/modal/Modal';
 import { ModalProvider } from './context/Modal/ModalContext';
 import { DisplayAssumerList } from './screens/dashboard/my-property/assumer-list';
 import { InquireProperties } from './screens/inquire-property';
+import { ViewMyJewelry } from './screens/dashboard/my-property/jewelry/ViewMyJewelry';
+import { UpdateMyJewelry } from './screens/dashboard/my-property/jewelry/UpdateMyJewelry';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -119,9 +121,21 @@ function App(): JSX.Element {
                   component={ViewMyVehicle}
                 />
                 <Stack.Screen
+                  name="ViewMyJewelry"
+                  component={ViewMyJewelry}
+                  options={{
+                    headerTitle: 'Jewelry',
+                  }}
+                />
+                <Stack.Screen
                   name="UpdateMyVehicle"
                   component={UpdateMyVehicle}
                   options={{headerTitle: 'Update Vehicle'}}
+                />
+                <Stack.Screen
+                  name="UpdateMyJewelry"
+                  component={UpdateMyJewelry}
+                  options={{headerTitle: 'Update Jewelry'}}
                 />
                 <Stack.Screen
                   name="IChatWith"

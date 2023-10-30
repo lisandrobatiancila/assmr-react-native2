@@ -10,6 +10,7 @@ import {
   FlatList,
   Button,
   Alert,
+  RefreshControl,
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -39,6 +40,7 @@ const SignupScreen = () => {
   const [genderOpen, setGenderOpen] = useState<boolean>(false);
   const [genderValue, setGenderValue] = useState(null); // hold the value in onChange
   const {isLoading, setIsLoading} = useContext(LoadingContext);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   const [address, setAddress] = useState<AddressModel>(); // holdItems
   const [provinceItems, setProvinceItems] = useState<
@@ -113,7 +115,7 @@ const SignupScreen = () => {
     } finally {
       setIsLoading(false);
     }
-  }, []); // municipality / city
+  }, [refresh]); // municipality / city
 
   const municipalityChangeValue = () => {
     const municipality = municipalityItems?.filter(
@@ -178,178 +180,185 @@ const SignupScreen = () => {
     setEmail('');
     setPassword('');
   };
-
+  const onRefreshPage = () => {
+    setRefresh(true);
+    setTimeout(() => {
+      setRefresh(false);
+    }, 1000);
+  };
   return (
     <View>
-      {isLoading ? <Loading text="Please wait..." /> : ''}
-      <FlatList
-        data={[1]}
-        nestedScrollEnabled={true}
-        renderItem={({item}) => (
-          <>
-            <View style={style.singupContainer}>
-              {/* BASIC INFORMATION */}
-              <View>
-                <Text
-                  style={{
-                    color: '#fff',
-                    textTransform: 'capitalize',
-                    fontWeight: '500',
-                    letterSpacing: 1.5,
-                    marginTop: 2,
-                    marginBottom: 2,
-                  }}>
-                  basic information
-                </Text>
-                <View style={{marginLeft: 10, marginRight: 10}}>
-                  <TextInput
-                    value={firstname}
-                    onChangeText={setFirstname}
-                    style={style.textInputBG}
-                    placeholder="Firstname"
-                  />
-                  <TextInput
-                    value={middlename}
-                    onChangeText={setMiddlename}
-                    style={style.textInputBG}
-                    placeholder="Middlename"
-                  />
-                  <TextInput
-                    value={lastname}
-                    onChangeText={setLastname}
-                    style={style.textInputBG}
-                    placeholder="Lastname"
-                  />
-                  <TextInput
-                    value={contactno}
-                    onChangeText={setContactno}
-                    style={style.textInputBG}
-                    keyboardType={'phone-pad'}
-                    placeholder="Contactno."
-                    maxLength={11}
-                  />
-                  <DropDownPicker
-                    zIndex={5}
-                    open={genderOpen}
-                    value={genderValue}
-                    items={genderItems}
-                    setOpen={setGenderOpen}
-                    setValue={setGenderValue}
-                    setItems={setGenderItems}
-                    placeholder="Gender"
-                    style={{marginTop: 5}}
-                  />
+      <RefreshControl refreshing={refresh} onRefresh={onRefreshPage}>
+        {isLoading ? <Loading text="Please wait..." /> : ''}
+        <FlatList
+          data={[1]}
+          nestedScrollEnabled={true}
+          renderItem={({item}) => (
+            <>
+              <View style={style.singupContainer}>
+                {/* BASIC INFORMATION */}
+                <View>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      textTransform: 'capitalize',
+                      fontWeight: '500',
+                      letterSpacing: 1.5,
+                      marginTop: 2,
+                      marginBottom: 2,
+                    }}>
+                    basic information
+                  </Text>
+                  <View style={{marginLeft: 10, marginRight: 10}}>
+                    <TextInput
+                      value={firstname}
+                      onChangeText={setFirstname}
+                      style={style.textInputBG}
+                      placeholder="Firstname"
+                    />
+                    <TextInput
+                      value={middlename}
+                      onChangeText={setMiddlename}
+                      style={style.textInputBG}
+                      placeholder="Middlename"
+                    />
+                    <TextInput
+                      value={lastname}
+                      onChangeText={setLastname}
+                      style={style.textInputBG}
+                      placeholder="Lastname"
+                    />
+                    <TextInput
+                      value={contactno}
+                      onChangeText={setContactno}
+                      style={style.textInputBG}
+                      keyboardType={'phone-pad'}
+                      placeholder="Contactno."
+                      maxLength={11}
+                    />
+                    <DropDownPicker
+                      zIndex={5}
+                      open={genderOpen}
+                      value={genderValue}
+                      items={genderItems}
+                      setOpen={setGenderOpen}
+                      setValue={setGenderValue}
+                      setItems={setGenderItems}
+                      placeholder="Gender"
+                      style={{marginTop: 5}}
+                    />
+                  </View>
+                </View>
+                {/* ADDRESS INFORMATION */}
+                <View>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      textTransform: 'capitalize',
+                      fontWeight: '500',
+                      letterSpacing: 1.5,
+                      marginTop: 2,
+                      marginBottom: 2,
+                    }}>
+                    address information
+                  </Text>
+                  <View style={{marginLeft: 10}}>
+                    <DropDownPicker
+                      zIndex={4}
+                      open={municipalityOpen}
+                      value={municipalityValue}
+                      items={municipalityItems}
+                      setOpen={setMunicipalityOpen}
+                      setValue={setMunicipalityValue}
+                      schema={{
+                        label: 'province',
+                        value: 'province',
+                      }}
+                      placeholder="Municipality / City"
+                      listMode={'SCROLLVIEW'}
+                      scrollViewProps={{
+                        nestedScrollEnabled: true,
+                      }}
+                      onChangeValue={municipalityChangeValue}
+                    />
+                    <DropDownPicker
+                      zIndex={3}
+                      open={provinceOpen}
+                      value={provinceValue}
+                      items={provinceItems}
+                      setOpen={setProvinceOpen}
+                      setValue={setProvinceValue}
+                      setItems={setProvinceItems}
+                      placeholder="Province"
+                      schema={{
+                        label: 'name',
+                        value: 'name',
+                      }}
+                      style={{marginTop: 5}}
+                      onChangeValue={provinceChangeValue}
+                    />
+                    <DropDownPicker
+                      zIndex={2}
+                      open={barangayOpen}
+                      value={barangayValue}
+                      items={barangayItems}
+                      setOpen={setBarangayOpen}
+                      setValue={setBarangayValue}
+                      setItems={setBarangayItems}
+                      placeholder="Barangay"
+                      schema={{
+                        label: 'barangay',
+                        value: 'barangay',
+                      }}
+                      style={{marginTop: 5}}
+                    />
+                  </View>
+                </View>
+                {/* ACCOUNT INFORMATION */}
+                <View>
+                  <Text
+                    style={{
+                      color: '#fff',
+                      textTransform: 'capitalize',
+                      fontWeight: '500',
+                      letterSpacing: 1.5,
+                      marginTop: 2,
+                      marginBottom: 2,
+                    }}>
+                    account information
+                  </Text>
+                  <View style={{marginLeft: 10}}>
+                    <TextInput
+                      value={email}
+                      onChangeText={setEmail}
+                      style={style.textInputBG}
+                      keyboardType={'email-address'}
+                      placeholder="Email"
+                    />
+                    <TextInput
+                      value={password}
+                      onChangeText={setPassword}
+                      style={style.textInputBG}
+                      secureTextEntry
+                      placeholder="******"
+                    />
+                  </View>
+                </View>
+                {/* Actions */}
+                <View style={{flexDirection: 'row', padding: 10, marginTop: 5}}>
+                  <View style={{flex: 1}}>
+                    <Button title="save" onPress={onSaveRecord} />
+                  </View>
+                  <Text style={{padding: 5}} />
+                  <View style={{flex: 1}}>
+                    <Button title="reset" onPress={onResetForm} />
+                  </View>
                 </View>
               </View>
-              {/* ADDRESS INFORMATION */}
-              <View>
-                <Text
-                  style={{
-                    color: '#fff',
-                    textTransform: 'capitalize',
-                    fontWeight: '500',
-                    letterSpacing: 1.5,
-                    marginTop: 2,
-                    marginBottom: 2,
-                  }}>
-                  address information
-                </Text>
-                <View style={{marginLeft: 10}}>
-                  <DropDownPicker
-                    zIndex={4}
-                    open={municipalityOpen}
-                    value={municipalityValue}
-                    items={municipalityItems}
-                    setOpen={setMunicipalityOpen}
-                    setValue={setMunicipalityValue}
-                    schema={{
-                      label: 'province',
-                      value: 'province',
-                    }}
-                    placeholder="Municipality / City"
-                    listMode={'SCROLLVIEW'}
-                    scrollViewProps={{
-                      nestedScrollEnabled: true,
-                    }}
-                    onChangeValue={municipalityChangeValue}
-                  />
-                  <DropDownPicker
-                    zIndex={3}
-                    open={provinceOpen}
-                    value={provinceValue}
-                    items={provinceItems}
-                    setOpen={setProvinceOpen}
-                    setValue={setProvinceValue}
-                    setItems={setProvinceItems}
-                    placeholder="Province"
-                    schema={{
-                      label: 'name',
-                      value: 'name',
-                    }}
-                    style={{marginTop: 5}}
-                    onChangeValue={provinceChangeValue}
-                  />
-                  <DropDownPicker
-                    zIndex={2}
-                    open={barangayOpen}
-                    value={barangayValue}
-                    items={barangayItems}
-                    setOpen={setBarangayOpen}
-                    setValue={setBarangayValue}
-                    setItems={setBarangayItems}
-                    placeholder="Barangay"
-                    schema={{
-                      label: 'barangay',
-                      value: 'barangay',
-                    }}
-                    style={{marginTop: 5}}
-                  />
-                </View>
-              </View>
-              {/* ACCOUNT INFORMATION */}
-              <View>
-                <Text
-                  style={{
-                    color: '#fff',
-                    textTransform: 'capitalize',
-                    fontWeight: '500',
-                    letterSpacing: 1.5,
-                    marginTop: 2,
-                    marginBottom: 2,
-                  }}>
-                  account information
-                </Text>
-                <View style={{marginLeft: 10}}>
-                  <TextInput
-                    value={email}
-                    onChangeText={setEmail}
-                    style={style.textInputBG}
-                    keyboardType={'email-address'}
-                    placeholder="Email"
-                  />
-                  <TextInput
-                    value={password}
-                    onChangeText={setPassword}
-                    style={style.textInputBG}
-                    secureTextEntry
-                    placeholder="******"
-                  />
-                </View>
-              </View>
-              {/* Actions */}
-              <View style={{flexDirection: 'row', padding: 10, marginTop: 5}}>
-                <View style={{flex: 1}}>
-                  <Button title="save" onPress={onSaveRecord} />
-                </View>
-                <Text style={{padding: 5}} />
-                <View style={{flex: 1}}>
-                  <Button title="reset" onPress={onResetForm} />
-                </View>
-              </View>
-            </View>
-          </>
-        )}
-      />
+            </>
+          )}
+        />
+      </RefreshControl>
     </View>
   );
 };
