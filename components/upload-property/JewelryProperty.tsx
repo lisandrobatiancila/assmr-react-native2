@@ -16,15 +16,18 @@ import DocumentPicker from 'react-native-document-picker';
 import {ValidateFields} from '../../utils/validateFields';
 import {MyPropertyService} from '../../services/my-property/MyProperty';
 import {useUserContext} from '../../context/User/UserContext';
-import { upperCaseUserFullName } from '../../utils/utilsStandAlone';
+import {upperCaseUserFullName} from '../../utils/utilsStandAlone';
+import {TextContainer} from '../Text/Text';
+import {CardContainer} from '../card/Card';
+import {WHITE_COLOR} from '../../constants/colorConstant';
 
-type VehiclePropertyProps = {
+type JewelryPropertyProps = {
   email: string | undefined;
   closeModal: () => void;
 };
-const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
+const JewelryProperty = ({email, closeModal}: JewelryPropertyProps) => {
   const userContext = useUserContext();
-  const [brand, setBrand] = useState<string>('');
+  const [jewelryName, setJewelryName] = useState<string>('');
   const [model, setModel] = useState<string>('');
   const [owner, setOwner] = useState<string>('');
   const [downpayment, setDownpayment] = useState<string>('');
@@ -34,6 +37,9 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
   const [delinquent, setDelinquent] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [noUploadedFile, setNoUploadedFile] = useState<boolean>(false);
+  const [karat, setKarat] = useState<string>('');
+  const [grams, setGrams] = useState<string>('');
+  const [material, setMaterial] = useState<string>('');
 
   const [fileInfo, setFileInfo] = useState<ImageModel[]>([]);
 
@@ -52,7 +58,8 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
   const onUploadFile = () => {
     var form = new FormData();
     const validate = new ValidateFields({
-      brand,
+      email,
+      jewelryName,
       model,
       owner,
       downpayment,
@@ -60,6 +67,9 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
       installmentpaid,
       installmentduration,
       delinquent,
+      karat,
+      grams,
+      material,
     });
 
     if (validate.checkEmptyFields() && fileInfo.length) {
@@ -68,8 +78,8 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
       }); // loop the image
 
       form.append('email', email);
-      form.append('brand', brand);
-      form.append('model', model);
+      form.append('jewelryName', jewelryName);
+      form.append('jewelryModel', model);
       form.append('owner', owner);
       form.append('downpayment', downpayment);
       form.append('location', location);
@@ -77,10 +87,13 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
       form.append('installmentduration', installmentduration);
       form.append('delinquent', delinquent);
       form.append('description', description);
+      form.append('karat', karat);
+      form.append('grams', grams);
+      form.append('material', material);
 
       const vehicleService = new MyPropertyService();
       vehicleService
-        .uploadVehicle(form)
+        .uploadJewelry(form)
         .then(response => {
           const {data} = response;
           const {message, status} = data;
@@ -103,7 +116,7 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
   };
 
   const resetForm = () => {
-    setBrand('');
+    setJewelryName('');
     setModel('');
     setOwner('');
     setDownpayment('');
@@ -113,6 +126,9 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
     setDelinquent('');
     setDescription('');
     setFileInfo([]);
+    setKarat('');
+    setGrams('');
+    setMaterial('');
   };
 
   useEffect(() => {
@@ -122,10 +138,10 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
 
   return (
     <View>
-      <Text style={style.textLabel}>brand</Text>
+      <Text style={style.textLabel}>name</Text>
       <TextInput
-        value={brand}
-        onChangeText={setBrand}
+        value={jewelryName}
+        onChangeText={setJewelryName}
         style={style.textInput}
       />
       <Text style={style.textLabel}>model</Text>
@@ -179,6 +195,44 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
         style={[style.textInput]}
         multiline
       />
+      <TextContainer
+        text={'Other Jewelry Description'}
+        textAlign={'left'}
+        margin={'5px 0'}
+      />
+
+      <CardContainer padding={'10px'} backgroundColor={'teal'}>
+        <TextContainer
+          text={'karat'}
+          textAlign={'left'}
+          textTransform={'capitalize'}
+        />
+        <TextInput
+          value={karat}
+          style={{backgroundColor: WHITE_COLOR, borderRadius: 5, marginTop: 5}}
+          onChangeText={setKarat}
+        />
+        <TextContainer
+          text={'grams'}
+          textAlign={'left'}
+          textTransform={'capitalize'}
+        />
+        <TextInput
+          value={grams}
+          style={{backgroundColor: WHITE_COLOR, borderRadius: 5, marginTop: 5}}
+          onChangeText={setGrams}
+        />
+        <TextContainer
+          text={'material'}
+          textAlign={'left'}
+          textTransform={'capitalize'}
+        />
+        <TextInput
+          value={material}
+          style={{backgroundColor: WHITE_COLOR, borderRadius: 5, marginTop: 5}}
+          onChangeText={setMaterial}
+        />
+      </CardContainer>
 
       <View
         style={{
@@ -241,4 +295,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default VehicleProperty;
+export default JewelryProperty;

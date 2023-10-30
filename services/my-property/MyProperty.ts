@@ -1,4 +1,5 @@
 import {
+  UpdateJewelryInformationModel,
   UpdateVehicleInformationModel,
   VehicleAssumption,
 } from '../../models/my-property/MyProperty';
@@ -16,7 +17,7 @@ export class MyPropertyService {
   getActiveUserProperties(
     email: string | undefined,
   ): Promise<ResponseData<[]>> {
-    return instance.get('/my-property/vehicles/' + email);
+    return instance.get(`/my-property/vehicles/${email}`);
   }
   getCertainVehicle(
     vehicleID: number,
@@ -35,4 +36,30 @@ export class MyPropertyService {
   removeAssumer(assumerId: number) {
     return instance.patch(`/my-property/remove-assumer/${assumerId}`);
   }
+  getActiveUserJewelry(email: string): Promise<ResponseData<[]>> {
+    return instance.get(`/my-property/jewelry/${email}`);
+  }
+  uploadJewelry(form: FormData) {
+    return instance.post('/my-property/jewelry', form, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } // jewelry
+  getCertainJewelry(
+    jewelryID: number,
+  ): Promise<ResponseData<VehicleAssumption>> {
+    return instance.get(`my-property/certain-jewelry/${jewelryID}`);
+  } // get certain vehicle
+  getCertainJewelryForUpdate(
+    jewelryID: number,
+  ): Promise<ResponseData<VehicleAssumption>> {
+    return instance.get(`my-property/certain-jewelry/${jewelryID}`);
+  }
+  updateCertainJewelryProperty(jewelryInfo: UpdateJewelryInformationModel) {
+    return instance.post('my-property/update-certain-jewelry', jewelryInfo);
+  }
+  removeCertainJewelryProperty(jewelryID: number) {
+
+  } // remove certain jewelry
 }

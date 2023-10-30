@@ -15,7 +15,6 @@ const AssmrModal = (props: AssmrModalProps) => {
 
 const style = StyleSheet.create({
   modalContainer: {
-    height: '100%',
     width: '100%',
     justifyContent: 'center',
   },
