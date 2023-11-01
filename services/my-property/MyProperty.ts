@@ -60,6 +60,16 @@ export class MyPropertyService {
     return instance.post('my-property/update-certain-jewelry', jewelryInfo);
   }
   removeCertainJewelryProperty(jewelryID: number) {
-
+    return instance.delete('my-property/remove-certain-jewelry/' + jewelryID);
   } // remove certain jewelry
+  getActiveUserRealestate(email: string, realeEstateType: string) {
+    return instance.get(`/my-property/realestate/${realeEstateType}/${email}`);
+  }
+  uploadRealestate(form: FormData) {
+    return instance.post('/my-property/realestate', form, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  }
 }
