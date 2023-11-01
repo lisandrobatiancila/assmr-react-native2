@@ -119,6 +119,9 @@ function App(): JSX.Element {
                 <Stack.Screen
                   name="ViewMyVehicle"
                   component={ViewMyVehicle}
+                  options={{
+                    headerTitle: 'Vehicle',
+                  }}
                 />
                 <Stack.Screen
                   name="ViewMyJewelry"

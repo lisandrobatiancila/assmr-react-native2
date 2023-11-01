@@ -27,7 +27,7 @@ import { MyJewelryPropertyModel } from '../../../../models/my-property/MyPropert
 import { upperCaseUserFullName } from '../../../../utils/utilsStandAlone';
 
 
-const MyJewelryProperty = ({jewelryData, navigation}: any) => {
+const MyRealestateProperty = ({realestateData, navigation}: any) => {
   const myPropService = new MyPropertyService();
 
   function onSelectAction(jewelry: any, actionType: string) {
@@ -73,7 +73,7 @@ const MyJewelryProperty = ({jewelryData, navigation}: any) => {
   }
   return (
     <View>
-      {jewelryData.length === 0 ? (
+      {realestateData.length === 0 ? (
         <View style={{justifyContent: 'center', alignItems: 'center', height: '100%'}}>
           <Image source={
           require('../../../../public/images/empty-box.png')
@@ -86,7 +86,7 @@ const MyJewelryProperty = ({jewelryData, navigation}: any) => {
         <TouchableWithoutFeedback
           style={{height: Dimensions.get('window').height - 180}}>
           <FlatList
-            data={jewelryData}
+            data={realestateData}
             renderItem={({item}) => (
               <>
                 <Card style={style.cardContainer}>
@@ -129,9 +129,9 @@ const MyJewelryProperty = ({jewelryData, navigation}: any) => {
                         />
 
                         <MenuOptions>
-                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'view-jewelry')}/>
-                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'update-jewelry')} />
-                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'remove-jewelry')} />
+                          <MenuOption text="View" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'view-realestate')}/>
+                          <MenuOption text="Update" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'update-realestate')} />
+                          <MenuOption text="Remove" style={style.menuOptPadd} onSelect={() => onSelectAction(item, 'remove-realestate')} />
                         </MenuOptions>
                     </Menu>
                   </TouchableOpacity>
@@ -219,4 +219,4 @@ const style = StyleSheet.create({
   },
 });
 
-export default MyJewelryProperty;
+export default MyRealestateProperty;

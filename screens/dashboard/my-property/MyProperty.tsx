@@ -20,6 +20,7 @@ import MyVehicleProperty from './vehicle/MyVehicleProperty';
 import VehicleProperty from '../../../components/upload-property/VehicleProperty';
 import {
   MyJewelryPropertyModel,
+  MyRealestatePropertyModel,
   MyVehiclePropertyModel,
 } from '../../../models/my-property/MyProperty';
 import {MyPropertyService} from '../../../services/my-property/MyProperty';
@@ -34,6 +35,8 @@ import JewelryProperty from '../../../components/upload-property/JewelryProperty
 import {CardContainer} from '../../../components/card/Card';
 import {FlexRow} from '../../../components/Flex-Row/styles';
 import MyJewelryProperty from './jewelry/MyJewelry';
+import MyRealestateProperty from './realestate/MyRealestate';
+import RealestateProperty from '../../../components/upload-property/RealestateProperty';
 
 const MyPropertiesScreen = ({routes, navigation}: any) => {
   const myProperties = new MyPropertyService();
@@ -67,6 +70,10 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
     [],
   );
   const [jewelryList, setJewelryList] = useState<MyJewelryPropertyModel[]>([]);
+  const [realestateList, setRealestateList] = useState<
+    MyRealestatePropertyModel[]
+  >([]);
+
   useEffect(() => {
     switch (activeView) {
       case 'vehicle':
@@ -74,6 +81,8 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
         break;
       case 'jewelry':
         getAllJewelryData();
+        break;
+      case 'realestate':
         break;
       default:
         console.log('No active view.');
@@ -98,6 +107,17 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
         const jewelryList: MyJewelryPropertyModel[] = data.data;
 
         setJewelryList(jewelryList);
+      })
+      .catch((err: any) => console.log(err));
+  };
+  const getAllRealestateData = () => {
+    myProperties
+      .getActiveUserRealestate(userContext?.email ?? '')
+      .then((response: any) => {
+        const data: any = response.data;
+        const realestateList: MyJewelryPropertyModel[] = data.data;
+
+        setRealestateList(realestateList);
       })
       .catch((err: any) => console.log(err));
   };
@@ -148,6 +168,7 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
         setAddUp(700);
         break;
       case 'Realestate':
+        setAddUp(300);
         break;
       default:
         console.log('No propertyType');
@@ -229,13 +250,18 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
             vehicleData={vehicleList}
             navigation={navigation}
           />
+        ) : activeView === 'jewelry' ? (
+          <MyJewelryProperty
+            jewelryData={jewelryList}
+            navigation={navigation}
+          />
+        ) : activeView === 'realestate' ? (
+          <MyRealestateProperty
+            realestateData={realestateList}
+            navigation={navigation}
+          />
         ) : (
-          activeView === 'jewelry' && (
-            <MyJewelryProperty
-              jewelryData={jewelryList}
-              navigation={navigation}
-            />
-          )
+          <TextContainer text={'No content to show'} />
         )}
         <TouchableOpacity style={style.touchOppa} onPress={onOpenGallery}>
           <View
@@ -279,24 +305,25 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
                       placeholder="Select a property"
                       style={{marginTop: 5}}
                       onChangeValue={onSelectPropertyToPost}
+                      zIndex={5}
                     />
-                    {propToUploadValue ? (
-                      propToUploadValue === 'Vehicle' ? (
-                        <VehicleProperty
-                          email={userContext?.email}
-                          closeModal={closeModal}
-                        />
-                      ) : (
-                        <JewelryProperty
-                          email={userContext?.email}
-                          closeModal={closeModal}
-                        />
-                      )
-                    ) : (
+                    {propToUploadValue === 'Vehicle' ? (
                       <VehicleProperty
                         email={userContext?.email}
                         closeModal={closeModal}
                       />
+                    ) : propToUploadValue === 'Jewelry' ? (
+                      <JewelryProperty
+                        email={userContext?.email}
+                        closeModal={closeModal}
+                      />
+                    ) : propToUploadValue === 'Realestate' ? (
+                      <RealestateProperty
+                        email={userContext?.email}
+                        closeModal={closeModal}
+                      />
+                    ) : (
+                      ''
                     )}
                   </View>
                 </View>

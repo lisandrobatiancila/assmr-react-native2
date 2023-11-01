@@ -38,7 +38,7 @@ export interface MyJewelryPropertyModel {
   jewelry_jewelry_material: string;
   jewelry_jewelry_image: string;
   jewelry_userId: number;
-}
+} // for displaying / fetching
 
 export interface UpdateJewelryInformationModel {
   id: number; // jewelryID
@@ -54,8 +54,42 @@ export interface UpdateJewelryInformationModel {
   karat: string;
   grams: string;
   material: string;
-}
+} // for updating
 
+export interface MyRealestatePropertyModel {
+  realestateID: number;
+  type: string;
+  location: string;
+  owner: string;
+  installmentpaid: string;
+  installmentduration: string;
+  delinquent: string;
+  description: string;
+  img: RHAL | RLOT | RHouse;
+}
+export interface RHAL {
+  id: number;
+  developer: string;
+  HAL_front_image: string;
+  HAL_rightside_image: string;
+  HAL_leftside_image: string;
+  HAL_back_image: string;
+  HAL_document_image: string;
+}
+export interface RLOT {
+  id: number;
+  LOT_image: string;
+  LOT_document_image: string;
+}
+export interface RHouse {
+  id: number;
+  HOUSE_developer: string;
+  HOUSE_front_image: string;
+  HOUSE_rightside_image: string;
+  HOUSE_leftside_image: string;
+  HOUSE_back_image: string;
+  HOUSE_document_image: string;
+}
 export interface MyVehicleIMGModel {
   id: number;
   vehicleID: number;

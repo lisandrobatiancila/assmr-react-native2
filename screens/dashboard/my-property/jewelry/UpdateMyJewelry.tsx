@@ -40,7 +40,6 @@ export function UpdateMyJewelry({route}: any) {
     updateCertainJewelry(jewelryID)
       .then(response => {
         const {data} = response;
-        console.log(data);
         setCertainJewelry(data.data);
         setJewelryName(data.data.jewelry_jewelry_name);
         setJewelryModel(data.data.jewelry_jewelry_model);
@@ -87,7 +86,7 @@ export function UpdateMyJewelry({route}: any) {
   };
   const onUpdateJewelryInformation = () => {
     const updateJewelryInfo: UpdateJewelryInformationModel = {
-      id: certainJewelry.id, // vehicleID
+      id: certainJewelry.jewelry_id, // vehicleID
       owner: fullName,
       jewelryName,
       jewelryModel,
