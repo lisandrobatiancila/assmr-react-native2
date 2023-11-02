@@ -99,19 +99,19 @@ const InquiriesScreen = () => {
           width={Dimensions.get('window').width - 40}
           height={3}
         />
-        <AssmrBadge borderRadius={10} margin={5}>
+        <AssmrBadge borderRadius={10} marginTop={5} width={'100%'}>
           <FlexRow>
             <TextContainer text={'Address: '} color={WHITE_COLOR} />
             <TextContainer text={item.address} />
           </FlexRow>
         </AssmrBadge>
-        <AssmrBadge borderRadius={10} margin={3}>
+        <AssmrBadge borderRadius={10} marginTop={5} width={'100%'}>
           <FlexRow>
             <TextContainer text={'Second Address: '} color={WHITE_COLOR} />
             <TextContainer text={item.addressLine2} />
           </FlexRow>
         </AssmrBadge>
-        <AssmrBadge borderRadius={10} margin={3}>
+        <AssmrBadge borderRadius={10} marginTop={5} width={'100%'}>
           <FlexRow>
             <TextContainer text={'zipCode: '} color={WHITE_COLOR} />
             <TextContainer text={item.zipCode} />

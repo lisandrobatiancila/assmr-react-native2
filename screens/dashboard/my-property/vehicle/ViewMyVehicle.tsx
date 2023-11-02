@@ -27,7 +27,7 @@ export function ViewMyVehicle({route}: any) {
   }, []);
   function getCertainVehicle() {
     console.log(vehicleID);
-    
+
     return mypropServ.getCertainVehicle(vehicleID);
   }
   return (

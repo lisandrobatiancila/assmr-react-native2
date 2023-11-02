@@ -15,8 +15,18 @@ const SigninScreen = ({navigation}: SinginProps) => {
   const signinService = new SigninService();
   const userContext = useUserContext();
 
+<<<<<<< Updated upstream
   const [signinEmail, setSigninEmail] = useState<string>('klent@gmail.com');
   const [signinPassword, setSigninPassword] = useState<string>('123');
+=======
+<<<<<<< Updated upstream
+  const [signinEmail, setSigninEmail] = useState<string>('');
+  const [signinPassword, setSigninPassword] = useState<string>('');
+=======
+  const [signinEmail, setSigninEmail] = useState<string>('admin');
+  const [signinPassword, setSigninPassword] = useState<string>('123');
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
   const onSignin = () => {
     const userForm: UserSinginModel = {
@@ -26,7 +36,7 @@ const SigninScreen = ({navigation}: SinginProps) => {
     signinService
       .signinUser(userForm)
       .then(response => {
-        const {code, status, message} = response.data;
+        const {status, message} = response.data;
 
         if (status === 200) {
           const {
@@ -46,6 +56,10 @@ const SigninScreen = ({navigation}: SinginProps) => {
           userContext?.setLastname(lastname);
           userContext?.setContactno(contactno);
           userContext?.setAddress(address);
+          if (signinEmail.match(/admin/)) {
+            navigation.navigate('Admin');
+            return;
+          }
           navigation.navigate('Properties');
         } else {
           Alert.alert('Message', message);

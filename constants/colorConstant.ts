@@ -5,3 +5,5 @@ export const UNDER_MENTENANCE: boolean = true;
 export const WHITE_COLOR: string = '#fff';
 export const SUCCESS_COLOR: string = '#AFE1AF';
 export const SUCCESS_EMERALD: string = '#50C878';
+export const DARK_COLOR: string = '#000';
+export const FIVE_COLOR: string = '#CCC';

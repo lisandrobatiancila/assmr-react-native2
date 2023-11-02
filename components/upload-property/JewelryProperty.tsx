@@ -91,8 +91,8 @@ const JewelryProperty = ({email, closeModal}: JewelryPropertyProps) => {
       form.append('grams', grams);
       form.append('material', material);
 
-      const vehicleService = new MyPropertyService();
-      vehicleService
+      const jewelryService = new MyPropertyService();
+      jewelryService
         .uploadJewelry(form)
         .then(response => {
           const {data} = response;
@@ -100,7 +100,7 @@ const JewelryProperty = ({email, closeModal}: JewelryPropertyProps) => {
 
           if (status === 200) {
             Alert.alert('Message', message);
-            resetForm(); // clear entry form
+            // resetForm(); // clear entry form
           } else {
             Alert.alert('Message', message);
           }

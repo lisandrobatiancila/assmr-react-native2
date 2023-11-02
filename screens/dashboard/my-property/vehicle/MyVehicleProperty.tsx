@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
@@ -66,9 +67,10 @@ const MyVehicleProperty = ({vehicleData, navigation}: any) => {
     }
     Alert.alert('Message', message);
   }
-  function onOpenAssumerList(item: MyVehiclePropertyModel) {
-    const {vehicle_id} = item;
-    navigation.navigate('ListAllAssumer', {propertyId: vehicle_id, propType: 'vehicle'});
+  function onOpenAssumerList(item: any) {
+    // unused model MyVehiclePropertyModel
+    const {vehicle_propertyId} = item;
+    navigation.navigate('ListAllAssumer', {propertyId: vehicle_propertyId, propType: 'vehicle'});
   }
   return (
     <View>
