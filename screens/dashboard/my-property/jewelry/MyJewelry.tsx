@@ -23,8 +23,15 @@ import { MyPropertyService } from '../../../../services/my-property/MyProperty';
 import { TextContainer } from '../../../../components/Text/Text';
 import { CardContainer } from '../../../../components/card/Card';
 import { SUCCESS_COLOR } from '../../../../constants/colorConstant';
+<<<<<<< Updated upstream
 import { MyJewelryPropertyModel } from '../../../../models/my-property/MyProperty';
+<<<<<<< Updated upstream
 import { upperCaseUserFullName } from '../../../../utils/utilsStandAlone';
+=======
+=======
+import { upperCaseUserFullName } from '../../../../utils/utilsStandAlone';
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 
 const MyJewelryProperty = ({jewelryData, navigation}: any) => {
@@ -67,9 +74,10 @@ const MyJewelryProperty = ({jewelryData, navigation}: any) => {
     }
     Alert.alert('Message', message);
   }
-  function onOpenAssumerList(item: MyJewelryPropertyModel) {
-    console.log(item);
-    // navigation.navigate('ListAllAssumer', {propertyId: vehicle_id, propType: 'jewelry'});
+  function onOpenAssumerList(item: any) {
+    // unsed model MyJewelryPropertyModel
+    const {jewelry_propertyId} = item;
+    navigation.navigate('ListAllAssumer', {propertyId: jewelry_propertyId, propType: 'jewelry'});
   }
   return (
     <View>

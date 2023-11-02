@@ -25,36 +25,36 @@ import {
   MenuOption,
 } from 'react-native-popup-menu';
 
-type VehiclePropertiesProps = {
+type JewelryPropertiesProps = {
   navigation: any;
   filterOptions: any;
 };
 
-export const VehicleProperties = ({
+export const JewelryProperties = ({
   navigation,
   filterOptions,
-}: VehiclePropertiesProps) => {
+}: JewelryPropertiesProps) => {
   const userContext = useUserContext();
   const [refresh, setRefresh] = useState<boolean>(false);
-  const [vehicleList, setVehicleList] = useState<VehicleAssumption[]>([]);
-  console.log('properties/vehicle/::39' + JSON.stringify(filterOptions));
+  const [jewelryList, setJewelryList] = useState<VehicleAssumption[]>([]);
+  console.log('properties/jewelry/::39' + JSON.stringify(filterOptions));
   useEffect(() => {
     instance
-      .post('property-assumptions/vehicle-assumption', filterOptions)
+      .post('property-assumptions/jewelry-assumption', filterOptions)
       .then((response: any) => {
         let {data} = response;
         data = data.data;
-        setVehicleList(data);
+
+        setJewelryList(data);
       })
       .catch(err => {
         console.log(err);
       });
   }, [refresh, filterOptions]);
   function onSelectAction(vehicle: any, actionType: string) {
-    const {property_id, user_id} = vehicle;
-
+    const {id} = vehicle.vehicleImages[0];
     if (userContext?.userId) {
-      if (userContext.userId === user_id) {
+      if (userContext.userId === vehicle.userId) {
         Alert.alert('Invalid Action', 'You can not send inquiries to yourself');
         return;
       }
@@ -62,8 +62,8 @@ export const VehicleProperties = ({
     switch (actionType) {
       case 'inquire-property':
         navigation.navigate('InquireProperty', {
-          userReceiverId: user_id,
-          propertyId: property_id,
+          userReceiverId: vehicle.userId,
+          propertyId: id,
         });
         break;
       default:
@@ -72,7 +72,7 @@ export const VehicleProperties = ({
     // navigation.navigate("ViewMyVehicle")
   }
   const onAssume = (props: any) => {
-    const {property_id, user_id, user_email} = props;
+    const {jewelry_propertyId, user_id, user_email} = props;
     if (user_id === userContext?.userId) {
       Alert.alert(
         'Message',
@@ -81,24 +81,24 @@ export const VehicleProperties = ({
       return;
     }
     navigation.navigate('AssumptionForm', {
-      propertyID: property_id,
+      propertyID: jewelry_propertyId,
       ownerID: user_id,
       userEmail: user_email,
     });
   };
   const onViewPropertyInfo = (props: any) => {
-    const {property_id} = props;
-
-    navigation.navigate('ViewVehicleInfo', {
-      propertyID: property_id,
+    const {jewelry_propertyId} = props;
+    console.log(props);
+    navigation.navigate('ViewJewelryInfo', {
+      propertyID: jewelry_propertyId,
       triggeredFrom: 'properties-view',
     });
   };
 
-  const displayVehicleItem = (vehicleItem: any) => {
-    const {item} = vehicleItem;
-    const ownerFullName = item.vehicle_owner;
-    const frontIMG = JSON.parse(item.vehicleImages_vehicleFrontIMG)[0];
+  const displayJewelryItem = (jewelryItem: any) => {
+    const {item} = jewelryItem;
+    const ownerFullName = `${item.user_lastname}, ${item.user_firstname}`;
+    const frontIMG = JSON.parse(item.jewelry_jewelry_image)[0];
 
     return (
       <CardContainer
@@ -176,12 +176,27 @@ export const VehicleProperties = ({
               />
             </FlexRowContainer>
             <FlexRowContainer>
-              <TextContainer text="Brand: " />
-              <TextContainer fontSize={'15px'} text={item.vehicle_brand} />
+              <TextContainer text="Name: " />
+              <TextContainer
+                fontSize={'15px'}
+                text={item.jewelry_jewelry_name}
+              />
             </FlexRowContainer>
             <FlexRowContainer>
               <TextContainer text="Model: " />
-              <TextContainer text={item.vehicle_model} />
+              <TextContainer text={item.jewelry_jewelry_model} />
+            </FlexRowContainer>
+            <FlexRowContainer>
+              <TextContainer text="Karat: " />
+              <TextContainer text={item.jewelry_jewelry_karat} />
+            </FlexRowContainer>
+            <FlexRowContainer>
+              <TextContainer text="Grams: " />
+              <TextContainer text={item.jewelry_jewelry_grams} />
+            </FlexRowContainer>
+            <FlexRowContainer>
+              <TextContainer text="Material: " />
+              <TextContainer text={item.jewelry_jewelry_material} />
             </FlexRowContainer>
           </View>
           <FlexRowContainer>
@@ -215,7 +230,7 @@ export const VehicleProperties = ({
   return (
     <RefreshControl refreshing={refresh} onRefresh={onRefreshControl}>
       <ViewContainer padding="0">
-        <FlatList data={vehicleList} renderItem={displayVehicleItem} />
+        <FlatList data={jewelryList} renderItem={displayJewelryItem} />
       </ViewContainer>
     </RefreshControl>
   );

@@ -27,7 +27,9 @@ import {MyPropertyService} from '../../../services/my-property/MyProperty';
 import {TextContainer} from '../../../components/Text/Text';
 import {
   APP_COLOR,
+  DARK_COLOR,
   INFO_COLOR,
+  SUCCESS_COLOR,
   SUCCESS_EMERALD,
   WHITE_COLOR,
 } from '../../../constants/colorConstant';
@@ -35,8 +37,17 @@ import JewelryProperty from '../../../components/upload-property/JewelryProperty
 import {CardContainer} from '../../../components/card/Card';
 import {FlexRow} from '../../../components/Flex-Row/styles';
 import MyJewelryProperty from './jewelry/MyJewelry';
+<<<<<<< Updated upstream
 import MyRealestateProperty from './realestate/MyRealestate';
 import RealestateProperty from '../../../components/upload-property/RealestateProperty';
+=======
+<<<<<<< Updated upstream
+=======
+import MyRealestateProperty from './realestate/MyRealestate';
+import RealestateProperty from '../../../components/upload-property/RealestateProperty';
+import {upperCaseUserFullName} from '../../../utils/utilsStandAlone';
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 const MyPropertiesScreen = ({routes, navigation}: any) => {
   const myProperties = new MyPropertyService();
@@ -45,6 +56,8 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [refreshing, setRefreshing] = useState<boolean>(false);
   const [activeView, setActiveView] = useState<string>('vehicle');
+  const [realestateActiveView, setRealestateActiveView] =
+    useState<string>('house and lot');
 
   const [onOpenPropToUpload, setOnOpenPropToUpload] = useState<boolean>(false);
   const [propToUploadValue, setPropToUploadValue] = useState('Vehicle');
@@ -82,13 +95,22 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       case 'jewelry':
         getAllJewelryData();
         break;
+<<<<<<< Updated upstream
       case 'realestate':
         break;
+=======
+<<<<<<< Updated upstream
+=======
+      case 'realestate':
+        getAllRealestateData();
+        break;
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
       default:
         console.log('No active view.');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [refreshing, activeView]);
+  }, [refreshing, activeView, realestateActiveView]);
 
   const getAllVehicleData = () => {
     myProperties
@@ -110,6 +132,7 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       })
       .catch((err: any) => console.log(err));
   };
+<<<<<<< Updated upstream
   const getAllRealestateData = () => {
     myProperties
       .getActiveUserRealestate(userContext?.email ?? '')
@@ -121,6 +144,22 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       })
       .catch((err: any) => console.log(err));
   };
+=======
+<<<<<<< Updated upstream
+=======
+  const getAllRealestateData = () => {
+    myProperties
+      .getActiveUserRealestate(userContext?.email ?? '', realestateActiveView)
+      .then((response: any) => {
+        const data: any = response.data;
+        const realestate: MyRealestatePropertyModel[] = data.data;
+
+        setRealestateList(realestate);
+      })
+      .catch((err: any) => console.log(err));
+  };
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
   const onChangePropertyActiveView = (propType: string) => {
     switch (propType) {
       case 'vehicle':
@@ -173,6 +212,10 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       default:
         console.log('No propertyType');
     }
+  }
+
+  function toggleActiveRealestate(param: any) {
+    setRealestateActiveView(param);
   }
 
   return (
@@ -244,6 +287,81 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
               </TouchableOpacity>
             </CardContainer>
           </FlexRow>
+          {/*BEGIN this only show if active view is realestate */}
+          {activeView === 'realestate' && (
+            <View
+              style={{
+                justifyContent: 'center',
+                alignSelf: 'center',
+                width: '80%',
+              }}>
+              <CardContainer
+                padding={'10px'}
+                margin={'5px 0 0 0'}
+                backgroundColor={SUCCESS_COLOR}>
+                <FlexRow style={{justifyContent: 'space-around'}}>
+                  <TouchableOpacity
+                    onPress={() => toggleActiveRealestate('house and lot')}>
+                    <CardContainer
+                      padding={'5px'}
+                      backgroundColor={
+                        realestateActiveView === 'house and lot'
+                          ? SUCCESS_EMERALD
+                          : WHITE_COLOR
+                      }>
+                      <TextContainer
+                        text={upperCaseUserFullName('house and lot')}
+                        color={
+                          realestateActiveView === 'house and lot'
+                            ? WHITE_COLOR
+                            : DARK_COLOR
+                        }
+                      />
+                    </CardContainer>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => toggleActiveRealestate('house')}>
+                    <CardContainer
+                      padding={'5px'}
+                      backgroundColor={
+                        realestateActiveView === 'house'
+                          ? SUCCESS_EMERALD
+                          : WHITE_COLOR
+                      }>
+                      <TextContainer
+                        text={upperCaseUserFullName('house')}
+                        color={
+                          realestateActiveView === 'house'
+                            ? WHITE_COLOR
+                            : DARK_COLOR
+                        }
+                      />
+                    </CardContainer>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => toggleActiveRealestate('lot')}>
+                    <CardContainer
+                      padding={'5px'}
+                      backgroundColor={
+                        realestateActiveView === 'lot'
+                          ? SUCCESS_EMERALD
+                          : WHITE_COLOR
+                      }>
+                      <TextContainer
+                        text={upperCaseUserFullName('lot')}
+                        color={
+                          realestateActiveView === 'lot'
+                            ? WHITE_COLOR
+                            : DARK_COLOR
+                        }
+                      />
+                    </CardContainer>
+                  </TouchableOpacity>
+                </FlexRow>
+              </CardContainer>
+            </View>
+          )}
+          {/* END this only show if active view is realestate */}
         </View>
         {activeView === 'vehicle' ? (
           <MyVehicleProperty

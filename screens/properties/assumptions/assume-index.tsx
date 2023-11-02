@@ -95,6 +95,7 @@ export default function AssumptionForm({
       .then(response => {
         const {data} = response;
         const {code, status, message} = data;
+        console.log(data);
         if (code === 200) {
           Alert.alert('Message', message);
 
@@ -141,6 +142,7 @@ export default function AssumptionForm({
                 placeholder="Contactno"
                 width={'100%'}
                 keyboardType={'phone-pad'}
+                maxLength={11}
               />
               <TextInputContainer
                 value={address}

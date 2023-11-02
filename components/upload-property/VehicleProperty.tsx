@@ -87,7 +87,7 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
 
           if (status === 200) {
             Alert.alert('Message', message);
-            resetForm(); // clear entry form
+            // resetForm(); // clear entry form
           } else {
             Alert.alert('Message', message);
           }
@@ -105,7 +105,6 @@ const VehicleProperty = ({email, closeModal}: VehiclePropertyProps) => {
   const resetForm = () => {
     setBrand('');
     setModel('');
-    setOwner('');
     setDownpayment('');
     setLocation('');
     setInstallmentpaid('');

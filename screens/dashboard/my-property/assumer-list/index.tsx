@@ -27,10 +27,10 @@ import {
 } from '../../../../constants/colorConstant';
 import {DividerContainer} from '../../../../components/Divider/Divider';
 import {AssumerListModel} from '../../../../models/my-property/MyProperty';
-import { EmptyRecord } from '../../../../components/EmptRec/EmptyRecord';
+import {EmptyRecord} from '../../../../components/EmptRec/EmptyRecord';
 
 export const DisplayAssumerList = (props: any) => {
-  const {propertyId} = props.route.params;
+  const {propertyId, propType} = props.route.params;
   const [refresh, setRefresh] = useState<boolean>(false);
   const [assumerList, setAssumerList] = useState<AssumerListModel[]>([]);
   const [shouldRefetch, setShouldRefetch] = useState<boolean>(false);
@@ -51,8 +51,12 @@ export const DisplayAssumerList = (props: any) => {
     }, 1000);
   };
   async function getAssumerList() {
-    const resp = await propertyService.listAssumerOfMyProperty(propertyId);
+    const resp = await propertyService.listAssumerOfMyProperty(
+      propertyId,
+      propType,
+    );
     const {data} = resp.data;
+    console.log(data);
     setAssumerList(data);
   }
   const onPropertyOwnerActions = (key: string, item: AssumerListModel) => {
@@ -93,8 +97,8 @@ export const DisplayAssumerList = (props: any) => {
   };
   async function onRemoveAssumer(assumerId: number) {
     const response = await propertyService.removeAssumer(assumerId);
-    const {code, data } = response.data;
-    if(code === 200) {
+    const {code, data} = response.data;
+    if (code === 200) {
       ToastAndroid.show(data, ToastAndroid.SHORT);
       setShouldRefetch(true);
     }
@@ -177,7 +181,9 @@ export const DisplayAssumerList = (props: any) => {
   return (
     <RefreshControl refreshing={refresh} onRefresh={onRefreshing}>
       <View style={{backgroundColor: APP_COLOR, height: '100%'}}>
-        {assumerList.length > 0 && <FlatList data={assumerList} renderItem={displayAssumerLists} />}
+        {assumerList.length > 0 && (
+          <FlatList data={assumerList} renderItem={displayAssumerLists} />
+        )}
         {assumerList.length === 0 && <EmptyRecord />}
       </View>
     </RefreshControl>

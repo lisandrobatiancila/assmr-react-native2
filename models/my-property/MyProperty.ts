@@ -134,6 +134,11 @@ export interface VehicleAssumption {
   vehicleImages_vehicleORIMG: string;
 }
 
+export interface RealestateAssumption {
+  id: number; // realestateID
+  realestateType: string;
+}
+
 export interface UpdateVehicleInformationModel {
   id: number; // vehicleID
   brand: string;
@@ -145,6 +150,19 @@ export interface UpdateVehicleInformationModel {
   installmentduration: string;
   delinquent: string;
   description: string;
+}
+
+export interface UpdateRealestateInformationModel {
+  id: number; // realestateID
+  realestateType: string;
+  owner: string;
+  downpayment: string;
+  location: string;
+  installmentpaid: string;
+  installmentduration: string;
+  delinquent: string;
+  description: string;
+  developer?: string;
 }
 
 export interface AssumerListModel {

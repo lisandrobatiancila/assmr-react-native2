@@ -96,15 +96,25 @@ const RealestateProperty = ({email, closeModal}: RealestatePropertyProps) => {
       form.append('installmentduration', installmentduration);
       form.append('delinquent', delinquent);
       form.append('description', description);
+<<<<<<< Updated upstream
       console.log(form);
+=======
+
+>>>>>>> Stashed changes
       const realestateService = new MyPropertyService();
       realestateService
         .uploadRealestate(form)
         .then(response => {
           const {data} = response;
+<<<<<<< Updated upstream
           const {message, status} = data;
           console.log(data);
           if (status === 200) {
+=======
+          const {message, code} = data;
+          console.log(data);
+          if (code === 200) {
+>>>>>>> Stashed changes
             Alert.alert('Message', message);
             // resetForm(); // clear entry form
           } else {
@@ -113,7 +123,11 @@ const RealestateProperty = ({email, closeModal}: RealestatePropertyProps) => {
         })
         .catch(err => {
           Alert.alert('Message', err.message);
+<<<<<<< Updated upstream
           console.log(err.message);
+=======
+          console.log(err);
+>>>>>>> Stashed changes
         });
     } else {
       Alert.alert('Message', 'Somefields are missing.');
@@ -122,7 +136,11 @@ const RealestateProperty = ({email, closeModal}: RealestatePropertyProps) => {
   };
 
   const resetForm = () => {
+<<<<<<< Updated upstream
     setOwner('');
+=======
+    setDeveloper('');
+>>>>>>> Stashed changes
     setDownpayment('');
     setLocation('');
     setInstallmentpaid('');
@@ -269,3 +287,7 @@ const style = StyleSheet.create({
 });
 
 export default RealestateProperty;
+<<<<<<< Updated upstream
+=======
+// Uploading of realestate form;
+>>>>>>> Stashed changes

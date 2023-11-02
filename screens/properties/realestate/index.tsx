@@ -14,7 +14,7 @@ import {TextContainer} from '../../../components/Text/Text';
 import {BASEURL, instance} from '../../../utils/appUtils';
 import {CardContainer} from '../../../components/card/Card';
 import {FlatList} from 'react-native-gesture-handler';
-import {VehicleAssumption} from '../../../models/my-property/MyProperty';
+import {RealestateAssumption} from '../../../models/my-property/MyProperty';
 import {FlexRowContainer} from '../../../components/Flex-Row';
 import {TouchableContainer} from '../../../components/Touchable';
 import {useUserContext} from '../../../context/User/UserContext';
@@ -24,37 +24,39 @@ import {
   MenuOptions,
   MenuOption,
 } from 'react-native-popup-menu';
+import {upperCaseUserFullName} from '../../../utils/utilsStandAlone';
 
-type VehiclePropertiesProps = {
+type RealestatePropertiesProps = {
   navigation: any;
   filterOptions: any;
 };
 
-export const VehicleProperties = ({
+export const RealestateProperties = ({
   navigation,
   filterOptions,
-}: VehiclePropertiesProps) => {
+}: RealestatePropertiesProps) => {
   const userContext = useUserContext();
   const [refresh, setRefresh] = useState<boolean>(false);
-  const [vehicleList, setVehicleList] = useState<VehicleAssumption[]>([]);
-  console.log('properties/vehicle/::39' + JSON.stringify(filterOptions));
+  const [realestateList, setRealestateList] = useState<RealestateAssumption[]>(
+    [],
+  );
+  console.log(filterOptions);
   useEffect(() => {
     instance
-      .post('property-assumptions/vehicle-assumption', filterOptions)
+      .post('property-assumptions/realestate-assumption', filterOptions)
       .then((response: any) => {
         let {data} = response;
         data = data.data;
-        setVehicleList(data);
+        setRealestateList(data);
       })
       .catch(err => {
         console.log(err);
       });
   }, [refresh, filterOptions]);
-  function onSelectAction(vehicle: any, actionType: string) {
-    const {property_id, user_id} = vehicle;
-
+  function onSelectAction(realestate: any, actionType: string) {
+    const {id} = realestate.vehicleImages[0];
     if (userContext?.userId) {
-      if (userContext.userId === user_id) {
+      if (userContext.userId === realestate.userId) {
         Alert.alert('Invalid Action', 'You can not send inquiries to yourself');
         return;
       }
@@ -62,8 +64,8 @@ export const VehicleProperties = ({
     switch (actionType) {
       case 'inquire-property':
         navigation.navigate('InquireProperty', {
-          userReceiverId: user_id,
-          propertyId: property_id,
+          userReceiverId: realestate.userId,
+          propertyId: id,
         });
         break;
       default:
@@ -72,7 +74,8 @@ export const VehicleProperties = ({
     // navigation.navigate("ViewMyVehicle")
   }
   const onAssume = (props: any) => {
-    const {property_id, user_id, user_email} = props;
+    const {realestate_propertyId, user_id, user_email} = props;
+    console.log(props);
     if (user_id === userContext?.userId) {
       Alert.alert(
         'Message',
@@ -81,24 +84,32 @@ export const VehicleProperties = ({
       return;
     }
     navigation.navigate('AssumptionForm', {
-      propertyID: property_id,
+      propertyID: realestate_propertyId,
       ownerID: user_id,
       userEmail: user_email,
     });
   };
   const onViewPropertyInfo = (props: any) => {
-    const {property_id} = props;
-
-    navigation.navigate('ViewVehicleInfo', {
-      propertyID: property_id,
+    const {realestate_propertyId} = props;
+    navigation.navigate('ViewRealestateInfo', {
+      propertyID: realestate_propertyId,
+      realestateType: filterOptions.realestateType,
       triggeredFrom: 'properties-view',
     });
   };
 
-  const displayVehicleItem = (vehicleItem: any) => {
-    const {item} = vehicleItem;
-    const ownerFullName = item.vehicle_owner;
-    const frontIMG = JSON.parse(item.vehicleImages_vehicleFrontIMG)[0];
+  const displayRealestateItem = (realestateItem: any) => {
+    const {item} = realestateItem;
+    const ownerFullName = item.realestate_owner;
+    let frontIMG: string = '';
+
+    if (item.realestate_realestateType === 'house and lot') {
+      frontIMG = JSON.parse(item.hal_hal_front_image)[0];
+    } else if (item.realestate_realestateType === 'house') {
+      frontIMG = JSON.parse(item.house_house_front_image)[0];
+    } else {
+      frontIMG = JSON.parse(item.lot_lot_image)[0];
+    }
 
     return (
       <CardContainer
@@ -168,6 +179,14 @@ export const VehicleProperties = ({
           </View>
           <View style={{padding: 10}}>
             <FlexRowContainer>
+              <TextContainer text="Type: " />
+              <TextContainer
+                text={upperCaseUserFullName(item.realestate_realestateType)}
+                fontSize={'15px'}
+                textTransform="capitalize"
+              />
+            </FlexRowContainer>
+            <FlexRowContainer>
               <TextContainer text="Owner: " />
               <TextContainer
                 text={ownerFullName}
@@ -175,14 +194,19 @@ export const VehicleProperties = ({
                 textTransform="capitalize"
               />
             </FlexRowContainer>
-            <FlexRowContainer>
-              <TextContainer text="Brand: " />
-              <TextContainer fontSize={'15px'} text={item.vehicle_brand} />
-            </FlexRowContainer>
-            <FlexRowContainer>
-              <TextContainer text="Model: " />
-              <TextContainer text={item.vehicle_model} />
-            </FlexRowContainer>
+            {item.realestate_realestateType !== 'lot' && (
+              <FlexRowContainer>
+                <TextContainer text="Developer: " />
+                <TextContainer
+                  fontSize={'15px'}
+                  text={
+                    item.realestate_realestateType === 'house and lot'
+                      ? item.hal_developer
+                      : item.house_developer
+                  }
+                />
+              </FlexRowContainer>
+            )}
           </View>
           <FlexRowContainer>
             <TouchableContainer
@@ -215,7 +239,7 @@ export const VehicleProperties = ({
   return (
     <RefreshControl refreshing={refresh} onRefresh={onRefreshControl}>
       <ViewContainer padding="0">
-        <FlatList data={vehicleList} renderItem={displayVehicleItem} />
+        <FlatList data={realestateList} renderItem={displayRealestateItem} />
       </ViewContainer>
     </RefreshControl>
   );

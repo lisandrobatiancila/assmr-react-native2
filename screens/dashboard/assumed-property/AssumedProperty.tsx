@@ -54,7 +54,13 @@ export const AssumedProperty = ({navigation}: any) => {
   }
   function displayAssumedProperty(param: any) {
     const {item} = param;
-    const address = item.vehicle_location;
+    const address =
+      item.user_barangay +
+      ', ' +
+      item.user_province +
+      ', ' +
+      item.user_municipality;
+    const userOwnerFullName = `${item.user_lastname}, ${item.user_firstname}`;
     return (
       <>
         <CardContainer margin={'0 0 10px 0'}>
@@ -67,7 +73,7 @@ export const AssumedProperty = ({navigation}: any) => {
           <View style={style.rootBodyContainer}>
             <FlexRow>
               <TextContainer text={'Owner: '} />
-              <TextContainer text={upperCaseUserFullName(item.vehicle_owner)} />
+              <TextContainer text={upperCaseUserFullName(userOwnerFullName)} />
             </FlexRow>
             <FlexRow>
               <TextContainer text={'Contactno: '} />
@@ -110,15 +116,30 @@ export const AssumedProperty = ({navigation}: any) => {
       </>
     );
   }
-  function onTriggerActions(item: AssumptionInformationModel, action: string) {
-    const ID = item.assumption_assumerId;
-    const propertyID = item.assumption_property_id;
+  function onTriggerActions(item: any, action: string) {
+    // unused model => AssumptionInformationModel
+    const ID = item.assumption_propertyId;
+    const propertyID = item.assumption_propertyId;
+    const propertyType = item.property_property_type;
     switch (action) {
       case 'property-info':
-        navigation.navigate('ViewVehicleInfo', {
-          propertyID,
-          triggeredFrom: 'assumed-prop-view',
-        });
+        if (propertyType === 'vehicle') {
+          navigation.navigate('ViewVehicleInfo', {
+            propertyID,
+            triggeredFrom: 'assumed-prop-view',
+          });
+        } else if (propertyType === 'realestate') {
+          navigation.navigate('ViewRealestateInfo', {
+            propertyID,
+            triggeredFrom: 'assumed-prop-view',
+            realestateType: item.realeststate_realestateType,
+          });
+        } else if (propertyType === 'jewelry') {
+          navigation.navigate('ViewJewelryInfo', {
+            propertyID,
+            triggeredFrom: 'assumed-prop-view',
+          });
+        }
         break;
       case 'remove-assumption':
         Alert.alert(
