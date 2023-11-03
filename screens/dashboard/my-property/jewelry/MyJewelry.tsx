@@ -23,15 +23,7 @@ import { MyPropertyService } from '../../../../services/my-property/MyProperty';
 import { TextContainer } from '../../../../components/Text/Text';
 import { CardContainer } from '../../../../components/card/Card';
 import { SUCCESS_COLOR } from '../../../../constants/colorConstant';
-<<<<<<< Updated upstream
-import { MyJewelryPropertyModel } from '../../../../models/my-property/MyProperty';
-<<<<<<< Updated upstream
 import { upperCaseUserFullName } from '../../../../utils/utilsStandAlone';
-=======
-=======
-import { upperCaseUserFullName } from '../../../../utils/utilsStandAlone';
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 
 const MyJewelryProperty = ({jewelryData, navigation}: any) => {

@@ -37,17 +37,9 @@ import JewelryProperty from '../../../components/upload-property/JewelryProperty
 import {CardContainer} from '../../../components/card/Card';
 import {FlexRow} from '../../../components/Flex-Row/styles';
 import MyJewelryProperty from './jewelry/MyJewelry';
-<<<<<<< Updated upstream
-import MyRealestateProperty from './realestate/MyRealestate';
-import RealestateProperty from '../../../components/upload-property/RealestateProperty';
-=======
-<<<<<<< Updated upstream
-=======
 import MyRealestateProperty from './realestate/MyRealestate';
 import RealestateProperty from '../../../components/upload-property/RealestateProperty';
 import {upperCaseUserFullName} from '../../../utils/utilsStandAlone';
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 const MyPropertiesScreen = ({routes, navigation}: any) => {
   const myProperties = new MyPropertyService();
@@ -95,17 +87,11 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       case 'jewelry':
         getAllJewelryData();
         break;
-<<<<<<< Updated upstream
       case 'realestate':
         break;
-=======
-<<<<<<< Updated upstream
-=======
       case 'realestate':
         getAllRealestateData();
         break;
->>>>>>> Stashed changes
->>>>>>> Stashed changes
       default:
         console.log('No active view.');
     }
@@ -132,34 +118,17 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
       })
       .catch((err: any) => console.log(err));
   };
-<<<<<<< Updated upstream
-  const getAllRealestateData = () => {
-    myProperties
-      .getActiveUserRealestate(userContext?.email ?? '')
-      .then((response: any) => {
-        const data: any = response.data;
-        const realestateList: MyJewelryPropertyModel[] = data.data;
-
-        setRealestateList(realestateList);
-      })
-      .catch((err: any) => console.log(err));
-  };
-=======
-<<<<<<< Updated upstream
-=======
   const getAllRealestateData = () => {
     myProperties
       .getActiveUserRealestate(userContext?.email ?? '', realestateActiveView)
       .then((response: any) => {
         const data: any = response.data;
-        const realestate: MyRealestatePropertyModel[] = data.data;
+        const realestateList: MyRealestatePropertyModel[] = data.data;
 
-        setRealestateList(realestate);
+        setRealestateList(realestateList);
       })
       .catch((err: any) => console.log(err));
   };
->>>>>>> Stashed changes
->>>>>>> Stashed changes
   const onChangePropertyActiveView = (propType: string) => {
     switch (propType) {
       case 'vehicle':
