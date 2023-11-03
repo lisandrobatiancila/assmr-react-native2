@@ -94,87 +94,6 @@ function App(): JSX.Element {
       <UserProvider>
         <ModalProvider>
           <LoadingProvider>
-<<<<<<< Updated upstream
-            <NavigationContainer>
-              <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen
-                  name="Home"
-                  component={HomeScreen}
-                  options={{headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Signup"
-                  component={SignupScreen}
-                  options={{title: 'Assmr Sigup'}}
-                />
-                <Stack.Screen
-                  name="Signin"
-                  component={SigninScreen}
-                  options={{title: 'Assmr Signin'}}
-                />
-                <Stack.Screen
-                  name="Dashboard"
-                  component={DashBoardScreen}
-                  options={{title: 'Dashboard', headerShown: false}}
-                />
-                <Stack.Screen
-                  name="Properties"
-                  component={PropertiesScreen}
-                  options={{headerBackVisible: false}}
-                />
-                <Stack.Screen
-                  name="AssumptionForm"
-                  component={ AssumptionForm }
-                />
-                <Stack.Screen
-                  name="ViewVehicleInfo"
-                  component={ ViewVehicleInfo }
-                  options={{
-                    headerTitle: 'Property Info',
-                  }}
-                />
-                <Stack.Screen
-                  name="ViewMyVehicle"
-                  component={ViewMyVehicle}
-                  options={{
-                    headerTitle: 'Vehicle',
-                  }}
-                />
-                <Stack.Screen
-                  name="ViewMyJewelry"
-                  component={ViewMyJewelry}
-                  options={{
-                    headerTitle: 'Jewelry',
-                  }}
-                />
-                <Stack.Screen
-                  name="UpdateMyVehicle"
-                  component={UpdateMyVehicle}
-                  options={{headerTitle: 'Update Vehicle'}}
-                />
-                <Stack.Screen
-                  name="UpdateMyJewelry"
-                  component={UpdateMyJewelry}
-                  options={{headerTitle: 'Update Jewelry'}}
-                />
-                <Stack.Screen
-                  name="IChatWith"
-                  component={ChatWithOtherUser}
-                  options={{headerTitle: 'Chat With'}}
-                />
-                <Stack.Screen
-                  name="ListAllAssumer"
-                  component={DisplayAssumerList}
-                  options={{headerTitle: 'Assumers'}}
-                />
-                <Stack.Screen
-                  name="InquireProperty"
-                  component={InquireProperties}
-                  options={{headerBackTitle: 'Property Inquiries'}}
-                />
-              </Stack.Navigator>
-            </NavigationContainer>
-=======
             <SearchProvider>
               <NavigationContainer>
                 <Stack.Navigator initialRouteName="Home">
@@ -291,7 +210,6 @@ function App(): JSX.Element {
                 </Stack.Navigator>
               </NavigationContainer>
             </SearchProvider>
->>>>>>> Stashed changes
           </LoadingProvider>
         </ModalProvider>
       </UserProvider>

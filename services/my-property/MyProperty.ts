@@ -65,11 +65,6 @@ export class MyPropertyService {
   removeCertainJewelryProperty(jewelryID: number) {
     return instance.delete('my-property/remove-certain-jewelry/' + jewelryID);
   } // remove certain jewelry
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-=======
->>>>>>> Stashed changes
   getActiveUserRealestate(email: string, realeEstateType: string) {
     return instance.get(`/my-property/realestate/${realeEstateType}/${email}`);
   }
@@ -80,8 +75,6 @@ export class MyPropertyService {
       },
     });
   }
-<<<<<<< Updated upstream
-=======
   getCertainRealestate(realestateID: number, realestateType: string) {
     return instance.get(
       `my-property/certain-realestate/${realestateType}/${realestateID}`,
@@ -100,6 +93,4 @@ export class MyPropertyService {
       `my-property/remove-certain-realestate/${realestateID}`,
     );
   }
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 }

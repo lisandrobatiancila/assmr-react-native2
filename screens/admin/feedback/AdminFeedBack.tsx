@@ -6,7 +6,10 @@ import {TextContainer} from '../../../components/Text/Text';
 import {AdminService} from '../../../services/admin-service/admin-service';
 import {EmptyRecord} from '../../../components/EmptRec/EmptyRecord';
 import {CardContainer} from '../../../components/card/Card';
-import { formatDate, upperCaseUserFullName } from '../../../utils/utilsStandAlone';
+import {
+  formatDate,
+  upperCaseUserFullName,
+} from '../../../utils/utilsStandAlone';
 
 export const AdminFeedBack = () => {
   const adminService = new AdminService();
@@ -34,7 +37,7 @@ export const AdminFeedBack = () => {
     }, 1000);
   };
   function renderFeedBackItem({item}: any) {
-    const fullName = upperCaseUserFullName(item.fullName)
+    const fullName = upperCaseUserFullName(item.fullName);
     return (
       <>
         <CardContainer padding={'10px'} margin={'5px 0 0 0'}>

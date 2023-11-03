@@ -15,18 +15,8 @@ const SigninScreen = ({navigation}: SinginProps) => {
   const signinService = new SigninService();
   const userContext = useUserContext();
 
-<<<<<<< Updated upstream
-  const [signinEmail, setSigninEmail] = useState<string>('klent@gmail.com');
-  const [signinPassword, setSigninPassword] = useState<string>('123');
-=======
-<<<<<<< Updated upstream
-  const [signinEmail, setSigninEmail] = useState<string>('');
-  const [signinPassword, setSigninPassword] = useState<string>('');
-=======
   const [signinEmail, setSigninEmail] = useState<string>('admin');
   const [signinPassword, setSigninPassword] = useState<string>('123');
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
   const onSignin = () => {
     const userForm: UserSinginModel = {
