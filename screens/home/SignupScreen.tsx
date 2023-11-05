@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import React, {useContext, useEffect, useState} from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
-import {LoadingContext} from '../../context/Loading/LoadingContext';
+import {LoadingContext, useLoadingContext} from '../../context/Loading/LoadingContext';
 import Loading from '../../components/Loading/Loading';
 import SignupService from '../../services/credentials/SignupService';
 import {instance} from '../../utils/appUtils';
@@ -39,7 +39,7 @@ const SignupScreen = () => {
 
   const [genderOpen, setGenderOpen] = useState<boolean>(false);
   const [genderValue, setGenderValue] = useState(null); // hold the value in onChange
-  const {isLoading, setIsLoading} = useContext(LoadingContext);
+  const isLoading = useLoadingContext();
   const [refresh, setRefresh] = useState<boolean>(false);
 
   const [address, setAddress] = useState<AddressModel>(); // holdItems
@@ -67,28 +67,6 @@ const SignupScreen = () => {
   const [municipalityOpen, setMunicipalityOpen] = useState<boolean>(false);
   const [barangayOpen, setBarangayOpen] = useState<boolean>(false);
   // setIsLoading(true)
-
-  useEffect(() => {
-    try {
-      instance
-        .get('/address')
-        .then(response => {
-          const {data} = response;
-
-          setAddress(data.data);
-          setMunicipalityItems(data.data.province);
-          setIsLoading(false);
-        })
-        .catch(err => {
-          setIsLoading(false);
-        });
-    } catch (err) {
-      setIsLoading(false);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []); // municipality / city
-
   const [firstname, setFirstname] = useState<string>('');
   const [middlename, setMiddlename] = useState<string>('');
   const [lastname, setLastname] = useState<string>('');
@@ -104,16 +82,16 @@ const SignupScreen = () => {
           const {data} = response;
           setAddress(data.data);
           setMunicipalityItems(data.data.province);
-          setIsLoading(false);
+          isLoading?.setIsLoading(false);
         })
         .catch(err => {
           console.log(err);
-          setIsLoading(false);
+          isLoading?.setIsLoading(false);
         });
     } catch (err) {
-      setIsLoading(false);
+      isLoading?.setIsLoading(false);
     } finally {
-      setIsLoading(false);
+      isLoading?.setIsLoading(false);
     }
   }, [refresh]); // municipality / city
 
@@ -156,13 +134,14 @@ const SignupScreen = () => {
       .saveRecord(signupForm)
       .then((response: ResponseData<[]>) => {
         const {data} = response;
-        const {message}: any = data;
-
+        const {message, code}: any = data;
         Alert.alert('Message', message, [
           {
             text: 'Ok',
             onPress: () => {
-              onResetForm();
+              if (code !== 1) {
+                onResetForm();
+              }
             },
           },
         ]);
@@ -189,7 +168,6 @@ const SignupScreen = () => {
   return (
     <View>
       <RefreshControl refreshing={refresh} onRefresh={onRefreshPage}>
-        {isLoading ? <Loading text="Please wait..." /> : ''}
         <FlatList
           data={[1]}
           nestedScrollEnabled={true}

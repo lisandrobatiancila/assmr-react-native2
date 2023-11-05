@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
 import {TextContainer} from '../../../components/Text/Text';
@@ -56,9 +57,12 @@ export const AdminHistory = () => {
                 source={require('../../../public/images/user.png')}
                 style={{width: 50, height: 50, alignSelf: 'center'}}
               />
-              <TextContainer text={upperCaseUserFullName(ownerFullName)} />
+              <TextContainer
+                text={upperCaseUserFullName(ownerFullName)}
+                fontWeight={'500'}
+              />
               <AssmrBadge borderRadius={100} backgroundColor={SUCCESS_COLOR}>
-                <TextContainer text={'owner'} />
+                <TextContainer text={'owner'} fontWeight={'500'} />
               </AssmrBadge>
             </FlexCol>
             <FlexCol>
@@ -66,20 +70,29 @@ export const AdminHistory = () => {
                 source={require('../../../public/images/user.png')}
                 style={{width: 50, height: 50, alignSelf: 'center'}}
               />
-              <TextContainer text={upperCaseUserFullName(assumerFullName)} />
+              <TextContainer
+                text={upperCaseUserFullName(assumerFullName)}
+                fontWeight={'500'}
+              />
               <AssmrBadge borderRadius={100} backgroundColor={SUCCESS_EMERALD}>
-                <TextContainer text={'assumer'} />
+                <TextContainer text={'assumer'} fontWeight={'500'} />
               </AssmrBadge>
             </FlexCol>
           </FlexRow>
           <View style={{alignItems: 'center', padding: 10}}>
             <FlexRow>
-              <TextContainer text={'Property type: '} />
-              <TextContainer text={item.property_property_type} />
+              <TextContainer text={'Property type: '} fontWeight={'500'} />
+              <TextContainer
+                text={item.property_property_type}
+                fontWeight={'500'}
+              />
             </FlexRow>
             <FlexRow>
-              <TextContainer text={'Assumed date: '} />
-              <TextContainer text={formatDate(item.assumpt_transaction_dat)} />
+              <TextContainer text={'Assumed date: '} fontWeight={'500'} />
+              <TextContainer
+                text={formatDate(item.assumpt_transaction_dat)}
+                fontWeight={'500'}
+              />
             </FlexRow>
           </View>
           <TouchableContainer borderRadius={'10px'} padding={'10px'}>

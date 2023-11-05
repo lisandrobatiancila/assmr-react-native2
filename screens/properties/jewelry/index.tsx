@@ -51,10 +51,10 @@ export const JewelryProperties = ({
         console.log(err);
       });
   }, [refresh, filterOptions]);
-  function onSelectAction(vehicle: any, actionType: string) {
-    const {id} = vehicle.vehicleImages[0];
+  function onSelectAction(jewelry: any, actionType: string) {
+    const {jewelry_propertyId} = jewelry;
     if (userContext?.userId) {
-      if (userContext.userId === vehicle.userId) {
+      if (userContext.userId === jewelry.user_id) {
         Alert.alert('Invalid Action', 'You can not send inquiries to yourself');
         return;
       }
@@ -62,8 +62,8 @@ export const JewelryProperties = ({
     switch (actionType) {
       case 'inquire-property':
         navigation.navigate('InquireProperty', {
-          userReceiverId: vehicle.userId,
-          propertyId: id,
+          userReceiverId: jewelry.user_id,
+          propertyId: jewelry_propertyId,
         });
         break;
       default:

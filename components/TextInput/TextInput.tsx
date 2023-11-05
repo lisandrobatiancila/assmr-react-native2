@@ -15,7 +15,7 @@ type TextInputContProps = {
   onChangeText: (param: string) => void;
   style?: any;
   keyboardType?: string;
-  maxLength: number;
+  maxLength?: number;
 };
 export const TextInputContainer = (props: TextInputContProps) => {
   return <TextInputStyle {...props} />;

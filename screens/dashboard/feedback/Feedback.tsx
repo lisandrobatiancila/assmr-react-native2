@@ -231,7 +231,7 @@ const FeedBackScreen = () => {
       {!modalContext?.isOpenedModal && (
         <View
           style={{
-            height: Dimensions.get('screen').height - 80,
+            height: Dimensions.get('window').height - 60,
             position: 'relative',
           }}>
           <View style={{height: Dimensions.get('screen').height - 150}}>

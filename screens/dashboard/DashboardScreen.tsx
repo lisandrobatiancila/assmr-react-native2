@@ -12,7 +12,14 @@ import MyPropertiesScreen from './my-property/MyProperty';
 import MessageScreen from './messages/Messages';
 import InquiriesScreen from './inquiries/Inquiries';
 import DashViewScreen from './dash/DashViewScreen';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
 import {useUserContext} from '../../context/User/UserContext';
 import {TextContainer} from '../../components/Text/Text';
 import {ViewContainer} from '../../components/View/View';
@@ -50,26 +57,35 @@ const TheDrawerHeader = (props: any) => {
       </View>
       <DrawerItemList {...props} />
 
-      <TouchableOpacity onPress={onBrowseProperties}>
-        <ViewContainer padding="10px">
-          <TextContainer
-            text="browse property"
-            textTransform="capitalize"
-            fontSize="18px"
-          />
-        </ViewContainer>
-      </TouchableOpacity>
-      <TouchableContainer
-        padding={'10px'}
-        backgroundColor={APP_COLOR}
-        onPress={onLogOut}>
-        <TextContainer
-          text={'logout'}
-          textAlign={'left'}
-          textTransform={'capitalize'}
-          color={WHITE_COLOR}
-        />
-      </TouchableContainer>
+      <View
+        style={{
+          height: Dimensions.get('window').height - 580,
+          position: 'relative',
+        }}>
+        <View style={{position: 'absolute', bottom: 0, width: '100%'}}>
+          <TouchableOpacity onPress={onBrowseProperties}>
+            <ViewContainer padding="10px">
+              <TextContainer
+                text="browse property"
+                textTransform="capitalize"
+                fontSize="18px"
+                fontWeight={'500'}
+              />
+            </ViewContainer>
+          </TouchableOpacity>
+          <TouchableContainer
+            padding={'10px'}
+            backgroundColor={APP_COLOR}
+            onPress={onLogOut}>
+            <TextContainer
+              text={'logout'}
+              textAlign={'left'}
+              textTransform={'capitalize'}
+              color={WHITE_COLOR}
+            />
+          </TouchableContainer>
+        </View>
+      </View>
     </DrawerContentScrollView>
   );
 };

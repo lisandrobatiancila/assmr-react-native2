@@ -118,9 +118,10 @@ export const AssumedProperty = ({navigation}: any) => {
   }
   function onTriggerActions(item: any, action: string) {
     // unused model => AssumptionInformationModel
-    const ID = item.assumption_propertyId;
+    const assumption_id = item.assumption_id;
     const propertyID = item.assumption_propertyId;
     const propertyType = item.property_property_type;
+
     switch (action) {
       case 'property-info':
         if (propertyType === 'vehicle') {
@@ -152,16 +153,18 @@ export const AssumedProperty = ({navigation}: any) => {
             {
               text: 'Confirm',
               onPress: () => {
-                myAssPropService.removeAssumedProperty(ID).then(response => {
-                  const {data} = response;
-                  const {code, message} = data;
+                myAssPropService
+                  .removeAssumedProperty(assumption_id)
+                  .then(response => {
+                    const {data} = response;
+                    const {code, message} = data;
 
-                  if (code !== 200) {
-                    Alert.alert('Message', message);
-                  } else {
-                    Alert.alert('Message', message);
-                  }
-                });
+                    if (code !== 200) {
+                      Alert.alert('Message', message);
+                    } else {
+                      Alert.alert('Message', message);
+                    }
+                  });
               },
             },
           ],
@@ -170,7 +173,6 @@ export const AssumedProperty = ({navigation}: any) => {
         break;
       case 'send-message':
         const {user_id} = item;
-
         navigation.navigate('IChatWith', {
           userEmail: item.user_email,
           receiverId: user_id,

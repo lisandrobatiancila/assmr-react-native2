@@ -46,6 +46,10 @@ export interface ActiveUserInformation {
   setPassword: (password: string) => void;
 }
 
+export interface LoadingBarModel {
+  isLoading: boolean;
+  setIsLoading: (param: boolean) => void;
+}
 export interface UpdatePersonalInformation {
   firstname: string;
   middlename: string;
