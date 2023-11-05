@@ -40,7 +40,6 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import HomeScreen from './screens/home/HomeScreen';
 import SignupScreen from './screens/home/SignupScreen';
 import SigninScreen from './screens/home/SigninScreen';
-import {LoadingProvider} from './context/Loading/LoadingContext';
 import UserProvider from './context/User/UserContext';
 import DashBoardScreen from './screens/dashboard/DashboardScreen';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
@@ -68,6 +67,7 @@ import SearchProvider, { useSearchContext } from './context/Search/SearchContext
 import { ViewRealestateInfo } from './screens/properties/assumptions/viewrealestate';
 import { ViewJewelryInfo } from './screens/properties/assumptions/viewjewelry';
 import { AdminHome } from './screens/admin/Admin';
+import LoadingProvider from './context/Loading/LoadingContext';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -153,7 +153,7 @@ function App(): JSX.Element {
                     name="ViewJewelryInfo"
                     component={ ViewJewelryInfo }
                     options={{
-                      headerTitle: 'Realestate Info',
+                      headerTitle: 'Jewelry Info',
                     }}
                   />
                   <Stack.Screen

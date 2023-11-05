@@ -1,27 +1,33 @@
-import { createContext, useState } from 'react';
+import React, {createContext, useContext, useState} from 'react';
+import {LoadingBarModel} from '../../models/user/UserModel';
 
-const LoadingContext = createContext<any>(null);
+const LoadingContext = createContext<LoadingBarModel | null>(null);
 
 type LoadingProps = {
-    children: React.ReactNode
+  children: React.ReactNode;
 };
 
-const LoadingProvider = ({ children }: LoadingProps) => {
-    const [isLoading, setIsLoading] = useState<boolean> (true);
+const LoadingProvider = ({children}: LoadingProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-    const getValues = () => {
-        return {
-            isLoading,
-            setIsLoading
-        }
-    }
-    return (
-        <LoadingContext.Provider value={getValues()}>
-            {
-                children
-            }
-        </LoadingContext.Provider>
-    )
-}
+  const getValues = (): LoadingBarModel => {
+    return {
+      isLoading,
+      setIsLoading,
+    };
+  };
+  return (
+    <LoadingContext.Provider value={getValues()}>
+      {children}
+    </LoadingContext.Provider>
+  );
+};
 
-export { LoadingProvider, LoadingContext }
+export const useLoadingContext = () => {
+  const context = useContext(LoadingContext);
+  if (LoadingContext === undefined) {
+    throw new Error('No context available');
+  }
+  return context;
+};
+export default LoadingProvider;

@@ -88,8 +88,6 @@ const MyPropertiesScreen = ({routes, navigation}: any) => {
         getAllJewelryData();
         break;
       case 'realestate':
-        break;
-      case 'realestate':
         getAllRealestateData();
         break;
       default:

@@ -38,7 +38,30 @@ const MessageScreen = ({navigation}: any) => {
       .then(response => {
         const {data} = response;
         const {code} = data;
-        setChatList(data.data);
+        const messages = data.data;
+        const filteredMessages = [];
+        for (let i = 0; i < messages.length; i++) {
+          if (i === 0) {
+            filteredMessages.push(messages[i]);
+          } else {
+            for (let j = 0; j < filteredMessages.length; j++) {
+              const isValid =
+                (messages[i].receiverMess_email ===
+                  filteredMessages[j].senderMess_email ||
+                  messages[i].senderMess_email ===
+                    filteredMessages[j].receiverMess_email) &&
+                (messages[i].senderMess_email ===
+                  filteredMessages[j].receiverMess_email ||
+                  messages[i].receiverMess_email ===
+                    filteredMessages[j].senderMess_email);
+              if (!isValid) {
+                filteredMessages.push(messages[i]);
+                i += 1;
+              }
+            }
+          }
+        }
+        setChatList(filteredMessages);
       })
       .catch(err => {
         console.log(err);

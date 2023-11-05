@@ -54,9 +54,9 @@ export const RealestateProperties = ({
       });
   }, [refresh, filterOptions]);
   function onSelectAction(realestate: any, actionType: string) {
-    const {id} = realestate.vehicleImages[0];
+    const {realestate_propertyId} = realestate;
     if (userContext?.userId) {
-      if (userContext.userId === realestate.userId) {
+      if (userContext.userId === realestate.user_id) {
         Alert.alert('Invalid Action', 'You can not send inquiries to yourself');
         return;
       }
@@ -64,8 +64,8 @@ export const RealestateProperties = ({
     switch (actionType) {
       case 'inquire-property':
         navigation.navigate('InquireProperty', {
-          userReceiverId: realestate.userId,
-          propertyId: id,
+          userReceiverId: realestate.user_id,
+          propertyId: realestate_propertyId,
         });
         break;
       default:

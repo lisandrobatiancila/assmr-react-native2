@@ -102,7 +102,6 @@ const RealestateProperty = ({email, closeModal}: RealestatePropertyProps) => {
         .then(response => {
           const {data} = response;
           const {message, code} = data;
-          console.log(data);
           if (code === 200) {
             Alert.alert('Message', message);
             // resetForm(); // clear entry form
@@ -159,13 +158,17 @@ const RealestateProperty = ({email, closeModal}: RealestatePropertyProps) => {
         onChangeText={setOwner}
         style={style.textInput}
       />
-      <Text style={style.textLabel}>developer</Text>
-      <TextInput
-        value={developer}
-        onChangeText={setDeveloper}
-        placeholder="Developer"
-        style={style.textInput}
-      />
+      {realestateValue !== 'Lot' && (
+        <>
+          <Text style={style.textLabel}>developer</Text>
+          <TextInput
+            value={developer}
+            onChangeText={setDeveloper}
+            placeholder="Developer"
+            style={style.textInput}
+          />
+        </>
+      )}
       <Text style={style.textLabel}>downpayment</Text>
       <TextInput
         value={downpayment}

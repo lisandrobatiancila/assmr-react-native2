@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState} from 'react';
-import {View, StyleSheet, TextInput, Keyboard, FlatList} from 'react-native';
+import {View, StyleSheet, TextInput, Keyboard, FlatList, ToastAndroid, Alert} from 'react-native';
 import {CardContainer} from '../card/Card';
 import {TextContainer} from '../Text/Text';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -68,7 +68,7 @@ export const SearchPrompt = ({
     const height = e.endCoordinates.height;
     setKeyboardHeight(height);
   });
-  Keyboard.addListener('keyboardDidHide', function() {
+  Keyboard.addListener('keyboardDidHide', function () {
     setKeyboardHeight(390);
   });
 
@@ -113,6 +113,27 @@ export const SearchPrompt = ({
   const onChangeRealestateType = (param: any) => {
     setChecked(param);
     propertyOnChangeFilter('realestate', param); // importante kay ni ang param diri AHAHAH; ma delay ang update sa useState gud.
+  };
+
+  const onClearSearch = () => {
+    if (propertyValue === 'vehicle') {
+      setOwner('');
+      setVehicleBrand('');
+      setVehicleModel('');
+      onSearch({propType: propertyValue});
+    } else if (propertyValue === 'realestate') {
+      setOwner('');
+      setDeveloper('');
+      onSearch({propType: propertyValue});
+    } else if (propertyValue === 'jewelry') {
+      setOwner('');
+      setJewelryModel('');
+      setJewelryName('');
+      setKarat('');
+      setMaterial('');
+      setGrams('');
+      onSearch({propType: propertyValue});
+    }
   };
 
   const onRenderView = () => {
@@ -189,7 +210,8 @@ export const SearchPrompt = ({
                   padding={'8px'}
                   borderRadius={'10px'}
                   margin={'10px 0 0 0'}
-                  width={'50%'}>
+                  width={'50%'}
+                  onPress={onClearSearch}>
                   <TextContainer
                     color={WHITE_COLOR}
                     text={'clear'}
@@ -255,17 +277,21 @@ export const SearchPrompt = ({
                 style={{backgroundColor: WHITE_COLOR, borderRadius: 5}}
               />
 
-              <TextContainer
-                text={'Developer'}
-                textAlign={'left'}
-                margin={'5px 0'}
-              />
-              <TextInput
-                value={developer}
-                onChangeText={setDeveloper}
-                placeholder={'Developer'}
-                style={{backgroundColor: WHITE_COLOR, borderRadius: 5}}
-              />
+              {check !== 'lot' && (
+                <>
+                  <TextContainer
+                    text={'Developer'}
+                    textAlign={'left'}
+                    margin={'5px 0'}
+                  />
+                  <TextInput
+                    value={developer}
+                    onChangeText={setDeveloper}
+                    placeholder={'Developer'}
+                    style={{backgroundColor: WHITE_COLOR, borderRadius: 5}}
+                  />
+                </>
+              )}
 
               <FlexRow style={{width: '100%'}}>
                 <TouchableContainer
@@ -286,7 +312,8 @@ export const SearchPrompt = ({
                   padding={'8px'}
                   borderRadius={'10px'}
                   margin={'10px 0 0 0'}
-                  width={'50%'}>
+                  width={'50%'}
+                  onPress={onClearSearch}>
                   <TextContainer
                     color={WHITE_COLOR}
                     text={'clear'}
@@ -371,7 +398,8 @@ export const SearchPrompt = ({
                 padding={'8px'}
                 borderRadius={'10px'}
                 margin={'10px 0 0 0'}
-                width={'50%'}>
+                width={'50%'}
+                onPress={onClearSearch}>
                 <TextContainer
                   color={WHITE_COLOR}
                   text={'clear'}

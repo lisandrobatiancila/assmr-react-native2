@@ -56,7 +56,6 @@ export const DisplayAssumerList = (props: any) => {
       propType,
     );
     const {data} = resp.data;
-    console.log(data);
     setAssumerList(data);
   }
   const onPropertyOwnerActions = (key: string, item: AssumerListModel) => {

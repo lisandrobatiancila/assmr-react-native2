@@ -28,10 +28,21 @@ export function ChatWithOtherUser({route}: any) {
       .then(response => {
         const {data} = response;
         const {code}: any = data;
+        const mess = data.data;
+        const validUsers = [userContext?.email, userEmail];
+
+        const newMess = [];
+        for (let i = 0; i < mess.length; i++) {
+          const isValid = ((mess[i].receiverMess_email === userContext?.email && mess[i].senderMess_email === userEmail) || (mess[i].receiverMess_email === userEmail && mess[i].senderMess_email === userContext?.email))
+
+          if (isValid) {
+            newMess.push(mess[i]);
+          }
+        }
         if (code === 205) {
           setMessageList([]);
         } else {
-          setMessageList(data.data);
+          setMessageList(newMess);
         }
       })
       .catch(err => {
