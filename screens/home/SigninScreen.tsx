@@ -15,7 +15,7 @@ const SigninScreen = ({navigation}: SinginProps) => {
   const signinService = new SigninService();
   const userContext = useUserContext();
 
-  const [signinEmail, setSigninEmail] = useState<string>('klent@gmail.com');
+  const [signinEmail, setSigninEmail] = useState<string>('admin');
   const [signinPassword, setSigninPassword] = useState<string>('123');
 
   const onSignin = () => {

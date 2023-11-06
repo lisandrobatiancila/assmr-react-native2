@@ -4,7 +4,7 @@ export class AdminService {
   getAllFeedBack() {
     return instance.get('/feedback/user-feed');
   }
-  getHitories() {
-    return instance.get('/admin/histories');
-  }
+  getHitories(historyValue: string) {
+    return instance.post('/admin/histories', {historyValue});
+  } // getHistories by values
 }

@@ -5,6 +5,7 @@ import {TextContainer} from '../Text/Text';
 
 type EmptyRecordProps = {
   text?: string;
+  fontWeight?: string;
 };
 
 export const EmptyRecord = (props: EmptyRecordProps) => {
@@ -12,7 +13,10 @@ export const EmptyRecord = (props: EmptyRecordProps) => {
     <View style={style.emptContainer}>
       <CardContainer padding={'10px'}>
         <View style={style.secCont}>
-          <TextContainer text={`No ${props.text ?? 'record'} to show.`} />
+          <TextContainer
+            text={`No ${props.text ?? 'record'} to show.`}
+            fontWeight={props.fontWeight}
+          />
           <Image
             source={require('../../public/images/empty-box.png')}
             style={{width: 100, height: 100}}
