@@ -20,6 +20,7 @@ import {
 import {TouchableContainer} from '../../../components/Touchable';
 import {EmptyRecord} from '../../../components/EmptRec/EmptyRecord';
 import DropDownPicker from 'react-native-dropdown-picker';
+import { BASEURL } from '../../../utils/appUtils';
 
 export const AdminHistory = () => {
   const adminService = new AdminService();
@@ -65,10 +66,14 @@ export const AdminHistory = () => {
       .then((response: any) => {
         const {data} = response;
         const {result} = data.data; // without type
+        console.log(result);
         if (historyValue === 'on-going transaction') {
           setHistoryList(result);
         } else if (historyValue === 'deleted property') {
           setHistoryList(result); // with type
+        }
+        else if (historyValue === 'posted property') {
+          setHistoryList(result);
         }
       })
       .catch((err: any) => {
@@ -242,6 +247,55 @@ export const AdminHistory = () => {
       </CardContainer>
     );
   }
+  function renderPostedProperty({item}: any) {
+    const {property_property_type} = item;
+    let propImgStr: string = "";
+    let owner: string = "";
+    let info1: string = "", info2: string = "", info: string = "";
+    switch(property_property_type) {
+      case 'vehicle':
+        propImgStr = item.vehicle_image_vehicleFrontIMG;
+        owner = item.vehicle_owner;
+        info1 = item.vehicle_brand;
+        info2 = item.vehicle_model;
+      break;
+      case 'jewelry':
+        propImgStr = item.jewelry_jewelry_image;
+        owner = item.jewelry_jewelry_owner;
+        info1 = item.jewelry_jewelry_name;
+        info2 = item.jewelry_jewelry_model;
+      break;
+      default:
+        console.log('No property_property_type')
+    }
+
+    const renderIMG = JSON.parse(propImgStr ?? '[]')[0]
+    return <CardContainer padding={'5px'} margin={'8px 0 8px 0'}>
+      <CardContainer padding={'10px'}>
+        <Image source={{
+          uri: BASEURL + '/'+renderIMG
+        }} style={{width: 150, height: 100, alignSelf: 'center'}} />
+      </CardContainer>
+      <CardContainer padding={'10px'} margin="5px 0 0 0">
+        <TextContainer text={`Type: `+property_property_type} textAlign="left" fontWeight="bold" />
+        <FlexRow>
+          <TextContainer text={'Owner: '} fontWeight="bold" />
+          <TextContainer text={owner} />
+        </FlexRow>
+        <FlexRow>
+          <TextContainer text={'Brand: '} fontWeight="bold" />
+          <TextContainer text={info1} />
+        </FlexRow>
+        <FlexRow>
+          <TextContainer text={'Model: '} fontWeight="bold" />
+          <TextContainer text={info2} />
+        </FlexRow>
+        <TouchableContainer padding={'10px'} borderRadius="5px">
+          <TextContainer text="Expand more" color={WHITE_COLOR} />
+        </TouchableContainer>
+      </CardContainer>
+    </CardContainer>
+  }
   function onChangeHistoryActino(param: any) {
     setHistoryValue(param);
   }
@@ -274,7 +328,14 @@ export const AdminHistory = () => {
                 renderItem={renderDeletedPropertyHistory}
               />
             </View>
-          ) : (
+          ) : hitoryList.length && historyValue === 'posted property' ?
+            <View style={{height: Dimensions.get('screen').height - 250}}>
+                <FlatList
+                  data={hitoryList}
+                  renderItem={renderPostedProperty}
+                />
+            </View>
+          :(
             <EmptyRecord fontWeight={'500'} />
           )}
         </RefreshControl>
